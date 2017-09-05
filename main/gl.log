@@ -1,0 +1,10 @@
+GL_LOG_FILE log. local time Tue Sep  5 13:18:44 2017
+
+starting GLFW 3.1.2 X11 GLX clock_gettime /dev/js XI Xf86vm sharedrenderer: Gallium 0.4 on llvmpipe (LLVM 4.0, 256 bits)
+version: 3.0 Mesa 17.0.7
+creating shader from shaders/test_vs.glsl...
+shader compiled. index 1
+creating shader from shaders/test_fs.glsl...
+shader compiled. index 2
+created programme 3. attaching shaders 1 and 2...
+program 3 GL_VALIDATE_STATUS = GL_TRUE
