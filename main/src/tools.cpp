@@ -89,10 +89,6 @@ bool gameplay(float cam_speed, double elapsed_seconds, float *cam_pos, float *ca
   double x = g_gl_width/2.0;
   double y = g_gl_height/2.0;
   glfwSetCursorPos(g_window, x, y);
-  // glutWarpPointer(x,y);
-  // glfwSetMousePos(x,y);
-  // cout << "xpos: " << xpos << "---";
-  // cout << "ypos: " << ypos << endl;
 
   if ((g_gl_width - xpos != 0.0) || (g_gl_height/2.0 - ypos != 0.0)) {
     *cam_xaw += mouseSpeed * elapsed_seconds * float(g_gl_width/2.0 - xpos );

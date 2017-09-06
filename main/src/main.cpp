@@ -90,11 +90,13 @@ int main(){
 		// update view matrix
 		if (cam_moved){
 			mat4 T = translate (identity_mat4 (), vec3 (-cam_pos[0], -cam_pos[1], -cam_pos[2])); // cam translation
-			mat4 YR = rotate_y_deg(identity_mat4 (), -cam_yaw); //
-			mat4 XR = rotate_x_deg(identity_mat4 (), -cam_xaw); //
+			mat4 YR = rotate_y_deg(identity_mat4 (), -cam_xaw); //
+			mat4 XR = rotate_x_deg(identity_mat4 (), -cam_yaw); //
 			mat4 view_mat = (YR * XR) * T;
 			glUniformMatrix4fv(view_mat_location, 1, GL_FALSE, view_mat.m);
 		}
+
+		glfwSetInputMode(g_window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
 		_update_fps_counter (g_window);
 		// wipe the drawing surface clear
@@ -124,7 +126,7 @@ int main(){
 		glBindVertexArray(suelo->getvao());
 		for (float i = -limiteSuelo; i <= limiteSuelo; i++) {
 			for (float j = -limiteSuelo; j <= limiteSuelo; j++) {
-				move(matrix_location, glm::vec3(i, 1.0f, j));
+				move(matrix_location, glm::vec3(i, -1.0f, j));
 				glDrawArrays(GL_TRIANGLES,0,suelo->getnumvertices());
 			}
 		}
