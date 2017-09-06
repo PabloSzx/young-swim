@@ -4,6 +4,8 @@
 #include <string>
 #include <iostream>
 #include <GL/glew.h> // include GLEW and new version of GL on Windows
+#include <GLFW/glfw3.h> // GLFW helper library
+#include <GL/glut.h>
 #include <assimp/cimport.h> // C importer
 #include <assimp/scene.h> // collects data
 #include <assimp/postprocess.h> // various extra operations
@@ -14,7 +16,7 @@
 #define PI 3.14159265359
 
 using namespace std;
-bool gameplay(float cam_speed, double elapsed_seconds, float *cam_pos, float *cam_yaw, float cam_yaw_speed, float* dx, float* dy){
+bool gameplay(float cam_speed, double elapsed_seconds, float *cam_pos, float *cam_yaw, float cam_yaw_speed, float *cam_xaw, float* dx, float* dy){
   bool cam_moved = false;
   float ryaw = *cam_yaw*PI/180.0;
   if (glfwGetKey (g_window, GLFW_KEY_W)) {
@@ -78,6 +80,26 @@ bool gameplay(float cam_speed, double elapsed_seconds, float *cam_pos, float *ca
     *dx=0.0f;
     *dy=0.0f;
   }
+
+
+  double xpos, ypos;
+  float mouseSpeed = 1.0f;
+  glfwGetCursorPos(g_window, &xpos, &ypos);
+
+  double x = g_gl_width/2.0;
+  double y = g_gl_height/2.0;
+  glfwSetCursorPos(g_window, x, y);
+  // glutWarpPointer(x,y);
+  // glfwSetMousePos(x,y);
+  // cout << "xpos: " << xpos << "---";
+  // cout << "ypos: " << ypos << endl;
+
+  if ((g_gl_width - xpos != 0.0) || (g_gl_height/2.0 - ypos != 0.0)) {
+    *cam_xaw += mouseSpeed * elapsed_seconds * float(g_gl_width/2.0 - xpos );
+    *cam_yaw += mouseSpeed * elapsed_seconds * float(g_gl_height/2.0 - ypos );
+    cam_moved = true;
+  }
+
 
   //if(cam_moved){
   //    printf("yaw = %f\n", *cam_yaw);

@@ -5,7 +5,7 @@
 
 #define RICK "mallas/rick.obj"
 #define SUELO "mallas/suelo.obj"
-
+#define PLATAFORMA "mallas/plataforma.obj"
 
 
 

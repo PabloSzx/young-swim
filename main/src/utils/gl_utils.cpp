@@ -104,7 +104,7 @@ bool start_gl () {
 	);*/
 
 	g_window = glfwCreateWindow (
-		g_gl_width, g_gl_height, "Extended Init.", NULL, NULL
+		g_gl_width, g_gl_height, "Extended Init.", glfwGetPrimaryMonitor(), NULL
 	);
 	if (!g_window) {
 		fprintf (stderr, "ERROR: could not open window with GLFW3\n");

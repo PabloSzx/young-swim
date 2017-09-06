@@ -17,6 +17,7 @@
 #include <assimp/postprocess.h> // various extra operations
 #include <GL/glew.h> // include GLEW and new version of GL on Windows
 #include <GLFW/glfw3.h> // GLFW helper library
+#include <GL/glut.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <iostream>
@@ -52,10 +53,14 @@ int main(){
 	glClearColor (0.2, 0.2, 0.2, 1.0); // grey background to help spot mistakes
 	glViewport (0, 0, g_gl_width, g_gl_height);
 
+	// glutSetCursor(GLUT_CURSOR_NONE);
+	// glfwDisable(GLFW_MOUSE_CURSOR);
 	/* objeto enemigo */
 	model *rick = new model((char*)RICK);
 
 	model *suelo = new model((char*)SUELO);
+
+	model *plataforma = new model((char*)PLATAFORMA);
 
 	/*-------------------------------CREATE SHADERS-------------------------------*/
 	GLuint shader_programme = create_programme_from_files (
@@ -81,12 +86,13 @@ int main(){
 		previous_seconds = current_seconds;
 
 		// control keys
-		bool cam_moved = gameplay(cam_speed, elapsed_seconds, cam_pos, &cam_yaw, cam_yaw_speed, &dx, &dy);
+		bool cam_moved = gameplay(cam_speed, elapsed_seconds, cam_pos, &cam_yaw, cam_yaw_speed, &cam_xaw, &dx, &dy);
 		// update view matrix
 		if (cam_moved){
 			mat4 T = translate (identity_mat4 (), vec3 (-cam_pos[0], -cam_pos[1], -cam_pos[2])); // cam translation
-			mat4 R = rotate_y_deg(identity_mat4 (), -cam_yaw); //
-			mat4 view_mat = R * T;
+			mat4 YR = rotate_y_deg(identity_mat4 (), -cam_yaw); //
+			mat4 XR = rotate_x_deg(identity_mat4 (), -cam_xaw); //
+			mat4 view_mat = (YR * XR) * T;
 			glUniformMatrix4fv(view_mat_location, 1, GL_FALSE, view_mat.m);
 		}
 
@@ -97,10 +103,23 @@ int main(){
 
 		glUseProgram (shader_programme);
 
-		move(matrix_location, glm::vec3(dx, dy, 0.0));
+		glm::mat4 mat = glm::mat4();
+
+		mat = glm::translate(mat, glm::vec3(dx, dy, 0.0));
+
+		mat = glm::rotate(mat, (90.0f * 3.1415f) / 180.0f, glm::vec3(0.0f, 1.0f, 0.0f));
+
+		glUniformMatrix4fv(matrix_location, 1, GL_FALSE, &mat[0][0]);
 
 		glBindVertexArray(rick->getvao());
 		glDrawArrays(GL_TRIANGLES,0,rick->getnumvertices());
+
+
+		move(matrix_location, glm::vec3(dx + 4.0f, dy + 1.3f, 1.5f));
+		glBindVertexArray(plataforma->getvao());
+		glDrawArrays(GL_TRIANGLES,0,plataforma->getnumvertices());
+
+
 
 		glBindVertexArray(suelo->getvao());
 		for (float i = -limiteSuelo; i <= limiteSuelo; i++) {
