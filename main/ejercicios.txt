@@ -1,0 +1,5 @@
+Lab06:
+ 1) Arregle la camara para poder usar las otras teclas WASD.
+ 2) Cree un suelo a base de triangulos. 
+ 3) Cree dos objetos de tipo mono proximos uno del otro
+ 4) Cree mas objetos en blender y carguelos en el programa.

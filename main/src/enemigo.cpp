@@ -6,45 +6,45 @@
 #include <GL/glew.h> // include GLEW and new version of GL on Windows
 #include "maths_funcs.h"
 #include "tools.h"
-#include "model.h"
+#include "enemigo.h"
 
 using namespace std;
-model::model(char* filename){
+enemigo::enemigo(char* filename){
 	vida = 100;
 	vec3 pos = vec3(0,0,0);
 	this->filename = filename;
 	assert(load_mesh(filename, &vao, &numvertices));
 }
 
-void model::atacar(){
+void enemigo::atacar(){
 }
 
-void model::moverse(){
+void enemigo::moverse(){
 }
 
-void model::morir(){
+void enemigo::morir(){
 }
 
 
 
 // gets
-int model::getvida(){
+int enemigo::getvida(){
     return this->vida;
 }
 
-GLuint model::getvao(){
+GLuint enemigo::getvao(){
     return this->vao;
 }
 
-int model::getnumvertices(){
+int enemigo::getnumvertices(){
     return this->numvertices;
 }
 
-vec3 model::getpos(){
+vec3 enemigo::getpos(){
     return this->getpos();
 }
 
-char* model::getfilename(){
+char* enemigo::getfilename(){
     return this->filename;
 }
 
@@ -56,3 +56,4 @@ char* model::getfilename(){
         void setpos(vec3 p);
         void setfilename(char *f);
         */
+

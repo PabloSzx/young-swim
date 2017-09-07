@@ -6,3 +6,4 @@ bool load_mesh (const char* file_name, GLuint* vao, int* point_count);
 // funcion gameplay
 bool gameplay(float cam_speed, double elapsed_seconds, float *cam_pos, float *cam_yaw, float cam_yaw_speed, float *cam_xaw, float* dx, float* dy);
 #endif
+  

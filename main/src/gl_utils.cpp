@@ -17,7 +17,7 @@
 #include <time.h>
 #include <string.h>
 #include <assert.h>
-// #define GL_LOG_FILE "../gl.log"
+#define GL_LOG_FILE "gl.log"
 #define MAX_SHADER_LENGTH 262144
 
 /*--------------------------------LOG FUNCTIONS-------------------------------*/
@@ -81,7 +81,7 @@ bool gl_log_err (const char* message, ...) {
 /*--------------------------------GLFW3 and GLEW------------------------------*/
 bool start_gl () {
 	gl_log ("starting GLFW %s", glfwGetVersionString ());
-
+	
 	glfwSetErrorCallback (glfw_error_callback);
 	if (!glfwInit ()) {
 		fprintf (stderr, "ERROR: could not start GLFW3\n");
@@ -90,12 +90,10 @@ bool start_gl () {
 
 	/* We must specify 3.2 core if on Apple OS X -- other O/S can specify
 	 anything here. I defined 'APPLE' in the makefile for OS X */
-#ifdef APPLE
-	glfwWindowHint (GLFW_CONTEXT_VERSION_MAJOR, 3);
-	glfwWindowHint (GLFW_CONTEXT_VERSION_MINOR, 2);
+	glfwWindowHint (GLFW_CONTEXT_VERSION_MAJOR, 4);
+	glfwWindowHint (GLFW_CONTEXT_VERSION_MINOR, 1);
 	glfwWindowHint (GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 	glfwWindowHint (GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-#endif
 
 	/*GLFWmonitor* mon = glfwGetPrimaryMonitor ();
 	const GLFWvidmode* vmode = glfwGetVideoMode (mon);
@@ -104,7 +102,7 @@ bool start_gl () {
 	);*/
 
 	g_window = glfwCreateWindow (
-		g_gl_width, g_gl_height, "Extended Init.", glfwGetPrimaryMonitor(), NULL
+		g_gl_width, g_gl_height, "Extended Init.", NULL, NULL
 	);
 	if (!g_window) {
 		fprintf (stderr, "ERROR: could not open window with GLFW3\n");
@@ -113,9 +111,9 @@ bool start_gl () {
 	}
 	glfwSetWindowSizeCallback (g_window, glfw_window_size_callback);
 	glfwMakeContextCurrent (g_window);
-
+	
 	glfwWindowHint (GLFW_SAMPLES, 4);
-
+	
 	// start GLEW extension handler
 	glewExperimental = GL_TRUE;
 	glewInit ();
@@ -126,7 +124,7 @@ bool start_gl () {
 	printf ("Renderer: %s\n", renderer);
 	printf ("OpenGL version supported %s\n", version);
 	gl_log ("renderer: %s\nversion: %s\n", renderer, version);
-
+	
 	return true;
 }
 

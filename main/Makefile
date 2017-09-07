@@ -1,13 +1,13 @@
 CC=g++
 #SRC=src/enemigo.cpp src/maths_funcs.cpp src/gl_utils.cpp src/main.cpp
 SRC=src/*.cpp
-LIBS=-lGL -lGLEW -lglfw -lassimp -lglut
+LIBS=-lGLEW -lglfw -lassimp
 EXEC=bin/prog
-
+INCLUDE=-I include -I/sw/include -I/usr/local/include
+FRAMEWORK=-framework OpenGL -framework IOKit -framework CoreVideo
 all:
-	${CC} ${SRC} ${LIBS} -o ${EXEC}
-	bin/prog
-
+	${CC} ${FRAMEWORK} ${SRC} ${LIBS} -o ${EXEC} ${INCLUDE}
+	./bin/prog
 
 clear:
 	rm bin/*
