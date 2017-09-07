@@ -2,8 +2,8 @@ CC=g++
 SRC=src/*.cpp src/utils/*.cpp
 EXEC=bin/prog
 OS := $(shell uname)
-INCLUDE = ''
-FRAMEWORK = ''
+INCLUDE=
+FRAMEWORK=
 ifeq ($(OS),Darwin)
 FLAGS = -D APPLE
 LIBS=-lGLEW -lglfw -lassimp
@@ -20,6 +20,6 @@ all:
 	make clear
 
 clear:
-	rm bin/*
+	rm bin/prog
 	rm gl.log
 	rm log/*

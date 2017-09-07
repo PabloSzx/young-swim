@@ -84,8 +84,9 @@ int main(){
   float cam_yaw_speed = 90.0f; // 10 degrees per second
   float cam_pos[] = {0.0f, 5.0f, 1.0f}; // don't start at zero, or we will be too close
   vec3 campos(0.0f, 0.0f, 1.0f);
+
   float cam_yaw = 0.0f; // y-rotation in degrees
-  float cam_xaw = 0.0f; // y-rotation in degrees
+  float cam_xaw = 0.0f; // x-rotation in degrees
 
   mat4 T = translate (identity_mat4 (), vec3 (-cam_pos[0], -cam_pos[1], -cam_pos[2]));
   mat4 R = rotate_y_deg (identity_mat4 (), -cam_yaw);
