@@ -27,17 +27,11 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 #include <string>
-#include "maths_funcs.h"
-#include "gl_utils.h"
+#include "constants.h"
+#include "utils/maths_funcs.h"
+#include "utils/gl_utils.h"
 #include "tools.h"
 #include "model.h"
-
-#define GL_LOG_FILE "log/gl.log"
-#define VERTEX_SHADER_FILE "shaders/test_vs.glsl"
-#define FRAGMENT_SHADER_FILE "shaders/test_fs.glsl"
-//#define MESH_FILE "monkey2.obj"
-//#define MESH_FILE "cosa.obj"
-//#define MESH_FILE "mallas/suzanne.obj"
 
 // keep track of window size for things like the viewport and the mouse cursor
 int g_gl_width = 1280;
@@ -88,8 +82,8 @@ int main(){
 
   float cam_speed = 3.0f; // 1 unit per second
   float cam_yaw_speed = 90.0f; // 10 degrees per second
-  float cam_pos[] = {0.0f, 0.0f, 5.0f}; // don't start at zero, or we will be too close
-  vec3 campos(0.0f, 0.0f, 5.0f);
+  float cam_pos[] = {0.0f, 5.0f, 1.0f}; // don't start at zero, or we will be too close
+  vec3 campos(0.0f, 0.0f, 1.0f);
   float cam_yaw = 0.0f; // y-rotation in degrees
   float cam_xaw = 0.0f; // y-rotation in degrees
 
@@ -153,11 +147,11 @@ int main(){
 
 
     glBindVertexArray(suelo->getvao());
-    for (float i = -limiteSuelo; i <= limiteSuelo; i++) {
-      for (float j = -limiteSuelo; j <= limiteSuelo; j++) {
+    for (float i = -limiteSuelo; i <= limiteSuelo; i+=0.8f) {
+      for (float j = -limiteSuelo; j <= limiteSuelo; j+=0.8f) {
         mat = glm::mat4();
 
-        mat = glm::translate(mat, glm::vec3(i, -1.0f, j));
+        mat = glm::translate(mat, glm::vec3(i, -1.0f,j));
 
         glUniformMatrix4fv(matrix_location, 1, GL_FALSE, &mat[0][0]);
 

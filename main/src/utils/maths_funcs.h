@@ -60,7 +60,7 @@ struct vec3 {
 	vec3 operator/ (float rhs);
 	// because users expect this too
 	vec3& operator= (const vec3& rhs);
-	
+
 	// internal data
 	float v[3];
 };

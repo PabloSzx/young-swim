@@ -398,7 +398,7 @@ mat4 inverse (const mat4& mm) {
 		return mm;
 	}
 	float inv_det = 1.0f / det;
-	
+
 	return mat4 (
 		inv_det * (
 			mm.m[9] * mm.m[14] * mm.m[7] - mm.m[13] * mm.m[10] * mm.m[7] +
@@ -572,7 +572,7 @@ mat4 look_at (const vec3& cam_pos, vec3 targ_pos, const vec3& up) {
 	ori.m[2] = -f.v[0];
 	ori.m[6] = -f.v[1];
 	ori.m[10] = -f.v[2];
-	
+
 	return ori * p;//p * ori;
 }
 

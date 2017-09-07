@@ -1,3 +1,4 @@
 prog
 common
 *.log
+main/gl.log
