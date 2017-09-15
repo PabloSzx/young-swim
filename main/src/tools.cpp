@@ -6,8 +6,8 @@
 #include <assimp/cimport.h> // C importer
 #include <assimp/scene.h> // collects data
 #include <assimp/postprocess.h> // various extra operations
-#include "utils/maths_funcs.h"
-#include "utils/gl_utils.h"
+#include "maths_funcs.h"
+#include "gl_utils.h"
 #include "tools.h"
 
 #define PI 3.14159265359

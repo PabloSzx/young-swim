@@ -4,7 +4,7 @@
 #include <assert.h>
 #include <string>
 #include <GL/glew.h> // include GLEW and new version of GL on Windows
-#include "utils/maths_funcs.h"
+#include "maths_funcs.h"
 #include "tools.h"
 #include "model.h"
 

@@ -1,5 +1,5 @@
 CC=g++
-SRC=src/*.cpp
+SRC=src/main.cpp src/components/camera/camera.cpp src/components/model/model.cpp src/utils/gl_utils/gl_utils.cpp src/utils/log/log.cpp src/utils/window/window.cpp
 EXEC=bin/prog
 OS := $(shell uname)
 INCLUDE=
@@ -16,10 +16,8 @@ endif
 
 all:
 	${CC} ${FLAGS} ${FRAMEWORK} ${SRC} ${LIBS} -o ${EXEC} ${INCLUDE}
-	# @read -p "Enter Argument:" n; \
-	# ./bin/prog $$n;
 	./bin/prog
-	# make clear
+	make clear
 
 clear:
 	rm bin/prog

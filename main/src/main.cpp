@@ -28,8 +28,8 @@
 #include <glm/gtc/type_ptr.hpp>
 #include <string>
 #include "constants.h"
-#include "utils/maths_funcs.h"
-#include "utils/gl_utils.h"
+#include "maths_funcs.h"
+#include "gl_utils.h"
 #include "tools.h"
 #include "model.h"
 
