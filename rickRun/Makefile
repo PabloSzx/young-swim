@@ -10,7 +10,7 @@ LIBS=-lGLEW -lglfw -lassimp
 INCLUDE=-I include -I/sw/include -I/usr/local/include
 FRAMEWORK=-framework OpenGL -framework IOKit -framework CoreVideo -framework BulletDynamics -framework LinearMath -framework BulletCollision
 else
-LIBS=-lGL -lGLEW -lglfw -lassimp -lglut
+LIBS=-lGL -lGLEW -lglfw -lassimp
 endif
 
 

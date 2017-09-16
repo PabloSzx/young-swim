@@ -24,18 +24,24 @@
 #include <math.h>
 #include <string>
 #include <GLFW/glfw3.h>
-#include <glut/glut.h>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 #include <iostream>
+
 #include "./utils/gl_utils/gl_utils.h"
 #include "./utils/window/window.h"
 #include "./components/model/model.h"
 #include "./utils/log/log.h"
 #include "./components/input/input.h"
 #include "./components/camera/camera.h"
+
+#ifdef APPLE
 #include <BulletDynamics/btBulletDynamicsCommon.h>
+#else
+#include <btBulletDynamicsCommon.h>
+#endif
+
 
 #include "./data/constants.h"
 #include "./data/global.h"
@@ -147,7 +153,6 @@ int main(){
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     
     glUseProgram (shader_programme);
-    
     
     projectionMatrixPerspective();
     
