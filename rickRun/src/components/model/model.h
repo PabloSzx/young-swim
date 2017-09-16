@@ -6,6 +6,7 @@
 
 using namespace std;
 
+extern GLuint shader_programme;
 class Model{
     private:
         GLuint vao, vbo;
@@ -45,6 +46,7 @@ class Model{
         void setfilename(char *f);
         void setmatloc(GLuint shader, const char* mat);
         void model2shader(GLuint shaderprog);
+        void draw();
         bool load_mesh (const char* file_name);
         void printMax();
         bool colisiona (Model* compar);

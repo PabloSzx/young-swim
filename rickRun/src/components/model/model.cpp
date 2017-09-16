@@ -21,6 +21,7 @@ Model::Model(char* filename) {
   this->filename = filename;
   this->matloc = 0;
   assert(this->load_mesh(filename));
+  this->setmatloc(shader_programme, "matrix");
 }
 
 GLuint Model::getvao(){
@@ -73,7 +74,12 @@ void Model::setmatloc(GLuint shaderprog, const char* matrix) {
 void Model::model2shader(GLuint shaderprog) {
   glUseProgram (shaderprog);
   glUniformMatrix4fv (this->matloc, 1, GL_FALSE, &this->model[0][0]);
+}
 
+void Model::draw() {
+  this->model2shader(shader_programme);
+  glBindVertexArray(this->getvao());
+  glDrawArrays(GL_TRIANGLES, 0, this->getnumvertices());
 }
 
 bool Model::colisiona (Model* comparacion) {

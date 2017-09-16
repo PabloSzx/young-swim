@@ -6,7 +6,7 @@
 #include <assimp/cimport.h> // C importer
 #include <assimp/scene.h> // collects data
 #include <assimp/postprocess.h> // various extra operations
-#include "../gl_utils/gl_utils.h"
+#include "../shader/shader.h"
 #include "../log/log.h"
 #include "window.h"
 
@@ -108,4 +108,14 @@ void frameCounter() {
     float currentFrame = glfwGetTime();
     deltaTime = currentFrame - lastFrame;
     lastFrame = currentFrame;
+}
+
+void window_clear() {
+    glClearColor(0.81f, 0.81f, 0.81f, 1.0f);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+}
+
+void window_swap() {
+    glfwSwapBuffers(g_window);
+    glfwPollEvents();
 }

@@ -15,4 +15,6 @@ void _update_fps_counter(GLFWwindow* window);
 void glfw_error_callback(int error, const char *description);
 void glfw_window_size_callback(GLFWwindow *window, int width, int height);
 void frameCounter();
+void window_clear();
+void window_swap();
 #endif

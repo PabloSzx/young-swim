@@ -1,4 +1,4 @@
-#include "gl_utils.h"
+#include "shader.h"
 #include "../log/log.h"
 #include <stdio.h>
 #include <time.h>
@@ -108,12 +108,10 @@ bool create_programme (GLuint vert, GLuint frag, GLuint* programme) {
 	return true;
 }
 
-GLuint create_programme_from_files (
-	const char* vert_file_name, const char* frag_file_name
-) {
+GLuint create_programme_from_files () {
 	GLuint vert, frag, programme;
-	assert (create_shader (vert_file_name, &vert, GL_VERTEX_SHADER));
-	assert (create_shader (frag_file_name, &frag, GL_FRAGMENT_SHADER));
+	assert(create_shader(VERTEX_SHADER_FILE, &vert, GL_VERTEX_SHADER));
+	assert(create_shader(FRAGMENT_SHADER_FILE, &frag, GL_FRAGMENT_SHADER));
 	assert (create_programme (vert, frag, &programme));
 	return programme;
 }

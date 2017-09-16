@@ -1,5 +1,5 @@
-#ifndef GL_UTILS_H
-#define GL_UTILS_H
+#ifndef SHADER_H
+#define SHADER_H
 
 #include <stdarg.h>
 #include <GL/glew.h>
@@ -13,8 +13,6 @@ bool parse_file_into_str (const char* file_name, char* shader_str, int max_len);
 bool create_shader (const char* file_name, GLuint* shader, GLenum type);
 bool is_programme_valid (GLuint sp);
 bool create_programme (GLuint vert, GLuint frag, GLuint* programme);
-GLuint create_programme_from_files (
-	const char* vert_file_name, const char* frag_file_name
-);
+GLuint create_programme_from_files ();
 
 #endif
