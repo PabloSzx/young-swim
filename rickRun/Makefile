@@ -1,5 +1,5 @@
 CC=g++
-SRC=src/main.cpp src/components/camera/camera.cpp src/components/model/model.cpp src/utils/gl_utils/gl_utils.cpp src/utils/log/log.cpp src/utils/window/window.cpp
+SRC=src/main.cpp src/components/camera/camera.cpp src/components/model/model.cpp src/utils/gl_utils/gl_utils.cpp src/utils/log/log.cpp src/utils/window/window.cpp src/components/input/input.cpp
 EXEC=bin/prog
 OS := $(shell uname)
 INCLUDE=

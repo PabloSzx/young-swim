@@ -1,8 +1,18 @@
 #ifndef WINDOW_H
 #define WINDOW_H
 
-// funcion que carga una malla desde filename
-// bool load_mesh (const char* file_name, GLuint* vao, int* point_count);
-// funcion gameplay
-// bool gameplay(float cam_speed, double elapsed_seconds, float *cam_pos, float *cam_yaw, float cam_yaw_speed);
+#include <GLFW/glfw3.h>
+
+extern int g_gl_width;
+extern int g_gl_height;
+extern GLFWwindow *g_window;
+extern float deltaTime;
+extern float lastFrame;
+
+bool window_start_gl();
+void window_flags();
+void _update_fps_counter(GLFWwindow* window);
+void glfw_error_callback(int error, const char *description);
+void glfw_window_size_callback(GLFWwindow *window, int width, int height);
+void frameCounter();
 #endif

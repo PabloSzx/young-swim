@@ -13,4 +13,6 @@
 
 #define PI 3.14159265359
 
+#define MAX_SHADER_LENGTH 262144
+
 #endif

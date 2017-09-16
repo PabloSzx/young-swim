@@ -15,7 +15,7 @@
 #include "model.h"
 
 using namespace std;
-malla::malla(char* filename) {
+Model::Model(char* filename) {
   this->pos = glm::vec3(0,0,0);
   this->model = glm::mat4();
   this->filename = filename;
@@ -23,23 +23,23 @@ malla::malla(char* filename) {
   assert(this->load_mesh(filename));
 }
 
-GLuint malla::getvao(){
+GLuint Model::getvao(){
   return this->vao;
 }
 
-int malla::getnumvertices(){
+int Model::getnumvertices(){
   return this->numvertices;
 }
 
-glm::vec3 malla::getpos(){
+glm::vec3 Model::getpos(){
   return this->pos;
 }
 
-glm::mat4 malla::getmodel(){
+glm::mat4 Model::getmodel(){
   return this->model;
 }
 
-void malla::scale(glm::vec3 vec) {
+void Model::scale(glm::vec3 vec) {
   this->model = glm::scale(this->model, vec);
 
   for (int i = 0; i < this->numvertices; i++) {
@@ -61,22 +61,22 @@ void malla::scale(glm::vec3 vec) {
   this->LZ = this->maxZ - this->minZ;
 }
 
-void malla::setpos(glm::vec3 pos){
+void Model::setpos(glm::vec3 pos){
   this->pos = pos;
   this->model = glm::translate(glm::mat4(), this->pos);
 }
 
-void malla::setmatloc(GLuint shaderprog, const char* matrix) {
+void Model::setmatloc(GLuint shaderprog, const char* matrix) {
   this->matloc = glGetUniformLocation (shaderprog, matrix);
 }
 
-void malla::model2shader(GLuint shaderprog) {
+void Model::model2shader(GLuint shaderprog) {
   glUseProgram (shaderprog);
   glUniformMatrix4fv (this->matloc, 1, GL_FALSE, &this->model[0][0]);
 
 }
 
-bool malla::colisiona (malla* comparacion) {
+bool Model::colisiona (Model* comparacion) {
   GLfloat dx = abs(this->pos[0] - comparacion->pos[0]);
   GLfloat dy = abs(this->pos[1] - comparacion->pos[1]);
   GLfloat dz = abs(this->pos[2] - comparacion->pos[2]);
@@ -88,7 +88,7 @@ bool malla::colisiona (malla* comparacion) {
   return false;
 }
 
-void malla::printMax() {
+void Model::printMax() {
   cout << "maxX: " << this->maxX << endl;
   cout << "maxY: " << this->maxY << endl;
   cout << "maxZ: " << this->maxZ << endl;
@@ -98,11 +98,11 @@ void malla::printMax() {
   cout << "minZ: " << this->minZ << endl;
 }
 
-char* malla::getfilename(){
+char* Model::getfilename(){
   return this->filename;
 }
 
-bool malla::load_mesh (const char* file_name) {
+bool Model::load_mesh (const char* file_name) {
   const aiScene* scene = aiImportFile(file_name, aiProcess_Triangulate);
   if (!scene) {
     fprintf (stderr, "ERROR: reading mesh %s\n", file_name);

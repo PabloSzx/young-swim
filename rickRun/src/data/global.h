@@ -26,4 +26,12 @@ float lastFrame = 0.0f;
 
 int maxrand = 10;
 
+GLuint shader_programme;
+
+int proj_mat_location;
+int view_mat_location;
+
+glm::mat4 view;
+glm::mat4 projection;
+
 #endif

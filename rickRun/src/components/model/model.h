@@ -1,9 +1,12 @@
 #ifndef MALLA_H
 #define MALLA_H
 
+#include <GLFW/glfw3.h>
+#include <glm/glm.hpp>
+
 using namespace std;
 
-class malla{
+class Model{
     private:
         GLuint vao, vbo;
         int numvertices;
@@ -20,7 +23,7 @@ class malla{
         char* filename;
 
     public:
-        malla(char *filename);
+        Model(char *filename);
 
         GLfloat LX; //LX ES EL LARGO EN EL EJE X DEL OBJETO
         GLfloat LY; //LY ES EL LARGO EN EL EJE Y DEL OBJETO
@@ -44,7 +47,7 @@ class malla{
         void model2shader(GLuint shaderprog);
         bool load_mesh (const char* file_name);
         void printMax();
-        bool colisiona (malla* compar);
+        bool colisiona (Model* compar);
 
 };
 
