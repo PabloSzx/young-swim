@@ -22,6 +22,7 @@ class Model{
         GLfloat minY; //minY ES EL PUNTO MAS BAJO DEL OBJETO ORIENTADO EN (0, 0)
         GLfloat minZ; //minZ ES EL PUNTO MAS BAJO DEL OBJETO ORIENTADO EN (0, 0)
         char* filename;
+        glm::vec3 lastScale;
 
     public:
         Model(char *filename);

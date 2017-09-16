@@ -24,10 +24,13 @@ public:
   Bullet(int nmax);
   void setGravity(btVector3 vect);
   void newPlane(btVector3 plane, btScalar constant);
-  void newFallBody(btScalar radius, btVector3 pos);
+  void newFallBody(btVector3 extents, btVector3 pos, btScalar mass);
   void setVelocity(int i, btVector3 vel);
+  void applyImpulse(int i, btVector3 impulse);
+  void applyTranslate(int i, btVector3 vect);
   void stepSimulation();
   btVector3 getTransformOrigin(int i);
+  void translate(int i, btVector3 pos);
 };
 
 #endif

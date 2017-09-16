@@ -51,14 +51,22 @@ int main(){
   viewMatrixLocation();
   projMatrixLocation();
   
-  Model *rick = new Model(const_cast<char *>("mesh/rick.obj"));
+  Model *rick = new Model(const_cast<char *>("mesh/cube.obj"));
   rick->setpos(glm::vec3(0.0f, 0.0f, 0.0f));
-  rick->scale(glm::vec3(1.0f));
+  rick->scale(glm::vec3(0.3f));
   rick->model2shader(shader_programme);
-  
+
+  Model *plataforma = new Model(const_cast<char *>("mesh/platform.obj"));
+  plataforma->setpos(glm::vec3(0.0f,0.0f,0.0f));
+  plataforma->scale(glm::vec3(2.0f));
+  plataforma->model2shader(shader_programme);
   // cout << rick->LX << " " << rick->LY << " " << rick->LZ << endl;
-  
-  Model *eje = new Model(const_cast<char*>("mesh/axis.obj"));
+
+  Model *plano = new Model(const_cast<char *>("mesh/plano.obj"));
+  plano->setpos(glm::vec3(0.0f,0.0f,0.0f));
+  plano->model2shader(shader_programme);
+
+  Model *eje = new Model(const_cast<char *>("mesh/axis.obj"));
   eje->setpos(glm::vec3(0.0f,0.0f,0.0f));
   eje->scale(glm::vec3(1.0f));
   eje->model2shader(shader_programme);
@@ -78,11 +86,13 @@ int main(){
   axisZ->scale(glm::vec3(0.5f));
   axisZ->model2shader(shader_programme);
   
-  Bullet *world = new Bullet(2);
+  world = new Bullet(3);
 
-  world->newPlane(btVector3(0, 1, 0), 0);
+  world->newPlane(btVector3(0, 8, 0), 1.3);
 
-  world->newFallBody(5, btVector3(0, 50, 0));
+  world->newFallBody(btVector3(rick->LX, rick->LY, rick->LZ), btVector3(0, 20, 0), 1);
+
+  world->newFallBody(btVector3(plataforma->LX / 2, plataforma->LY / 2, plataforma->LZ / 2), btVector3(3, 2, 2), 0);
 
   while (!glfwWindowShouldClose(g_window)){
     frameCounter();
@@ -90,6 +100,7 @@ int main(){
     /* PHYSICS */
     world->stepSimulation();
     btVector3 rickPos = world->getTransformOrigin(1);
+    btVector3 plataformaPos = world->getTransformOrigin(2);
 
     /* INPUT */
     processInput(g_window);
@@ -98,8 +109,11 @@ int main(){
     window_clear();
 
     /* CAMERA */
+    cameraPos = glm::vec3(rickPos.getX(), rickPos.getY() + 2.0, rickPos.getZ() + 4.5);
+
     projectionMatrixPerspective();
     viewMatrixPerspective();
+
 
     /* MODEL */
 
@@ -113,6 +127,17 @@ int main(){
     axisY->draw();
     
     axisZ->draw();
+
+    plataforma->setpos(glm::vec3(plataformaPos.getX(), plataformaPos.getY(), plataformaPos.getZ()));
+    plataforma->draw();
+
+    for (float i = -20; i <= 20; i += 1.0) {
+      for (float j = -20; j <= 20; j += 1.0)
+      {
+        plano->setpos(glm::vec3(i, 0, j));
+        plano->draw();
+      }
+    }
 
     /* SWAP BUFFER */
 

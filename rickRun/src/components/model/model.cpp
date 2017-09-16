@@ -20,6 +20,7 @@ Model::Model(char* filename) {
   this->model = glm::mat4();
   this->filename = filename;
   this->matloc = 0;
+  this->lastScale = glm::vec3(1.0f,1.0f,1.0f);
   assert(this->load_mesh(filename));
   this->setmatloc(shader_programme, "matrix");
 }
@@ -41,6 +42,7 @@ glm::mat4 Model::getmodel(){
 }
 
 void Model::scale(glm::vec3 vec) {
+  this->lastScale = vec;
   this->model = glm::scale(this->model, vec);
 
   for (int i = 0; i < this->numvertices; i++) {
@@ -65,6 +67,7 @@ void Model::scale(glm::vec3 vec) {
 void Model::setpos(glm::vec3 pos){
   this->pos = pos;
   this->model = glm::translate(glm::mat4(), this->pos);
+  this->model = glm::scale(this->model, this->lastScale);
 }
 
 void Model::setmatloc(GLuint shaderprog, const char* matrix) {
@@ -72,6 +75,7 @@ void Model::setmatloc(GLuint shaderprog, const char* matrix) {
 }
 
 void Model::model2shader(GLuint shaderprog) {
+  this->setmatloc(shader_programme, "matrix");
   glUseProgram (shaderprog);
   glUniformMatrix4fv (this->matloc, 1, GL_FALSE, &this->model[0][0]);
 }

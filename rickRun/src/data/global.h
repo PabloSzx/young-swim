@@ -3,6 +3,7 @@
 
 #include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
+#include "../components/physics/physics.h"
 
 int g_gl_width = 1280;       //constants
 int g_gl_height = 720;       //constants
@@ -20,6 +21,10 @@ float lastX = g_gl_width / 2.0;
 float lastY = g_gl_height / 2.0;
 float fov = 45.0f;
 
+double vx = 0.0;
+double vy = 0.0;
+double vz = 0.0;
+
 // timing
 float deltaTime = 0.0f; // time between current frame and last frame
 float lastFrame = 0.0f;
@@ -33,5 +38,7 @@ int view_mat_location;
 
 glm::mat4 view;
 glm::mat4 projection;
+
+Bullet *world;
 
 #endif

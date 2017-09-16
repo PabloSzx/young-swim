@@ -3,6 +3,7 @@
 
 #include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
+#include "../physics/physics.h"
 
 extern int g_gl_width;
 extern int g_gl_height;
@@ -18,6 +19,10 @@ extern float lastY;
 extern float fov;
 extern float deltaTime;
 extern float lastFrame;
+extern double vx;
+extern double vy;
+extern double vz;
+extern Bullet* world;
 
 void setCallbacks();
 void framebuffer_size_callback(GLFWwindow *window, int width, int height);
