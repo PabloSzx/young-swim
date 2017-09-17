@@ -1,6 +1,7 @@
 #ifndef LOG_H
 #define LOG_H
 
+#include <GL/glew.h> // include GLEW and new version of GL on Windows
 #include <GLFW/glfw3.h>
 
 bool log_restart_gl_log();
