@@ -23,6 +23,9 @@ Model::Model(char* filename) {
   this->lastScale = glm::vec3(1.0f,1.0f,1.0f);
   assert(this->load_mesh(filename));
   this->setmatloc(shader_programme, "matrix");
+  this->red = 1.0f;
+  this->green = 1.0f;
+  this->blue = 1.0f;
 }
 
 GLuint Model::getvao(){
@@ -76,6 +79,8 @@ void Model::setmatloc(GLuint shaderprog, const char* matrix) {
 
 void Model::model2shader(GLuint shaderprog) {
   this->setmatloc(shader_programme, "matrix");
+  glUniform3f(color, this->red, this->green, this->blue);
+
   glUseProgram (shaderprog);
   glUniformMatrix4fv (this->matloc, 1, GL_FALSE, &this->model[0][0]);
 }
@@ -96,6 +101,12 @@ bool Model::colisiona (Model* comparacion) {
   }
 
   return false;
+}
+
+void Model::setColor(GLfloat r, GLfloat g, GLfloat b) {
+  this->red = r;
+  this->green = g;
+  this->blue = b;
 }
 
 void Model::printMax() {

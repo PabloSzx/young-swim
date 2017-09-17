@@ -37,33 +37,37 @@ using namespace std;
 int main(){
   srand (time(NULL));
     
-  restart_gl_log ();
+  log_restart_gl_log ();
 
   window_start_gl();
   
   window_flags();
   
-  setCallbacks();
+  input_setCallbacks();
 
 
-  shader_programme = create_programme_from_files ();
-  
-  viewMatrixLocation();
-  projMatrixLocation();
+  shader_programme = shader_create_programme_from_files ();
+  color = glGetUniformLocation(shader_programme, "color");
+
+  camera_viewMatrixLocation();
+  camera_projMatrixLocation();
   
   Model *rick = new Model(const_cast<char *>("mesh/cube.obj"));
   rick->setpos(glm::vec3(0.0f, 0.0f, 0.0f));
   rick->scale(glm::vec3(0.3f));
+  rick->setColor(1.0f, 0.894f, 0.882f);
   rick->model2shader(shader_programme);
 
   Model *plataforma = new Model(const_cast<char *>("mesh/platform.obj"));
   plataforma->setpos(glm::vec3(0.0f,0.0f,0.0f));
   plataforma->scale(glm::vec3(2.0f));
+  plataforma->setColor(0.753f,0.753f,0.753f);
   plataforma->model2shader(shader_programme);
   // cout << rick->LX << " " << rick->LY << " " << rick->LZ << endl;
 
   Model *plano = new Model(const_cast<char *>("mesh/plano.obj"));
   plano->setpos(glm::vec3(0.0f,0.0f,0.0f));
+  plano->setColor(0.133f, 0.545f, 0.133f);
   plano->model2shader(shader_programme);
 
   Model *eje = new Model(const_cast<char *>("mesh/axis.obj"));
@@ -74,16 +78,19 @@ int main(){
   Model *axisX = new Model(const_cast<char*>("mesh/x.obj"));
   axisX->setpos(glm::vec3(8.0f,0.0f,0.0f));
   axisX->scale(glm::vec3(0.5f));
+  axisX->setColor(0.0f, 0.0f, 0.0f);
   axisX->model2shader(shader_programme);
   
   Model *axisY = new Model(const_cast<char*>("mesh/y.obj"));
   axisY->setpos(glm::vec3(0.0f,8.0f,0.0f));
   axisY->scale(glm::vec3(0.5f));
+  axisY->setColor(0.0f, 0.0f, 0.0f);
   axisY->model2shader(shader_programme);
     
   Model *axisZ = new Model(const_cast<char*>("mesh/z.obj"));
   axisZ->setpos(glm::vec3(0.0f,0.0f,8.0f));
   axisZ->scale(glm::vec3(0.5f));
+  axisZ->setColor(0.0f,0.0f,0.0f);
   axisZ->model2shader(shader_programme);
   
   world = new Bullet(3);
@@ -95,7 +102,7 @@ int main(){
   world->newFallBody(btVector3(plataforma->LX / 2, plataforma->LY / 2, plataforma->LZ / 2), btVector3(3, 2, 2), 0);
 
   while (!glfwWindowShouldClose(g_window)){
-    frameCounter();
+    window_frameCounter();
     
     /* PHYSICS */
     world->stepSimulation();
@@ -103,19 +110,18 @@ int main(){
     btVector3 plataformaPos = world->getTransformOrigin(2);
 
     /* INPUT */
-    processInput(g_window);
+    input_processInput(g_window);
 
     /* CLEAR */
     window_clear();
 
     /* CAMERA */
-    // cameraPos = cameraPos + ;
 
-    projectionMatrixPerspective();
-    viewMatrixPerspective(glm::vec3(rickPos.getX(), rickPos.getY() + 2.0, rickPos.getZ() + 4.5));
+    camera_projectionMatrixPerspective();
+    camera_viewMatrixPerspective(glm::vec3(rickPos.getX(), rickPos.getY() + 2.0, rickPos.getZ() + 4.5));
 
     /* MODEL */
-
+    glColor3f(1.0f, 0.0f, 0.0f);
     rick->setpos(glm::vec3(rickPos.getX(), rickPos.getY(), rickPos.getZ()));
     rick->draw();
 

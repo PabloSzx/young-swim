@@ -11,9 +11,9 @@
 #include "window.h"
 
 bool window_start_gl() {
-    gl_log("starting GLFW %s", glfwGetVersionString());
+    log_gl_log("starting GLFW %s", glfwGetVersionString());
     
-    glfwSetErrorCallback(glfw_error_callback);
+    glfwSetErrorCallback(window_glfw_error_callback);
     if (!glfwInit())
     {
         fprintf(stderr, "ERROR: could not start GLFW3\n");
@@ -41,7 +41,7 @@ bool window_start_gl() {
         return false;
     }
     
-    glfwSetWindowSizeCallback(g_window, glfw_window_size_callback);
+    glfwSetWindowSizeCallback(g_window, window_glfw_window_size_callback);
     glfwMakeContextCurrent(g_window);
     
     glfwWindowHint(GLFW_SAMPLES, 4);
@@ -55,7 +55,7 @@ bool window_start_gl() {
     const GLubyte *version = glGetString(GL_VERSION);   // version as a string
     printf("Renderer: %s\n", renderer);
     printf("OpenGL version supported %s\n", version);
-    gl_log("renderer: %s\nversion: %s\n", renderer, version);
+    log_gl_log("renderer: %s\nversion: %s\n", renderer, version);
     
     return true;
 }
@@ -72,7 +72,7 @@ void window_flags() {
     glfwSetInputMode(g_window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 }
 
-void _update_fps_counter(GLFWwindow *window)
+void window_update_fps_counter(GLFWwindow *window)
 {
     static double previous_seconds = glfwGetTime();
     static int frame_count;
@@ -90,13 +90,13 @@ void _update_fps_counter(GLFWwindow *window)
     frame_count++;
 }
 
-void glfw_error_callback(int error, const char *description)
+void window_glfw_error_callback(int error, const char *description)
 {
     fputs(description, stderr);
-    gl_log_err("%s\n", description);
+    log_gl_log_err("%s\n", description);
 }
 // a call-back function
-void glfw_window_size_callback(GLFWwindow *window, int width, int height)
+void window_glfw_window_size_callback(GLFWwindow *window, int width, int height)
 {
     g_gl_width = width;
     g_gl_height = height;
@@ -104,14 +104,15 @@ void glfw_window_size_callback(GLFWwindow *window, int width, int height)
     /* update any perspective matrices used here */
 }
 
-void frameCounter() {
+void window_frameCounter()
+{
     float currentFrame = glfwGetTime();
     deltaTime = currentFrame - lastFrame;
     lastFrame = currentFrame;
 }
 
 void window_clear() {
-    glClearColor(0.81f, 0.81f, 0.81f, 1.0f);
+    glClearColor(0.00f, 0.749f, 1.00f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 

@@ -11,10 +11,10 @@ extern float lastFrame;
 
 bool window_start_gl();
 void window_flags();
-void _update_fps_counter(GLFWwindow* window);
-void glfw_error_callback(int error, const char *description);
-void glfw_window_size_callback(GLFWwindow *window, int width, int height);
-void frameCounter();
+void window_update_fps_counter(GLFWwindow *window);
+void window_glfw_error_callback(int error, const char *description);
+void window_glfw_window_size_callback(GLFWwindow *window, int width, int height);
+void window_frameCounter();
 void window_clear();
 void window_swap();
 #endif

@@ -28,9 +28,9 @@ extern int view_mat_location;
 extern glm::mat4 view;
 extern glm::mat4 projection;
 
-void viewMatrixLocation();
-void projMatrixLocation();
-void viewMatrixPerspective(glm::vec3 charPos);
-void projectionMatrixPerspective();
+void camera_viewMatrixLocation();
+void camera_projMatrixLocation();
+void camera_viewMatrixPerspective(glm::vec3 charPos);
+void camera_projectionMatrixPerspective();
 
 #endif

@@ -1,13 +1,14 @@
 #include "input.h"
 
 using namespace std;
-void setCallbacks() {
-    glfwSetFramebufferSizeCallback(g_window, framebuffer_size_callback);
-    glfwSetCursorPosCallback(g_window, mouse_callback);
-    glfwSetScrollCallback(g_window, scroll_callback);
+void input_setCallbacks()
+{
+    glfwSetFramebufferSizeCallback(g_window, input_framebuffer_size_callback);
+    glfwSetCursorPosCallback(g_window, input_mouse_callback);
+    glfwSetScrollCallback(g_window, input_scroll_callback);
 }
 
-void mouse_callback(GLFWwindow *window, double xpos, double ypos)
+void input_mouse_callback(GLFWwindow *window, double xpos, double ypos)
 {
     if (firstMouse)
     {
@@ -40,7 +41,7 @@ void mouse_callback(GLFWwindow *window, double xpos, double ypos)
     cameraFront = glm::normalize(front);
 }
 
-void scroll_callback(GLFWwindow *window, double xoffset, double yoffset)
+void input_scroll_callback(GLFWwindow *window, double xoffset, double yoffset)
 {
     if (fov >= 1.0f && fov <= 45.0f)
     fov -= yoffset;
@@ -50,7 +51,7 @@ void scroll_callback(GLFWwindow *window, double xoffset, double yoffset)
     fov = 45.0f;
 }
 
-void processInput(GLFWwindow *window)
+void input_processInput(GLFWwindow *window)
 {
     if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
     glfwSetWindowShouldClose(window, true);
@@ -109,7 +110,7 @@ void processInput(GLFWwindow *window)
     }
 }
 
-void framebuffer_size_callback(GLFWwindow * window, int width, int height)
+void input_framebuffer_size_callback(GLFWwindow *window, int width, int height)
 {
     glViewport(0, 0, width, height);
 }

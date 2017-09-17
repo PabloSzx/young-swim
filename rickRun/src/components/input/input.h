@@ -25,10 +25,10 @@ extern double vy;
 extern double vz;
 extern Bullet* world;
 
-void setCallbacks();
-void framebuffer_size_callback(GLFWwindow *window, int width, int height);
-void mouse_callback(GLFWwindow *window, double xpos, double ypos);
-void scroll_callback(GLFWwindow *window, double xoffset, double yoffset);
-void processInput(GLFWwindow *window);
+void input_setCallbacks();
+void input_framebuffer_size_callback(GLFWwindow *window, int width, int height);
+void input_mouse_callback(GLFWwindow *window, double xpos, double ypos);
+void input_scroll_callback(GLFWwindow *window, double xoffset, double yoffset);
+void input_processInput(GLFWwindow *window);
 
 #endif
