@@ -109,11 +109,10 @@ int main(){
     window_clear();
 
     /* CAMERA */
-    cameraPos = glm::vec3(rickPos.getX(), rickPos.getY() + 2.0, rickPos.getZ() + 4.5);
+    // cameraPos = cameraPos + ;
 
     projectionMatrixPerspective();
-    viewMatrixPerspective();
-
+    viewMatrixPerspective(glm::vec3(rickPos.getX(), rickPos.getY() + 2.0, rickPos.getZ() + 4.5));
 
     /* MODEL */
 
@@ -131,8 +130,8 @@ int main(){
     plataforma->setpos(glm::vec3(plataformaPos.getX(), plataformaPos.getY(), plataformaPos.getZ()));
     plataforma->draw();
 
-    for (float i = -20; i <= 20; i += 1.0) {
-      for (float j = -20; j <= 20; j += 1.0)
+    for (float i = -20; i <= 20; i += 1.05) {
+      for (float j = -20; j <= 20; j += 1.05)
       {
         plano->setpos(glm::vec3(i, 0, j));
         plano->draw();

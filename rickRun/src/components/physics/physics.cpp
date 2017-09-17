@@ -1,5 +1,6 @@
 #include "physics.h"
 
+using namespace std;
 Bullet::Bullet(int nmax) {
     this->broadphase = new btDbvtBroadphase();
     
@@ -60,9 +61,12 @@ void Bullet::newFallBody(btVector3 extents, btVector3 pos, btScalar mass) {
     
     this->rigidBodys[this->n]->setCcdMotionThreshold(1e-7);
     this->rigidBodys[this->n]->setCcdSweptSphereRadius(0.0);
+
+    // cout << "friccion de " << this->n << ": " << this->rigidBodys[this->n]->getFriction() << endl;
+    this->rigidBodys[this->n]->setFriction(0.8);
     
     this->dynamicsWorld->addRigidBody(this->rigidBodys[this->n]);
-    
+
     this->n += 1;
 }
 

@@ -3,6 +3,7 @@
 
 #include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
+#include <iostream>
 #include "../physics/physics.h"
 
 extern int g_gl_width;

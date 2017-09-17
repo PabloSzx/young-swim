@@ -7,6 +7,8 @@
 #include <bullet/btBulletDynamicsCommon.h>
 #endif
 
+#include "iostream"
+
 class Bullet {
 private:
   btBroadphaseInterface *broadphase;

@@ -17,9 +17,9 @@ void projMatrixLocation()
     glUniformMatrix4fv(proj_mat_location, 1, GL_FALSE, &projection[0][0]);
 }
 
-void viewMatrixPerspective()
+void viewMatrixPerspective(glm::vec3 charPos)
 {
-    view = glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
+    view = glm::lookAt(cameraPos + charPos, cameraPos + charPos + cameraFront, cameraUp);
     glUniformMatrix4fv(view_mat_location, 1, GL_FALSE, &view[0][0]);
 }
 

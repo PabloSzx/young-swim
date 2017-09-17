@@ -30,7 +30,7 @@ extern glm::mat4 projection;
 
 void viewMatrixLocation();
 void projMatrixLocation();
-void viewMatrixPerspective();
+void viewMatrixPerspective(glm::vec3 charPos);
 void projectionMatrixPerspective();
 
 #endif

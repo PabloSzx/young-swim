@@ -1,5 +1,6 @@
 #include "input.h"
 
+using namespace std;
 void setCallbacks() {
     glfwSetFramebufferSizeCallback(g_window, framebuffer_size_callback);
     glfwSetCursorPosCallback(g_window, mouse_callback);
@@ -67,30 +68,44 @@ void processInput(GLFWwindow *window)
     if (glfwGetKey(window, GLFW_KEY_I) == GLFW_PRESS) {
         // world->applyImpulse(1, btVector3(0.0, 10.5, -10.25), btVector3(0.0, 1.0, 1.0));
         // vx -= 0.1;
-        world->applyImpulse(1, btVector3(0.0, 0.0, -0.1));
+        world->applyImpulse(1, btVector3(0.2, 0.0, 0.0));
     }
     if (glfwGetKey(window, GLFW_KEY_K) == GLFW_PRESS)
     {
         // world->applyImpulse(1, btVector3(0.0, -10.5, 10.25), btVector3(0.0, 1.0, 1.0));
         // vx += 0.1;
-        world->applyImpulse(1, btVector3(0.0, 0.0, 0.1));
+        world->applyImpulse(1, btVector3(-0.2, 0.0, 0.0));
     }
     if (glfwGetKey(window, GLFW_KEY_J) == GLFW_PRESS)
     {
         // world->applyImpulse(1, btVector3(-10.25, 0.0, 0.0), btVector3(1.0, 0.0, 0.0));
         // vz -= 0.1;
-        world->applyImpulse(1, btVector3(-0.1, 0.0, 0.0));
+        world->applyImpulse(1, btVector3(0.0, 0.0, -0.2));
     }
     if (glfwGetKey(window, GLFW_KEY_L) == GLFW_PRESS)
     {
         // world->applyImpulse(1, btVector3(10.25, 0.0, 0.0), btVector3(1.0, 0.0, 0.0));
         // vz += 0.1;
-        world->applyImpulse(1, btVector3(0.1, 0.0, 0.0));
+        world->applyImpulse(1, btVector3(0.0, 0.0, 0.2));
     }
     if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS)
     {
         world->applyImpulse(1, btVector3(0.0, 1.0f, 0.0f));
         // world->translate(1, btVector3(0.0, 0.0, 0.0));
+    }
+    if (glfwGetKey(window, GLFW_KEY_P) == GLFW_PRESS)
+    {
+        // world->applyImpulse(1, btVector3(0.0, 1.0f, 0.0f));
+        // world->translate(1, btVector3(0.0, 0.0, 0.0));
+        cout << endl << endl << endl;
+        cout << "cameraUp" << cameraUp[0] << "/" << cameraUp[1] << "/" << cameraUp[2] << endl;
+        cout << "cameraFront" << cameraFront[0] << "/" << cameraFront[1] << "/" << cameraFront[2] << endl;
+        cout << "cameraPos" << cameraPos[0] << "/" << cameraPos[1] << "/" << cameraPos[2] << endl;
+        cout << "fov " << fov << endl;
+        cout << "lastx " << lastX << endl;
+        cout << "lasty " << lastY << endl;
+        cout << "yaw " << yaw << endl;
+        cout << "pitch " << pitch << endl;
     }
 }
 
