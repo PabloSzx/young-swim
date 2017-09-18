@@ -1,4 +1,5 @@
 #include "input.h"
+// #include "../camera/camera.h"
 
 using namespace std;
 void input_setCallbacks()
@@ -6,6 +7,15 @@ void input_setCallbacks()
     glfwSetFramebufferSizeCallback(g_window, input_framebuffer_size_callback);
     glfwSetCursorPosCallback(g_window, input_mouse_callback);
     glfwSetScrollCallback(g_window, input_scroll_callback);
+}
+
+void camera_resetPerspective() {
+    cameraFront = glm::vec3(0.94f, -0.33f, -0.09f);
+    cameraUp = glm::vec3(0.0f, 1.0f, 0.0f);
+
+    yaw = 0; // yaw is initialized to -90.0 degrees since a yaw of 0.0 results in a direction vector pointing to the right so we initially rotate a bit to the left.
+
+    pitch = -20.0f;
 }
 
 void input_mouse_callback(GLFWwindow *window, double xpos, double ypos)
@@ -19,10 +29,29 @@ void input_mouse_callback(GLFWwindow *window, double xpos, double ypos)
     
     float xoffset = xpos - lastX;
     float yoffset = lastY - ypos;
-    lastX = xpos;
-    lastY = ypos;
-    
-    float sensitivity = 0.1f;
+
+    cout << "xoffset: " << xoffset << "   -   " << "yoffset: " << yoffset << endl;
+    cout << "xpos: " << xpos << "   -   " << "ypos: " << ypos << endl;
+
+    if (xoffset > 10 && yoffset > 10) {
+        world->applyImpulse(1, btVector3(0,1.0,1.0));
+        camera_resetPerspective();
+    } else if (xoffset > 10 && yoffset < -10) {
+        world->applyImpulse(1, btVector3(0, -1.0, 1.0));
+        camera_resetPerspective();
+    } else if (xoffset < -10 && yoffset > 10) {
+        world->applyImpulse(1, btVector3(0, 1.0, -1.0));
+        camera_resetPerspective();
+    } else if (xoffset < -10 && yoffset < -10) {
+        world->applyImpulse(1, btVector3(0, -1.0, -1.0));
+        camera_resetPerspective();
+    }
+
+    lastX = g_gl_width / 2.0;
+    lastY = g_gl_height / 2.0;
+    glfwSetCursorPos(g_window, lastX, lastY);
+
+    float sensitivity = 0.01f;
     xoffset *= sensitivity;
     yoffset *= sensitivity;
     

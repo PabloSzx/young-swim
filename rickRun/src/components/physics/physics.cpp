@@ -11,7 +11,7 @@ Bullet::Bullet(int nmax) {
     
     this->dynamicsWorld = new btDiscreteDynamicsWorld(this->dispatcher, this->broadphase, this->solver, this->collisionConfiguration);
     
-    this->setGravity(btVector3(0, -9.8, 0));
+    this->dynamicsWorld->setGravity(btVector3(0, -9.8, 0));
     
     this->n = 0;
     this->nmax = nmax;
@@ -21,8 +21,20 @@ Bullet::Bullet(int nmax) {
     this->rigidBodys = static_cast<btRigidBody **>(malloc(sizeof(btRigidBody *) * nmax));
 }
 
-void Bullet::setGravity(btVector3 vect) {
+void Bullet::setGravity(int i, btVector3 vect) {
+    this->wakeUp(i);
     this->dynamicsWorld->setGravity(vect);
+}
+
+void Bullet::applyGravity(int i)
+{
+    this->wakeUp(i);
+    this->rigidBodys[i]->applyGravity();
+}
+
+void Bullet::getGravity(int i) {
+    btVector3 vect = this->rigidBodys[i]->getGravity();
+    cout << vect.getX() << "-" << vect.getY() << "-" << vect.getZ() << endl;
 }
 
 void Bullet::newPlane(btVector3 plane, btScalar constant)
@@ -79,10 +91,15 @@ void Bullet::applyTranslate(int i, btVector3 vect) {
 }
 
 void Bullet::applyImpulse(int i, btVector3 impulse) {
-    if (!this->rigidBodys[i]->isActive()) {
+    this->wakeUp(i);
+    this->rigidBodys[i]->applyCentralImpulse(impulse);
+}
+
+void Bullet::wakeUp(int i) {
+    if (!this->rigidBodys[i]->isActive())
+    {
         this->rigidBodys[i]->activate();
     }
-    this->rigidBodys[i]->applyCentralImpulse(impulse);
 }
 
 void Bullet::stepSimulation() {

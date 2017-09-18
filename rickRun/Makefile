@@ -1,4 +1,4 @@
-CC=g++
+CC=g++ -std=c++11
 SRC=src/main.cpp src/components/camera/camera.cpp src/components/model/model.cpp src/components/physics/physics.cpp src/utils/shader/shader.cpp src/utils/log/log.cpp src/utils/window/window.cpp src/components/input/input.cpp
 EXEC=bin/prog
 OS := $(shell uname)

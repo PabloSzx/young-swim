@@ -35,8 +35,9 @@
 using namespace std;
 
 int main(){
+  bool firstTime = true;
   srand (time(NULL));
-    
+
   log_restart_gl_log ();
 
   window_start_gl();
@@ -52,9 +53,9 @@ int main(){
   camera_viewMatrixLocation();
   camera_projMatrixLocation();
   
-  Model *rick = new Model(const_cast<char *>("mesh/cube.obj"));
+  Model *rick = new Model(const_cast<char *>("mesh/box.obj"));
   rick->setpos(glm::vec3(0.0f, 0.0f, 0.0f));
-  rick->scale(glm::vec3(0.3f));
+  rick->scale(glm::vec3(0.6f));
   rick->setColor(1.0f, 0.894f, 0.882f);
   rick->model2shader(shader_programme);
 
@@ -92,16 +93,27 @@ int main(){
   axisZ->scale(glm::vec3(0.5f));
   axisZ->setColor(0.0f,0.0f,0.0f);
   axisZ->model2shader(shader_programme);
-  
+
+  Model *arbol = new Model(const_cast<char *>("mesh/arbol.obj"));
+  arbol->setpos(glm::vec3(0.0f, arbol->LY / 2, 8.0f));
+  arbol->scale(glm::vec3(0.5f));
+  arbol->setColor(0.0f, 1.0f, 0.0f);
+  arbol->model2shader(shader_programme);
+
   world = new Bullet(3);
 
   world->newPlane(btVector3(0, 8, 0), 1.3);
 
   world->newFallBody(btVector3(rick->LX, rick->LY, rick->LZ), btVector3(0, 20, 0), 1);
 
-  world->newFallBody(btVector3(plataforma->LX / 2, plataforma->LY / 2, plataforma->LZ / 2), btVector3(3, 2, 2), 0);
+  world->newFallBody(btVector3(plataforma->LX / 2, plataforma->LY / 2 + 0.1, plataforma->LZ / 2), btVector3(3, 2, 2), 0);
 
   while (!glfwWindowShouldClose(g_window)){
+    
+    if (glfwGetTime() >= 5.0f && firstTime) {
+      world->setGravity(1, btVector3(5,-9.8,0));
+      firstTime = false;
+    } 
     window_frameCounter();
     
     /* PHYSICS */
@@ -136,10 +148,12 @@ int main(){
     plataforma->setpos(glm::vec3(plataformaPos.getX(), plataformaPos.getY(), plataformaPos.getZ()));
     plataforma->draw();
 
+    arbol->draw();
+
     for (float i = -20; i <= 20; i += 1.05) {
       for (float j = -20; j <= 20; j += 1.05)
       {
-        plano->setpos(glm::vec3(i, 0, j));
+        plano->setpos(glm::vec3(rickPos.getX() + i, 0, rickPos.getZ() + j));
         plano->draw();
       }
     }

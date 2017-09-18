@@ -33,5 +33,6 @@ void camera_viewMatrixLocation();
 void camera_projMatrixLocation();
 void camera_viewMatrixPerspective(glm::vec3 charPos);
 void camera_projectionMatrixPerspective();
+// void camera_resetPerspective();
 
 #endif
