@@ -1,6 +1,12 @@
 #ifndef INPUT_H
 #define INPUT_H
 
+#ifdef APPLE
+#include <BulletDynamics/btBulletDynamicsCommon.h>
+#else
+#include <btBulletDynamicsCommon.h>
+#endif
+
 #include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
 #include <iostream>

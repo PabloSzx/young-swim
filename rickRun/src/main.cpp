@@ -26,7 +26,7 @@
 #ifdef APPLE
 #include <BulletDynamics/btBulletDynamicsCommon.h>
 #else
-#include <bullet/btBulletDynamicsCommon.h>
+#include <btBulletDynamicsCommon.h>
 #endif
 
 #include "./data/constants.h"

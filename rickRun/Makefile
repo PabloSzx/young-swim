@@ -7,15 +7,15 @@ FRAMEWORK=
 ifeq ($(OS),Darwin)
 FLAGS = -D APPLE
 LIBS=-lGLEW -lglfw -lassimp
-INCLUDE=-I include -I/sw/include -I/usr/local/include/bullet -I/usr/local/include -I/usr/include/bullet -I/usr/include
+INCLUDE=-I include -I/sw/include -I/usr/local/include/bullet
 FRAMEWORK=-framework OpenGL -framework IOKit -framework CoreVideo -framework BulletDynamics -framework LinearMath -framework BulletCollision
 else
-LIBS=-lGL -lGLEW -lglfw -lassimp 
+LIBS=-lGL -lGLEW -lglfw -lassimp -I /usr/local/include/bullet
 endif
 
 
 all:
-	${CC} ${FLAGS} ${FRAMEWORK} ${SRC} ${LIBS} -o ${EXEC} ${INCLUDE}
+	${CC} ${FLAGS} ${FRAMEWORK} ${SRC} ${LIBS} -o ${EXEC}
 	./bin/prog
 	make clear
 
