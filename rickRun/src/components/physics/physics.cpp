@@ -37,7 +37,7 @@ void Bullet::getGravity(int i) {
     cout << vect.getX() << "-" << vect.getY() << "-" << vect.getZ() << endl;
 }
 
-void Bullet::newPlane(btVector3 plane, btScalar constant)
+void Bullet::newPlane(btVector3 plane, float constant)
 {
     this->shapes[this->n] = new btStaticPlaneShape(plane, constant);
     
@@ -49,7 +49,8 @@ void Bullet::newPlane(btVector3 plane, btScalar constant)
     
     this->rigidBodys[this->n]->setCcdMotionThreshold(1e-7);
     this->rigidBodys[this->n]->setCcdSweptSphereRadius(0.50);
-    
+    this->rigidBodys[this->n]->setFriction(0.1);
+
     this->dynamicsWorld->addRigidBody(this->rigidBodys[this->n]);
     this->n += 1;
 }
@@ -75,11 +76,15 @@ void Bullet::newFallBody(btVector3 extents, btVector3 pos, btScalar mass) {
     this->rigidBodys[this->n]->setCcdSweptSphereRadius(0.0);
 
     // cout << "friccion de " << this->n << ": " << this->rigidBodys[this->n]->getFriction() << endl;
-    this->rigidBodys[this->n]->setFriction(0.8);
+    this->rigidBodys[this->n]->setFriction(0.1);
     
     this->dynamicsWorld->addRigidBody(this->rigidBodys[this->n]);
 
     this->n += 1;
+    if (this->n == this->nmax) {
+        cout << "nmax logrado " << this->n << " vs " << this->nmax << endl; 
+        this->n = 2;
+    }
 }
 
 void Bullet::setVelocity(int i, btVector3 vel) {
@@ -93,6 +98,7 @@ void Bullet::applyTranslate(int i, btVector3 vect) {
 void Bullet::applyImpulse(int i, btVector3 impulse) {
     this->wakeUp(i);
     this->rigidBodys[i]->applyCentralImpulse(impulse);
+    // this->applyGravity(i);
 }
 
 void Bullet::wakeUp(int i) {
