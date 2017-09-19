@@ -11,7 +11,7 @@ Bullet::Bullet(int nmax) {
     
     this->dynamicsWorld = new btDiscreteDynamicsWorld(this->dispatcher, this->broadphase, this->solver, this->collisionConfiguration);
     
-    this->dynamicsWorld->setGravity(btVector3(0, -9.8, 0));
+    this->dynamicsWorld->setGravity(btVector3(0, 0, 0));
     
     this->n = 0;
     this->nmax = nmax;
@@ -55,14 +55,12 @@ void Bullet::newPlane(btVector3 plane, float constant)
     this->n += 1;
 }
 
-void Bullet::newFallBody(btVector3 extents, btVector3 pos, btScalar mass) {
+void Bullet::newFallBody(btVector3 extents, btVector3 pos, btScalar mass, btVector3 velocity) {
     // this->shapes[this->n] = new btSphereShape(radius);
     this->shapes[this->n] = new btBoxShape(extents);
     
     this->motionStates[this->n] = new btDefaultMotionState(btTransform(btQuaternion(0, 0, 0, 1), pos));
-    
-    // btScalar mass = m;
-    
+        
     btVector3 fallInertia(0, 10, 0);
     
     this->shapes[this->n]->calculateLocalInertia(mass, fallInertia);
@@ -75,8 +73,8 @@ void Bullet::newFallBody(btVector3 extents, btVector3 pos, btScalar mass) {
     this->rigidBodys[this->n]->setCcdMotionThreshold(1e-7);
     this->rigidBodys[this->n]->setCcdSweptSphereRadius(0.0);
 
-    // cout << "friccion de " << this->n << ": " << this->rigidBodys[this->n]->getFriction() << endl;
-    this->rigidBodys[this->n]->setFriction(0.1);
+    this->rigidBodys[this->n]->setFriction(0.0);
+    this->rigidBodys[this->n]->setLinearVelocity(velocity);
     
     this->dynamicsWorld->addRigidBody(this->rigidBodys[this->n]);
 
@@ -88,6 +86,7 @@ void Bullet::newFallBody(btVector3 extents, btVector3 pos, btScalar mass) {
 }
 
 void Bullet::setVelocity(int i, btVector3 vel) {
+    this->wakeUp(i);
     this->rigidBodys[i]->setLinearVelocity(vel);
 }
 
@@ -98,6 +97,13 @@ void Bullet::applyTranslate(int i, btVector3 vect) {
 void Bullet::applyImpulse(int i, btVector3 impulse) {
     this->wakeUp(i);
     this->rigidBodys[i]->applyCentralImpulse(impulse);
+    // this->applyGravity(i);
+}
+
+void Bullet::applyForce(int i, btVector3 force)
+{
+    this->wakeUp(i);
+    this->rigidBodys[i]->applyCentralForce(force);
     // this->applyGravity(i);
 }
 

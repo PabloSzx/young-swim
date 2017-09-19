@@ -28,15 +28,15 @@ public:
   void applyGravity(int i);
   void getGravity(int i);
   void newPlane(btVector3 plane, btScalar constant);
-  void newFallBody(btVector3 extents, btVector3 pos, btScalar mass);
+  void newFallBody(btVector3 extents, btVector3 pos, btScalar mass, btVector3 velocity);
   void setVelocity(int i, btVector3 vel);
   void applyImpulse(int i, btVector3 impulse);
+  void applyForce(int i, btVector3 force);
   void applyTranslate(int i, btVector3 vect);
   void stepSimulation();
   btVector3 getTransformOrigin(int i);
   void translate(int i, btVector3 pos);
   void wakeUp(int i);
-  
 };
 
 #endif
