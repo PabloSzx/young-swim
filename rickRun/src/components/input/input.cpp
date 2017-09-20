@@ -127,7 +127,10 @@ void input_processInput(GLFWwindow *window)
     }
     if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS)
     {
-        world->applyImpulse(1, btVector3(0.0, 1.0f, 0.0f));
+        if (allowJump) {
+            allowJump = false;
+            world->applyImpulse(1, btVector3(0.0, 4.0f, 0.0f));
+        }
         // world->translate(1, btVector3(0.0, 0.0, 0.0));
     }
     if (glfwGetKey(window, GLFW_KEY_P) == GLFW_PRESS)

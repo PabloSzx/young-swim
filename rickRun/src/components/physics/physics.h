@@ -27,10 +27,11 @@ public:
   void setGravity(int i, btVector3 vect);
   void applyGravity(int i);
   void getGravity(int i);
-  void newPlane(btVector3 plane, btScalar constant);
-  void newFallBody(btVector3 extents, btVector3 pos, btScalar mass, btVector3 velocity);
-  void editBody(int i, btVector3 extents, btVector3 pos, btScalar mass, btVector3 velocity);
+  void newPlane(btVector3 plane, btScalar constant, int index);
+  void newFallBody(btVector3 extents, btVector3 pos, btScalar mass, btVector3 velocity, int index);
+  void editBody(int i, btVector3 extents, btVector3 pos, btScalar mass, btVector3 velocity, int index);
   void setVelocity(int i, btVector3 vel);
+  btVector3 getVelocity(int i);
   void applyImpulse(int i, btVector3 impulse);
   void applyForce(int i, btVector3 force);
   void applyTranslate(int i, btVector3 vect);
@@ -38,6 +39,8 @@ public:
   btVector3 getTransformOrigin(int i);
   void translate(int i, btVector3 pos);
   void wakeUp(int i);
+  void checkCollision(bool* allowJump);
+  
 };
 
 #endif

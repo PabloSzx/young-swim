@@ -29,6 +29,7 @@ extern float lastFrame;
 extern double vx;
 extern double vy;
 extern double vz;
+extern bool allowJump;
 extern Bullet* world;
 
 void input_setCallbacks();

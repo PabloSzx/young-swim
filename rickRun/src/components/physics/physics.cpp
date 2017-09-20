@@ -37,7 +37,7 @@ void Bullet::getGravity(int i) {
     cout << vect.getX() << "-" << vect.getY() << "-" << vect.getZ() << endl;
 }
 
-void Bullet::newPlane(btVector3 plane, float constant)
+void Bullet::newPlane(btVector3 plane, float constant, int index)
 {
     this->shapes[this->n] = new btStaticPlaneShape(plane, constant);
     
@@ -50,12 +50,12 @@ void Bullet::newPlane(btVector3 plane, float constant)
     this->rigidBodys[this->n]->setCcdMotionThreshold(1e-7);
     this->rigidBodys[this->n]->setCcdSweptSphereRadius(0.50);
     this->rigidBodys[this->n]->setFriction(0.1);
-    
+    this->rigidBodys[this->n]->setUserIndex(index);
     this->dynamicsWorld->addRigidBody(this->rigidBodys[this->n]);
     this->n += 1;
 }
 
-void Bullet::newFallBody(btVector3 extents, btVector3 pos, btScalar mass, btVector3 velocity) {
+void Bullet::newFallBody(btVector3 extents, btVector3 pos, btScalar mass, btVector3 velocity, int index) {
     // this->shapes[this->n] = new btSphereShape(radius);
     this->shapes[this->n] = new btBoxShape(extents);
     
@@ -75,7 +75,9 @@ void Bullet::newFallBody(btVector3 extents, btVector3 pos, btScalar mass, btVect
     
     this->rigidBodys[this->n]->setFriction(0.0);
     this->rigidBodys[this->n]->setLinearVelocity(velocity);
-    
+
+    this->rigidBodys[this->n]->setUserIndex(index);
+
     this->dynamicsWorld->addRigidBody(this->rigidBodys[this->n]);
     
     if ((this->n + 1) == this->nmax)
@@ -86,7 +88,7 @@ void Bullet::newFallBody(btVector3 extents, btVector3 pos, btScalar mass, btVect
     }
 }
 
-void Bullet::editBody(int i, btVector3 extents, btVector3 pos, btScalar mass, btVector3 velocity) {
+void Bullet::editBody(int i, btVector3 extents, btVector3 pos, btScalar mass, btVector3 velocity, int index) {
     this->dynamicsWorld->removeRigidBody(this->rigidBodys[i]);
     
     this->shapes[i] = new btBoxShape(extents);
@@ -107,13 +109,18 @@ void Bullet::editBody(int i, btVector3 extents, btVector3 pos, btScalar mass, bt
     
     this->rigidBodys[i]->setFriction(0.0);
     this->rigidBodys[i]->setLinearVelocity(velocity);
-    
+    this->rigidBodys[i]->setUserIndex(index);
+
     this->dynamicsWorld->addRigidBody(this->rigidBodys[i]);
 }
 
 void Bullet::setVelocity(int i, btVector3 vel) {
     this->wakeUp(i);
     this->rigidBodys[i]->setLinearVelocity(vel);
+}
+
+btVector3 Bullet::getVelocity(int i) {
+    return this->rigidBodys[i]->getLinearVelocity();
 }
 
 void Bullet::applyTranslate(int i, btVector3 vect) {
@@ -142,6 +149,38 @@ void Bullet::wakeUp(int i) {
 
 void Bullet::stepSimulation() {
     this->dynamicsWorld->stepSimulation(1 / 60.f, 10);
+}
+
+void Bullet::checkCollision(bool* allowJump) {
+    int numManifolds = this->dynamicsWorld->getDispatcher()->getNumManifolds();
+    // cout << "numManifolds: " << numManifolds << endl;
+    for (int i = 0; i < numManifolds; i++)
+    {
+        btPersistentManifold *contactManifold = this->dynamicsWorld->getDispatcher()->getManifoldByIndexInternal(i);
+        const btCollisionObject *obA = contactManifold->getBody0();
+        const btCollisionObject *obB = contactManifold->getBody1();
+        
+        int a = obA->getUserIndex();
+        int b = obB->getUserIndex();
+        
+        if (a == -1) {
+            int numContacts = contactManifold->getNumContacts();
+            for (int j = 0; j < numContacts; j++)
+            {
+                btManifoldPoint &pt = contactManifold->getContactPoint(j);
+                if (pt.getDistance() < 0.f)
+                {
+                    // cout << "choque!     " << a << " / " << b << endl;
+                    if (b >= 4 && *allowJump == false) {
+                        *allowJump = true;
+                    }
+                    // const btVector3 &ptA = pt.getPositionWorldOnA();
+                    // const btVector3 &ptB = pt.getPositionWorldOnB();
+                    // const btVector3 &normalOnB = pt.m_normalWorldOnB;
+                }
+            }
+        }
+    }
 }
 
 void Bullet::translate(int i, btVector3 pos) {
