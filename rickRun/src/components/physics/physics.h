@@ -29,6 +29,7 @@ public:
   void getGravity(int i);
   void newPlane(btVector3 plane, btScalar constant);
   void newFallBody(btVector3 extents, btVector3 pos, btScalar mass, btVector3 velocity);
+  void editBody(int i, btVector3 extents, btVector3 pos, btScalar mass, btVector3 velocity);
   void setVelocity(int i, btVector3 vel);
   void applyImpulse(int i, btVector3 impulse);
   void applyForce(int i, btVector3 force);

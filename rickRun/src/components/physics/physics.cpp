@@ -50,7 +50,7 @@ void Bullet::newPlane(btVector3 plane, float constant)
     this->rigidBodys[this->n]->setCcdMotionThreshold(1e-7);
     this->rigidBodys[this->n]->setCcdSweptSphereRadius(0.50);
     this->rigidBodys[this->n]->setFriction(0.1);
-
+    
     this->dynamicsWorld->addRigidBody(this->rigidBodys[this->n]);
     this->n += 1;
 }
@@ -60,8 +60,8 @@ void Bullet::newFallBody(btVector3 extents, btVector3 pos, btScalar mass, btVect
     this->shapes[this->n] = new btBoxShape(extents);
     
     this->motionStates[this->n] = new btDefaultMotionState(btTransform(btQuaternion(0, 0, 0, 1), pos));
-        
-    btVector3 fallInertia(0, 10, 0);
+    
+    btVector3 fallInertia(0, 0, 0);
     
     this->shapes[this->n]->calculateLocalInertia(mass, fallInertia);
     
@@ -72,17 +72,43 @@ void Bullet::newFallBody(btVector3 extents, btVector3 pos, btScalar mass, btVect
     
     this->rigidBodys[this->n]->setCcdMotionThreshold(1e-7);
     this->rigidBodys[this->n]->setCcdSweptSphereRadius(0.0);
-
+    
     this->rigidBodys[this->n]->setFriction(0.0);
     this->rigidBodys[this->n]->setLinearVelocity(velocity);
     
     this->dynamicsWorld->addRigidBody(this->rigidBodys[this->n]);
-
-    this->n += 1;
-    if (this->n == this->nmax) {
-        cout << "nmax logrado " << this->n << " vs " << this->nmax << endl; 
-        this->n = 2;
+    
+    if ((this->n + 1) == this->nmax)
+    {
+        cout << "No more bodys slots available" << endl;
+    } else {
+        this->n += 1;
     }
+}
+
+void Bullet::editBody(int i, btVector3 extents, btVector3 pos, btScalar mass, btVector3 velocity) {
+    this->dynamicsWorld->removeRigidBody(this->rigidBodys[i]);
+    
+    this->shapes[i] = new btBoxShape(extents);
+    
+    this->motionStates[i] = new btDefaultMotionState(btTransform(btQuaternion(0, 0, 0, 1), pos));
+    
+    btVector3 fallInertia(0, 0, 0);
+    
+    this->shapes[i]->calculateLocalInertia(mass, fallInertia);
+    
+    btRigidBody::btRigidBodyConstructionInfo fallRigidBodyCI(mass, this->motionStates[i], this->shapes[i], fallInertia);
+    
+    this->rigidBodys[i] = new btRigidBody(fallRigidBodyCI);
+    // this->rigidBodys[this->n]->setRestitution(-100.0);
+    
+    this->rigidBodys[i]->setCcdMotionThreshold(1e-7);
+    this->rigidBodys[i]->setCcdSweptSphereRadius(0.0);
+    
+    this->rigidBodys[i]->setFriction(0.0);
+    this->rigidBodys[i]->setLinearVelocity(velocity);
+    
+    this->dynamicsWorld->addRigidBody(this->rigidBodys[i]);
 }
 
 void Bullet::setVelocity(int i, btVector3 vel) {

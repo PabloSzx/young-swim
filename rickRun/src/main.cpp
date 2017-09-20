@@ -53,7 +53,7 @@ int main(){
   camera_viewMatrixLocation();
   camera_projMatrixLocation();
   
-  world = new Bullet(22);
+  world = new Bullet(40);
   
   // world->newPlane(btVector3(0, 0, 1), -2.3);
   world->newPlane(btVector3(0, 1, 0), -3.7); //0
@@ -74,16 +74,17 @@ int main(){
   world->newFallBody(btVector3(100, 100, 0.5), btVector3(0, 0, -2), 0, btVector3(0, 0, 0)); //2
   world->newFallBody(btVector3(100, 100, 0.5), btVector3(0, 0, 7), 0, btVector3(0, 0, 0));  //3
 
-  Model **plataformas = static_cast<Model **>(malloc(sizeof(Model *) * 18));
+  int nplataformas = 36;
+  Model **plataformas = static_cast<Model **>(malloc(sizeof(Model *) * nplataformas));
   
-  for (int i = 0; i < 18; i+=1) {
+  for (int i = 0; i < nplataformas; i+=1) {
     plataformas[i] = new Model(const_cast<char *>("mesh/platform.obj"));
     plataformas[i]->setpos(glm::vec3(i * plataformas[i]->LX, (i % 3) * 3, (i % 3) * plataformas[i]->LZ));
     plataformas[i]->scale(glm::vec3(1.0f));
     plataformas[i]->setColor(0.753f, 0.753f, 0.753f);
     plataformas[i]->model2shader(shader_programme);
     world->newFallBody(btVector3(plataformas[i]->LX / 2, plataformas[i]->LY / 2 + 0.1, plataformas[i]->LZ / 2), btVector3(i * plataformas[i]->LX, (i % 3) * 3, (i % 3) * plataformas[i]->LZ), 10000, btVector3(-5, 0, 0));
-+    //4 - 21
+    //4 - 39
   }
   
   // cout << rick->LX << " " << rick->LY << " " << rick->LZ << endl;
@@ -131,7 +132,9 @@ int main(){
   double nowTime;
   double lastTime;
   btVector3 platPos;
-  
+
+  cout << "hasta aca" << endl;
+
   while (!glfwWindowShouldClose(g_window)){
     
     // if (glfwGetTime() >= 5.0f && firstTime) {
@@ -179,29 +182,32 @@ int main(){
     // plataforma->setpos(glm::vec3(plataformaPos.getX(), plataformaPos.getY(), plataformaPos.getZ()));
     // plataforma->draw();
     nowTime = glfwGetTime();
+
     if ((nowTime - lastTime) > 10)
     {
       cout << "repos realizado" << endl;
       /* PAREDES */
-      world->newFallBody(btVector3(100, 100, 0.5), btVector3(0, 0, -2), 0, btVector3(0, 0, 0)); //2
-      world->newFallBody(btVector3(100, 100, 0.5), btVector3(0, 0, 7), 0, btVector3(0, 0, 0));  //3
-      for (int i = 0; i < 18; i += 1)
+
+      world->editBody(2, btVector3(100, 100, 0.5), btVector3(0, 0, -2), 0, btVector3(0, 0, 0)); //2
+      world->editBody(3, btVector3(100, 100, 0.5), btVector3(0, 0, 7), 0, btVector3(0, 0, 0));  //3
+      for (int i = 0; i < nplataformas; i += 1)
       {
         plataformas[i]->setpos(glm::vec3((i * plataformas[i]->LX), (i % 3) * 3, (i % 3) * plataformas[i]->LZ));
         plataformas[i]->scale(glm::vec3(1.0f));
         plataformas[i]->setColor(0.753f, 0.753f, 0.753f);
         plataformas[i]->model2shader(shader_programme);
-        world->newFallBody(btVector3(plataformas[i]->LX / 2, plataformas[i]->LY / 2 + 0.1, plataformas[i]->LZ / 2), btVector3((i * plataformas[i]->LX), (i % 3) * 3, (i % 3) * plataformas[i]->LZ), 10000, btVector3(-5, 0, 0));
+        world->editBody(i + 4, btVector3(plataformas[i]->LX / 2, plataformas[i]->LY / 2 + 0.1, plataformas[i]->LZ / 2), btVector3((i * plataformas[i]->LX), (i % 3) * 3, (i % 3) * plataformas[i]->LZ), 10000, btVector3(-5, 0, 0));
       }
       lastTime = nowTime;
     }
 
-    for (int i = 0; i < 18; i += 1) {
+    for (int i = 0; i < nplataformas; i += 1) {
+
       platPos = world->getTransformOrigin(i + 4);
       plataformas[i]->setpos(glm::vec3(platPos.getX(), platPos.getY(), platPos.getZ()));
       plataformas[i]->draw();
     }
-    
+
     arbol->draw();
     
     for (float i = -20; i <= 20; i += 1.05) {
