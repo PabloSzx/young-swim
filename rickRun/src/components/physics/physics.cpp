@@ -73,7 +73,7 @@ void Bullet::newFallBody(btVector3 extents, btVector3 pos, btScalar mass, btVect
     this->rigidBodys[this->n]->setCcdMotionThreshold(1e-7);
     this->rigidBodys[this->n]->setCcdSweptSphereRadius(0.0);
     
-    this->rigidBodys[this->n]->setFriction(0.0);
+    this->rigidBodys[this->n]->setFriction(0.5);
     this->rigidBodys[this->n]->setLinearVelocity(velocity);
 
     this->rigidBodys[this->n]->setUserIndex(index);
@@ -107,7 +107,7 @@ void Bullet::editBody(int i, btVector3 extents, btVector3 pos, btScalar mass, bt
     this->rigidBodys[i]->setCcdMotionThreshold(1e-7);
     this->rigidBodys[i]->setCcdSweptSphereRadius(0.0);
     
-    this->rigidBodys[i]->setFriction(0.0);
+    this->rigidBodys[i]->setFriction(0.5);
     this->rigidBodys[i]->setLinearVelocity(velocity);
     this->rigidBodys[i]->setUserIndex(index);
 
@@ -171,7 +171,7 @@ void Bullet::checkCollision(bool* allowJump) {
                 if (pt.getDistance() < 0.f)
                 {
                     // cout << "choque!     " << a << " / " << b << endl;
-                    if (b >= 4 && *allowJump == false) {
+                    if (b >= 0 && *allowJump == false) {
                         *allowJump = true;
                     }
                     // const btVector3 &ptA = pt.getPositionWorldOnA();

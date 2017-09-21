@@ -40,7 +40,6 @@ public:
   void translate(int i, btVector3 pos);
   void wakeUp(int i);
   void checkCollision(bool* allowJump);
-  
 };
 
 #endif

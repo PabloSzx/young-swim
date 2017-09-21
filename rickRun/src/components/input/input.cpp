@@ -129,7 +129,7 @@ void input_processInput(GLFWwindow *window)
     {
         if (allowJump) {
             allowJump = false;
-            world->applyImpulse(1, btVector3(0.0, 4.0f, 0.0f));
+            world->applyImpulse(1, btVector3(0.0, 3.0f, 0.0f));
         }
         // world->translate(1, btVector3(0.0, 0.0, 0.0));
     }
