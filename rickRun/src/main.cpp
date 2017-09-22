@@ -53,11 +53,12 @@ int main(){
   
   camera_viewMatrixLocation();
   camera_projMatrixLocation();
-  
-  world = new Bullet(44);
+  int nplataformas = 20;
+
+  world = new Bullet(nplataformas + 4);
   // Gaming *rules = new Gaming();
   // world->newPlane(btVector3(0, 0, 1), -2.3);
-  world->newPlane(btVector3(0, 1, 0), -3.7, 0); //0
+  world->newPlane(btVector3(0, 1, 0), 1.7, 0); //0
   // world->newPlane(btVector3(0, 1, 0), -1.3);
   
   // world->newPlane(btVector3(0, 0, 1), 3.0);
@@ -72,10 +73,9 @@ int main(){
   world->newFallBody(btVector3(rick->LX, rick->LY, rick->LZ), btVector3(0, 10, 0), 1, btVector3(0, 0, 0), -1); //1
   
   /* PAREDES */
-  world->newFallBody(btVector3(100, 100, 0.5), btVector3(0, 0, -2), 0, btVector3(0, 0, 0), 1); //2
-  world->newFallBody(btVector3(100, 100, 0.5), btVector3(0, 0, 7), 0, btVector3(0, 0, 0), 2);  //3
+  world->newFallBody(btVector3(1, 1, 0.5), btVector3(0, 0, -2), 0, btVector3(0, 0, 0), 1); //2
+  world->newFallBody(btVector3(1, 1, 0.5), btVector3(0, 0, 7), 0, btVector3(0, 0, 0), 2);  //3
   
-  int nplataformas = 20;
   Model **plataformas = static_cast<Model **>(malloc(sizeof(Model *) * nplataformas));
   double platformVelocity = 0.0;
   plataformas[0] = new Model(const_cast<char *>("mesh/platform.obj"));
@@ -148,11 +148,30 @@ int main(){
     bool twoFirstTime = true;
     double nowTime;
     double lastTime;
-    // btVector3 platPos;
-    
+    btVector3 plataformaPos;
+    btVector3 rickPos = btVector3(0, 0, 0);
+    int previousPlatform;
+    int lastXRick = 0;
+    int rickXNow;
     while (!glfwWindowShouldClose(g_window))
     {
       nowTime = glfwGetTime();
+
+      int rickXNow = rickPos.getX();
+      if ((rickXNow - lastXRick) > plataformas[0]->LX - 0.5) {
+        cout << "rerender" << endl;
+        if (world->getLastPlatform() == 4) {
+          previousPlatform = world->getNMax() - 1;
+        } else {
+          previousPlatform = world->getLastPlatform() + 1;
+        }
+        cout << world->getLastPlatform();
+        platPos = Gaming::getPlatformPos(platPos.getZ(), platPos.getY(), platPos.getX() + plataformas[world->getLastPlatform() - 4]->LX);
+        cout << "obtuve platPos" << endl;
+        world->editLastPlatform(platPos, 10000, btVector3(platformVelocity, 0, 0), world->getLastPlatform());
+        lastXRick = rickXNow;
+        cout << "termine este if" << endl;
+      }
       
       if (nowTime >= 10.0f && firstTime)
       {
@@ -196,7 +215,7 @@ int main(){
         /* PHYSICS */
         world->checkCollision(&allowJump);
         world->stepSimulation();
-        btVector3 rickPos = world->getTransformOrigin(1);
+        rickPos = world->getTransformOrigin(1);
         
         /* INPUT */
         input_processInput(g_window);
@@ -223,8 +242,8 @@ int main(){
         axisZ->draw();
         
         for (int i = 0; i < nplataformas; i += 1) {
-          platPos = world->getTransformOrigin(i + 4);
-          plataformas[i]->setpos(glm::vec3(platPos.getX(), platPos.getY(), platPos.getZ()));
+          plataformaPos = world->getTransformOrigin(i + 4);
+          plataformas[i]->setpos(glm::vec3(plataformaPos.getX(), plataformaPos.getY(), plataformaPos.getZ()));
           plataformas[i]->draw();
         }
         

@@ -18,6 +18,7 @@ private:
   btDiscreteDynamicsWorld *dynamicsWorld;
   int nmax;
   int n;
+  int lastPlatform;
   btCollisionShape **shapes;
   btDefaultMotionState **motionStates;
   btRigidBody **rigidBodys;
@@ -29,6 +30,7 @@ public:
   void getGravity(int i);
   void newPlane(btVector3 plane, btScalar constant, int index);
   void newFallBody(btVector3 extents, btVector3 pos, btScalar mass, btVector3 velocity, int index);
+  void editLastPlatform(btVector3 pos, btScalar mass, btVector3 velocity, int index);
   void editBody(int i, btVector3 extents, btVector3 pos, btScalar mass, btVector3 velocity, int index);
   void setVelocity(int i, btVector3 vel);
   btVector3 getVelocity(int i);
@@ -40,6 +42,8 @@ public:
   void translate(int i, btVector3 pos);
   void wakeUp(int i);
   void checkCollision(bool* allowJump);
+  int getLastPlatform();
+  int getNMax();
 };
 
 #endif

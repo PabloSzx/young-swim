@@ -17,10 +17,10 @@ int Gaming::getN(int lastPos) {
         third = 3;
     }
     int nrandom = rand() % 10;
-    if (nrandom <= 2)
+    if (nrandom < 2)
     {
         return lastPos;
-    } else if ((rand() % 2) == 0) {
+    } else if (nrandom < 6) {
         return second;
     } 
     return third;
