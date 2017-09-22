@@ -53,17 +53,11 @@ int main(){
   
   camera_viewMatrixLocation();
   camera_projMatrixLocation();
-  int nplataformas = 20;
-
+  int nplataformas = 40;
+  
   world = new Bullet(nplataformas + 4);
-  // Gaming *rules = new Gaming();
-  // world->newPlane(btVector3(0, 0, 1), -2.3);
-  world->newPlane(btVector3(0, 1, 0), 1.7, 0); //0
-  // world->newPlane(btVector3(0, 1, 0), -1.3);
-  
-  // world->newPlane(btVector3(0, 0, 1), 3.0);
-  // world->newFallBody(btVector3(100, 100, 0.5), btVector3(0, 0, 4), 0);
-  
+  world->newPlane(btVector3(0, 1, 0), -3.7, 0); //0
+    
   Model *rick = new Model(const_cast<char *>("mesh/box.obj"));
   rick->setpos(glm::vec3(0.0f, 10.0f, 0.0f));
   rick->scale(glm::vec3(0.6f));
@@ -73,8 +67,8 @@ int main(){
   world->newFallBody(btVector3(rick->LX, rick->LY, rick->LZ), btVector3(0, 10, 0), 1, btVector3(0, 0, 0), -1); //1
   
   /* PAREDES */
-  world->newFallBody(btVector3(1, 1, 0.5), btVector3(0, 0, -2), 0, btVector3(0, 0, 0), 1); //2
-  world->newFallBody(btVector3(1, 1, 0.5), btVector3(0, 0, 7), 0, btVector3(0, 0, 0), 2);  //3
+  world->newFallBody(btVector3(1, 1, 0.5), btVector3(0, 0, -2), 0.0001, btVector3(0, 0, 0), 1); //2
+  world->newFallBody(btVector3(1, 1, 0.5), btVector3(0, 0, 7), 0.0001, btVector3(0, 0, 0), 2);  //3
   
   Model **plataformas = static_cast<Model **>(malloc(sizeof(Model *) * nplataformas));
   double platformVelocity = 0.0;
@@ -145,129 +139,105 @@ int main(){
     arbol->setColor(0.0f, 1.0f, 0.0f);
     arbol->model2shader(shader_programme);
     
-    bool twoFirstTime = true;
     double nowTime;
-    double lastTime;
     btVector3 plataformaPos;
     btVector3 rickPos = btVector3(0, 0, 0);
     int previousPlatform;
-    int lastXRick = 0;
-    int rickXNow;
+    Gaming *rules = new Gaming(-1, 1, 8, 8, -1, 1, -3, 7);
+    
     while (!glfwWindowShouldClose(g_window))
     {
       nowTime = glfwGetTime();
-
-      int rickXNow = rickPos.getX();
-      if ((rickXNow - lastXRick) > plataformas[0]->LX - 0.5) {
-        cout << "rerender" << endl;
+      
+      if (abs(world->getTransformOrigin(world->getLastPlatform()).getX() - world->getTransformOrigin(1).getX()) > (20 * plataformas[0]->LX))
+      {
+        cout << "last platform modified" << endl;
+        cout << world->getLastPlatform();
         if (world->getLastPlatform() == 4) {
           previousPlatform = world->getNMax() - 1;
         } else {
-          previousPlatform = world->getLastPlatform() + 1;
+          previousPlatform = world->getLastPlatform() - 1;
         }
-        cout << world->getLastPlatform();
-        platPos = Gaming::getPlatformPos(platPos.getZ(), platPos.getY(), platPos.getX() + plataformas[world->getLastPlatform() - 4]->LX);
-        cout << "obtuve platPos" << endl;
+        platPos = Gaming::getPlatformPos(platPos.getZ(), platPos.getY(), world->getTransformOrigin(previousPlatform).getX() + plataformas[0]->LX);
         world->editLastPlatform(platPos, 10000, btVector3(platformVelocity, 0, 0), world->getLastPlatform());
-        lastXRick = rickXNow;
-        cout << "termine este if" << endl;
       }
       
       if (nowTime >= 10.0f && firstTime)
       {
-        // for (int i=, i < 18; )
-        // world->setGravity(4, btVector3(1.5,-9.8,0));
         platformVelocity = -5.0;
         for (int i = 4; i < nplataformas + 4; i += 1)
         {
           world->setVelocity(i, btVector3(platformVelocity, 0, 0));
         }
         firstTime = false;
-      } else {
-        for (int i = 4; i < nplataformas + 4; i += 1)
-        {
-          world->setVelocity(i, btVector3(platformVelocity, 0, 0));
-        }
       }
       
-      if ((nowTime - lastTime) > 10)
+      rules->checkRickPos(world);
+      rules->checkRickVel(world);
+      
+      rickPos = world->getTransformOrigin(1);
+      
+      world->applyForce(1, btVector3(0, -9.8, 0));
+      window_frameCounter();
+      
+      /* PHYSICS */
+      world->checkCollision(&allowJump);
+      world->stepSimulation();
+      
+      /* INPUT */
+      input_processInput(g_window);
+      
+      /* CLEAR */
+      window_clear();
+      
+      /* CAMERA */
+      
+      camera_projectionMatrixPerspective();
+      camera_viewMatrixPerspective(glm::vec3(rickPos.getX(), rickPos.getY() + 2.0, rickPos.getZ() + 4.5));
+      
+      /* MODEL */
+      glColor3f(1.0f, 0.0f, 0.0f);
+      rick->setpos(glm::vec3(rickPos.getX(), rickPos.getY(), rickPos.getZ()));
+      rick->draw();
+      
+      eje->draw();
+      
+      axisX->draw();
+      
+      axisY->draw();
+      
+      axisZ->draw();
+      
+      for (int i = 0; i < nplataformas; i += 1)
       {
-        // cout << "repos realizado" << endl;
-        // /* PAREDES */
-        // platformVelocity -= 5.0;
-        // world->editBody(2, btVector3(100, 100, 0.5), btVector3(0, 0, -2), 0, btVector3(0, 0, 0), 1); //2
-        // world->editBody(3, btVector3(100, 100, 0.5), btVector3(0, 0, 7), 0, btVector3(0, 0, 0), 2);  //3
-        // for (int i = 0; i < nplataformas; i += 1)
-        // {
-          //   plataformas[i]->setpos(glm::vec3((i * plataformas[i]->LX), (i % 3) * 3, (i % 3) * plataformas[i]->LZ));
-          //   plataformas[i]->scale(glm::vec3(1.0f));
-          //   plataformas[i]->setColor(0.753f, 0.753f, 0.753f);
-          //   plataformas[i]->model2shader(shader_programme);
-            // world->editBody(i + 4, btVector3(plataformas[i]->LX / 2, plataformas[i]->LY / 2 + 0.1, plataformas[i]->LZ / 2), btVector3((i * plataformas[i]->LX), (i % 3) * 3, (i % 3) * plataformas[i]->LZ), 10000, btVector3(platformVelocity, 0, 0), i + 4);
-          //   world->setVelocity(i + 4, btVector3(platformVelocity, 0, 0));
-          // }
-          // lastTime = nowTime;
-        }
-        
-        world->applyForce(1, btVector3(0, -14.8, 0));
-        window_frameCounter();
-        
-        /* PHYSICS */
-        world->checkCollision(&allowJump);
-        world->stepSimulation();
-        rickPos = world->getTransformOrigin(1);
-        
-        /* INPUT */
-        input_processInput(g_window);
-        
-        /* CLEAR */
-        window_clear();
-        
-        /* CAMERA */
-        
-        camera_projectionMatrixPerspective();
-        camera_viewMatrixPerspective(glm::vec3(rickPos.getX(), rickPos.getY() + 2.0, rickPos.getZ() + 4.5));
-        
-        /* MODEL */
-        glColor3f(1.0f, 0.0f, 0.0f);
-        rick->setpos(glm::vec3(rickPos.getX(), rickPos.getY(), rickPos.getZ()));
-        rick->draw();
-        
-        eje->draw();
-        
-        axisX->draw();
-        
-        axisY->draw();
-        
-        axisZ->draw();
-        
-        for (int i = 0; i < nplataformas; i += 1) {
-          plataformaPos = world->getTransformOrigin(i + 4);
-          plataformas[i]->setpos(glm::vec3(plataformaPos.getX(), plataformaPos.getY(), plataformaPos.getZ()));
-          plataformas[i]->draw();
-        }
-        
-        arbol->draw();
-        
-        for (float i = -20; i <= 20; i += 1.05) {
-          for (float j = -20; j <= 20; j += 1.05)
-          {
-            plano->setpos(glm::vec3(rickPos.getX() + i, -5, rickPos.getZ() + j));
-            plano->draw();
-          }
-        }
-        pared->setpos(glm::vec3(50, 50, -2));
-        pared->draw();
-        
-        pared->setpos(glm::vec3(50, 50, 7));
-        pared->draw();
-        
-        /* SWAP BUFFER */
-        
-        window_swap();
+        plataformaPos = world->getTransformOrigin(i + 4);
+        plataformas[i]->setpos(glm::vec3(plataformaPos.getX(), plataformaPos.getY(), plataformaPos.getZ()));
+        plataformas[i]->draw();
       }
       
-      glfwTerminate();
-      return 0;
+      arbol->draw();
+      
+      for (float i = -20; i <= 20; i += 1.05) {
+        for (float j = -20; j <= 20; j += 1.05)
+        {
+          plano->setpos(glm::vec3(rickPos.getX() + i, -5, rickPos.getZ() + j));
+          plano->draw();
+        }
+      }
+      pared->setpos(glm::vec3(50, 50, -2));
+      pared->scale(glm::vec3(10, 1, 1));
+      pared->draw();
+      
+      pared->setpos(glm::vec3(50, 50, 7.5));
+      pared->scale(glm::vec3(10, 1, 1));
+      pared->draw();
+      
+      /* SWAP BUFFER */
+      
+      window_swap();
     }
     
+    glfwTerminate();
+    return 0;
+  }
+  

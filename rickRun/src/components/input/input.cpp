@@ -35,23 +35,23 @@ void input_mouse_callback(GLFWwindow *window, double xpos, double ypos)
     int jumpSensitivity = 5;
     if (xoffset > jumpSensitivity && yoffset > jumpSensitivity)
     {
-        world->applyImpulse(1, btVector3(0,1.0,1.0));
-        camera_resetPerspective();
+        // world->applyImpulse(1, btVector3(0,1.0,1.0));
+        // camera_resetPerspective();
     }
     else if (xoffset > jumpSensitivity && yoffset < -jumpSensitivity)
     {
-        world->applyImpulse(1, btVector3(0, -1.0, 1.0));
-        camera_resetPerspective();
+        // world->applyImpulse(1, btVector3(0, -1.0, 1.0));
+        // camera_resetPerspective();
     }
     else if (xoffset < -jumpSensitivity && yoffset > jumpSensitivity)
     {
-        world->applyImpulse(1, btVector3(0, 1.0, -1.0));
-        camera_resetPerspective();
+        // world->applyImpulse(1, btVector3(0, 1.0, -1.0));
+        // camera_resetPerspective();
     }
     else if (xoffset < -jumpSensitivity && yoffset < -jumpSensitivity)
     {
-        world->applyImpulse(1, btVector3(0, -1.0, -1.0));
-        camera_resetPerspective();
+        // world->applyImpulse(1, btVector3(0, -1.0, -1.0));
+        // camera_resetPerspective();
     }
 
     lastX = g_gl_width / 2.0;
@@ -129,7 +129,7 @@ void input_processInput(GLFWwindow *window)
     {
         if (allowJump) {
             allowJump = false;
-            world->applyImpulse(1, btVector3(0.0, 3.0f, 0.0f));
+            world->applyImpulse(1, btVector3(0.0, 5.0f, 0.0f));
         }
         // world->translate(1, btVector3(0.0, 0.0, 0.0));
     }
