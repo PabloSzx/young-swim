@@ -1,7 +1,7 @@
 #include "physics.h"
 
 using namespace std;
-Bullet::Bullet(int nmax) {
+Bullet::Bullet(int nmax, btVector3 gravity) {
     this->broadphase = new btDbvtBroadphase();
     
     this->collisionConfiguration = new btDefaultCollisionConfiguration();
@@ -11,7 +11,7 @@ Bullet::Bullet(int nmax) {
     
     this->dynamicsWorld = new btDiscreteDynamicsWorld(this->dispatcher, this->broadphase, this->solver, this->collisionConfiguration);
     
-    this->dynamicsWorld->setGravity(btVector3(0, 0, 0));
+    this->dynamicsWorld->setGravity(gravity);
     
     this->n = 0;
     this->nmax = nmax;
@@ -202,7 +202,7 @@ void Bullet::checkCollision(bool* allowJump) {
                 if (pt.getDistance() < 0.f)
                 {
                     // cout << "choque!     " << a << " / " << b << endl;
-                    if (b >= 0 && *allowJump == false) {
+                    if (b >= 4 && *allowJump == false) {
                         *allowJump = true;
                     }
                     // const btVector3 &ptA = pt.getPositionWorldOnA();

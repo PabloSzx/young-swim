@@ -24,7 +24,7 @@ private:
   btRigidBody **rigidBodys;
   
 public:
-  Bullet(int nmax);
+  Bullet(int nmax, btVector3 gravity);
   void setGravity(int i, btVector3 vect);
   void applyGravity(int i);
   void getGravity(int i);
