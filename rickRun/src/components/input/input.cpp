@@ -101,37 +101,28 @@ void input_processInput(GLFWwindow *window)
     cameraPos -= glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed;
     if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
     cameraPos += glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed;
-    
+
     if (glfwGetKey(window, GLFW_KEY_I) == GLFW_PRESS) {
-        // world->applyImpulse(1, btVector3(0.0, 10.5, -10.25), btVector3(0.0, 1.0, 1.0));
-        // vx -= 0.1;
-        world->applyImpulse(1, btVector3(0.2, 0.0, 0.0));
+        world->applyImpulse(1, btVector3(jumpForwardForce, 0.0, 0.0));
     }
     if (glfwGetKey(window, GLFW_KEY_K) == GLFW_PRESS)
     {
-        // world->applyImpulse(1, btVector3(0.0, -10.5, 10.25), btVector3(0.0, 1.0, 1.0));
-        // vx += 0.1;
-        world->applyImpulse(1, btVector3(-0.2, 0.0, 0.0));
+        world->applyImpulse(1, btVector3(jumpBackwardForce, jumpVerticalDownForce, 0.0));
     }
     if (glfwGetKey(window, GLFW_KEY_J) == GLFW_PRESS)
     {
-        // world->applyImpulse(1, btVector3(-10.25, 0.0, 0.0), btVector3(1.0, 0.0, 0.0));
-        // vz -= 0.1;
-        world->applyImpulse(1, btVector3(0.0, 0.0, -0.2));
+        world->applyImpulse(1, btVector3(0.0, 0.0, -jumpHorizontalForce));
     }
     if (glfwGetKey(window, GLFW_KEY_L) == GLFW_PRESS)
     {
-        // world->applyImpulse(1, btVector3(10.25, 0.0, 0.0), btVector3(1.0, 0.0, 0.0));
-        // vz += 0.1;
-        world->applyImpulse(1, btVector3(0.0, 0.0, 0.2));
+        world->applyImpulse(1, btVector3(0.0, 0.0, jumpHorizontalForce));
     }
     if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS)
     {
         if (allowJump) {
             allowJump = false;
-            world->applyImpulse(1, btVector3(0.0, 5.0f, 0.0f));
+            world->applyImpulse(1, btVector3(0.0, jumpVerticalUpForce, 0.0f));
         }
-        // world->translate(1, btVector3(0.0, 0.0, 0.0));
     }
     if (glfwGetKey(window, GLFW_KEY_P) == GLFW_PRESS)
     {

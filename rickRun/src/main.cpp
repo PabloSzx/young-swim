@@ -140,10 +140,31 @@ int main(){
     arbol->model2shader(shader_programme);
     
     double nowTime;
+    double lastTime = 0.0;
     btVector3 plataformaPos;
     btVector3 rickPos = btVector3(0, 0, 0);
+
     int previousPlatform;
-    Gaming *rules = new Gaming(-1, 1, 8, 8, -1, 1, -3, 7);
+    int minXVel = -2;
+    int maxXVel = 1;
+    int maxYVel = 5;
+    int maxZVel = 5;
+    int minX = -3;
+    int maxX = 3;
+    int minZ = -3;
+    int maxZ = 7;
+    double forceHorizontalJump = 0.2;
+    double forceVerticalUpJump = 8.0;
+    double forceVerticalDownJump = -0.2;
+    double forceBackwardJump = -0.2;
+    double forceForwardJump = 0.2;
+
+    Gaming *rules = new Gaming(
+      minXVel, maxXVel, maxYVel, maxZVel, 
+      minX, maxX, minZ, maxZ,
+      forceHorizontalJump, forceVerticalUpJump, forceVerticalDownJump,
+      forceForwardJump, forceBackwardJump
+    );
     
     while (!glfwWindowShouldClose(g_window))
     {
@@ -170,6 +191,15 @@ int main(){
           world->setVelocity(i, btVector3(platformVelocity, 0, 0));
         }
         firstTime = false;
+      }
+
+      if ((nowTime - lastTime) > 15) {
+        cout << "dificultad mas" << endl;
+        platformVelocity -= 5.0;
+        for (int i = 0; i < nplataformas; i += 1) {
+          world->setVelocity(i + 4, btVector3(platformVelocity, 0, 0));
+        }
+        lastTime = nowTime;
       }
       
       rules->checkRickPos(world);

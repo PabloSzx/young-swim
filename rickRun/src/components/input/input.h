@@ -30,6 +30,12 @@ extern double vx;
 extern double vy;
 extern double vz;
 extern bool allowJump;
+extern double jumpHorizontalForce;
+extern double jumpVerticalUpForce;
+extern double jumpVerticalDownForce;
+extern double jumpForwardForce;
+extern double jumpBackwardForce;
+
 extern Bullet* world;
 
 void input_setCallbacks();

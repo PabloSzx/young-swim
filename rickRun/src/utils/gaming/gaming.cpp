@@ -3,7 +3,13 @@
 #include <time.h>
 
 using namespace std;
-Gaming::Gaming(int minXVelocity, int maxXVelocity, int maxYVelocity, int maxZVelocity, int minX, int maxX, int minZ, int maxZ) {
+Gaming::Gaming(
+    int minXVelocity, int maxXVelocity, int maxYVelocity, int maxZVelocity,
+    int minX, int maxX, int minZ, int maxZ,
+    double forceHorizontalJump, double forceVerticalUpJump, double forceVerticalDownJump,
+    double forceForwardJump, double forceBackwardJump
+    )
+{
     this->maxYVelocity = 8;
     this->maxXVelocity = 1;
     this->maxZVelocity = 8;
@@ -12,16 +18,46 @@ Gaming::Gaming(int minXVelocity, int maxXVelocity, int maxYVelocity, int maxZVel
     this->maxX = maxX;
     this->minZ = minZ;
     this->maxZ = maxZ;
+
+    this->setForceHorizontalJump(forceHorizontalJump);
+    this->setForceVerticalUpJump(forceVerticalUpJump);
+    this->setForceVerticalDownJump(forceVerticalDownJump);
+    this->setForceForwardJump(forceForwardJump);
+    this->setForceBackwardJump(forceBackwardJump);
+}
+void Gaming::setForceHorizontalJump(double force) {
+    jumpHorizontalForce = force;
+    this->forceHorizontalJump = force;
+}
+void Gaming::setForceVerticalUpJump(double force)
+{
+    jumpVerticalUpForce = force;
+    this->forceVerticalUpJump = force;
+}
+void Gaming::setForceVerticalDownJump(double force)
+{
+    jumpVerticalDownForce = force;
+    this->forceVerticalDownJump = force;
+}
+void Gaming::setForceForwardJump(double force)
+{
+    jumpForwardForce = force;
+    this->forceForwardJump = force;
+}
+void Gaming::setForceBackwardJump(double force)
+{
+    jumpBackwardForce = force;
+    this->forceBackwardJump = force;
 }
 void Gaming::checkRickPos(Bullet* world) {
     btVector3 rickPos = world->getTransformOrigin(1);
     if (rickPos.getZ() < this->minZ)
     {
-        world->applyImpulse(1, btVector3(0, 0, (this->minZ - rickPos.getZ()) * 2));
+        world->applyImpulse(1, btVector3(0, 0, (this->minZ - rickPos.getZ()) * 4));
     }
     else if (rickPos.getZ() > this->maxZ)
     {
-        world->applyImpulse(1, btVector3(0, 0, (this->maxZ - rickPos.getZ()) * 2));
+        world->applyImpulse(1, btVector3(0, 0, (this->maxZ - rickPos.getZ()) * 4));
     }
     if (rickPos.getX() > this->maxX)
     {

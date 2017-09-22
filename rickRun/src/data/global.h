@@ -18,6 +18,11 @@ glm::vec3 cameraFront = glm::vec3(0.94f, -0.33f, -0.09f);
 glm::vec3 cameraUp = glm::vec3(0.0f, 1.0f, 0.0f);
 
 bool allowJump = true;
+double jumpHorizontalForce;
+double jumpVerticalUpForce;
+double jumpVerticalDownForce;
+double jumpForwardForce;
+double jumpBackwardForce;
 
 bool firstMouse = true;
 // float yaw = -90.0f; // yaw is initialized to -90.0 degrees since a yaw of 0.0 results in a direction vector pointing to the right so we initially rotate a bit to the left.
