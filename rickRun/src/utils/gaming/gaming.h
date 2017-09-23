@@ -30,13 +30,16 @@ private:
   double forceVerticalDownJump;
   double forceForwardJump;
   double forceBackwardJump;
+  double distanciaEntreHouse;
+  double distanciaEntreProp;
   
 public:
   Gaming(
     int minXVelocity, int maxXVelocity, int maxYVelocity, int maxZVelocity,
     int minX, int maxX, int minZ, int maxZ,
     double forceHorizontalJump, double forceVerticalUpJump, double forceVerticalDownJump,
-    double forceForwardJump, double forceBackwardJump
+    double forceForwardJump, double forceBackwardJump,
+    double distanciaEntreHouse, double distanciaEntreProp
   );
   void checkRickPos(Bullet *world);
   void checkRickVel(Bullet *world);
@@ -45,9 +48,13 @@ public:
   void setForceVerticalDownJump(double force);
   void setForceForwardJump(double force);
   void setForceBackwardJump(double force);
+  btVector3 getHousePos(int previousXHouse, int x, int z);
+  btVector3 getPropPos(int previousXProp, int x, int z);
   
-  static int getN(int lastPos);
-  static btVector3 getPlatformPos(int lastZPlatform, int lastYPlatform, int x);
+  static int getN(int previousPos);
+  static btVector3 getPlatformPos(int previousZPlatform, int previousYPlatform, int x);
+  btVector3 Gaming::getHousePos(double previousXHouse, double y, double z);
+  btVector3 Gaming::getPropPos(double previousXProp, double y, double z);
 };
 
 #endif

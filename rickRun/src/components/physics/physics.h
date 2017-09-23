@@ -19,12 +19,13 @@ private:
   int nmax;
   int n;
   int lastPlatform;
+  int resetEdit;
   btCollisionShape **shapes;
   btDefaultMotionState **motionStates;
   btRigidBody **rigidBodys;
   
 public:
-  Bullet(int nmax, btVector3 gravity);
+  Bullet(int nmax, btVector3 gravity, int resetEdit);
   void setGravity(int i, btVector3 vect);
   void applyGravity(int i);
   void getGravity(int i);
@@ -43,6 +44,7 @@ public:
   void translate(int i, btVector3 pos);
   void wakeUp(int i);
   void checkCollision(bool* allowJump);
+  int getUserIndex(int i);
   int getLastPlatform();
   int getNMax();
 };

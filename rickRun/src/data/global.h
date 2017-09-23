@@ -60,6 +60,7 @@ glm::mat4 view;
 glm::mat4 projection;
 
 Bullet *world;
-Bullet *parallax;
+Bullet *parallaxHouses;
+Bullet *parallaxProps;
 
 #endif

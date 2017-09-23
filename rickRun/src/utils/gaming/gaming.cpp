@@ -7,7 +7,8 @@ Gaming::Gaming(
     int minXVelocity, int maxXVelocity, int maxYVelocity, int maxZVelocity,
     int minX, int maxX, int minZ, int maxZ,
     double forceHorizontalJump, double forceVerticalUpJump, double forceVerticalDownJump,
-    double forceForwardJump, double forceBackwardJump
+    double forceForwardJump, double forceBackwardJump,
+    double distanciaEntreHouse, double distanciaEntreProp
     )
 {
     this->maxYVelocity = maxYVelocity;
@@ -18,6 +19,9 @@ Gaming::Gaming(
     this->maxX = maxX;
     this->minZ = minZ;
     this->maxZ = maxZ;
+
+    this->distanciaEntreHouse = distanciaEntreHouse;
+    this->distanciaEntreProp = distanciaEntreProp;
 
     this->setForceHorizontalJump(forceHorizontalJump);
     this->setForceVerticalUpJump(forceVerticalUpJump);
@@ -96,13 +100,13 @@ void Gaming::checkRickVel(Bullet *world)
     }
 }
 
-int Gaming::getN(int lastPos) {
+int Gaming::getN(int previousPos) {
     int second;
     int third;
-    if (lastPos == 0) {
+    if (previousPos == 0) {
         second = 3;
         third = 6;
-    } else if (lastPos == 3) {
+    } else if (previousPos == 3) {
         second = 6;
         third = 0;
     } else {
@@ -112,15 +116,26 @@ int Gaming::getN(int lastPos) {
     int nrandom = rand() % 10;
     if (nrandom < 2)
     {
-        return lastPos;
+        return previousPos;
     } else if (nrandom < 6) {
         return second;
     } 
     return third;
 }
 
-btVector3 Gaming::getPlatformPos(int lastZPlatform, int lastYPlatform, int x) {
-    btVector3 ret = btVector3(x, getN(lastYPlatform), getN(lastZPlatform));
+btVector3 Gaming::getPlatformPos(int previousZPlatform, int previousYPlatform, int x) {
+    btVector3 ret = btVector3(x, getN(previousYPlatform), getN(previousZPlatform));
     return ret;
 }
 
+btVector3 Gaming::getHousePos(double previousXHouse, double y, double z)
+{
+    btVector3 ret = btVector3(previousXHouse + this->distanciaEntreHouse, y, z);
+    return ret;
+}
+
+btVector3 Gaming::getPropPos(double previousXProp, double y, double z)
+{
+    btVector3 ret = btVector3(previousXProp + this->distanciaEntreProp, y, z);
+    return ret;
+}

@@ -15,4 +15,8 @@
 
 #define MAX_SHADER_LENGTH 262144
 
+#define PLATFORMS_START_INDEX 2
+
+#define PARALLAX_START_INDEX 0
+
 #endif

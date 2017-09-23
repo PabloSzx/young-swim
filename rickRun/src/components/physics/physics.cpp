@@ -1,7 +1,7 @@
 #include "physics.h"
 
 using namespace std;
-Bullet::Bullet(int nmax, btVector3 gravity) {
+Bullet::Bullet(int nmax, btVector3 gravity, int resetEdit) {
     this->broadphase = new btDbvtBroadphase();
     
     this->collisionConfiguration = new btDefaultCollisionConfiguration();
@@ -15,7 +15,8 @@ Bullet::Bullet(int nmax, btVector3 gravity) {
     
     this->n = 0;
     this->nmax = nmax;
-    this->lastPlatform = 4;
+    this->lastPlatform = resetEdit;
+    this->resetEdit = resetEdit;
     
     this->shapes = static_cast<btCollisionShape **>(malloc(sizeof(btCollisionShape *) * nmax));
     this->motionStates = static_cast<btDefaultMotionState **>(malloc(sizeof(btDefaultMotionState *) * nmax));
@@ -115,7 +116,7 @@ void Bullet::editLastPlatform(btVector3 pos, btScalar mass, btVector3 velocity, 
     this->lastPlatform += 1;
 
     if (this->lastPlatform == this->nmax) {
-        this->lastPlatform = 4;
+        this->lastPlatform = this->resetEdit;
     }
 }
 
@@ -206,7 +207,7 @@ void Bullet::checkCollision(bool* allowJump) {
                 if (pt.getDistance() < 0.f)
                 {
                     // cout << "choque!     " << a << " / " << b << endl;
-                    if (b >= 4 && *allowJump == false) {
+                    if (b >= resetEdit && *allowJump == false) {
                         *allowJump = true;
                     }
                     // const btVector3 &ptA = pt.getPositionWorldOnA();
@@ -235,5 +236,9 @@ int Bullet::getLastPlatform() {
 
 int Bullet::getNMax() {
     return this->nmax;
+}
+
+int Bullet::getUserIndex(int i) {
+    return this->rigidBodys[i]->getUserIndex();
 }
 
