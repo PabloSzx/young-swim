@@ -175,8 +175,8 @@ int main(){
   int previousPlatform;
   int minXVel = -2;
   int maxXVel = 1;
-  int maxYVel = 5;
-  int maxZVel = 5;
+  int maxYVel = 3;
+  int maxZVel = 4;
   int minX = -3;
   int maxX = 3;
   int minZ = -3;

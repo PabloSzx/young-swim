@@ -80,6 +80,10 @@ void Gaming::checkRickVel(Bullet *world)
     {
         world->setVelocity(1, btVector3(rickVelocity.getX(), rickVelocity.getY(), rickVelocity.getZ() - 1));
     }
+    else if (rickVelocity.getZ() < - this->maxZVelocity) 
+    {
+        world->setVelocity(1, btVector3(rickVelocity.getX(), rickVelocity.getY(), rickVelocity.getZ() + 1));
+    }
     else if (rickVelocity.getX() > this->maxXVelocity)
     {
         world->setVelocity(1, btVector3(rickVelocity.getX() - 1, rickVelocity.getY(), rickVelocity.getZ()));
