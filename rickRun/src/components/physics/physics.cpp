@@ -85,6 +85,7 @@ void Bullet::newFallBody(btVector3 extents, btVector3 pos, btScalar mass, btVect
     if ((this->n + 1) == this->nmax)
     {
         cout << "No more bodys slots available" << endl;
+        cout << "indice: " << index << "caquita" << endl;
     } else {
         this->n += 1;
     }

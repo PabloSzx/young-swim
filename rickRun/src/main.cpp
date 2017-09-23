@@ -35,6 +35,21 @@
 
 using namespace std;
 
+const char* getRandomProp() {
+  int n = rand() % 4;
+  switch (n) {
+    case 0:
+    return "mesh/arbol.obj";
+    case 1:
+    return "mesh/pasto.obj";
+    case 2 : 
+    return "mesh/planta1.obj";
+    case 3:
+    return "mesh/planta2.obj";
+  }
+  return "";
+}
+
 int main(){
   bool firstTime = true;
   srand (time(NULL));
@@ -119,79 +134,19 @@ int main(){
   axisZ->setColor(0.0f, 0.0f, 0.0f);
   axisZ->model2shader(shader_programme);
   
-  parallaxHouses = new Bullet(2, btVector3(0, 0, 0), PARALLAX_START_INDEX);
-  parallaxProps = new Bullet(4, btVector3(0, 0, 0), PARALLAX_START_INDEX);
-
+  int nHouses = 20;
+  int nProps = 20;
+  parallaxHouses = new Bullet(nHouses, btVector3(0, 0, 0), 0);
+  parallaxProps = new Bullet(nProps, btVector3(0, 0, 0), 0);
+  
   // parallax->newPlane(btVector3(0, 1, 0), -3.0, 0); //0
   
-  int distanciaEntreProps = 10;
-  int distanciaEntreHouses = 25;
+  int distanciaEntreProps = 20;
+  int distanciaEntreHouses = 20;
   double velocityProps = platformVelocity * 0.5;
   double velocityHouses = platformVelocity * 0.2;
   int distanciaEntreCapas = 5;
   
-  Model *casa = new Model(const_cast<char *>("mesh/casa.obj"));
-  casa->setpos(glm::vec3(0.0f, casa->LY / 2, 8.0f));
-  casa->scale(glm::vec3(1.0f));
-  casa->setColor(0.0f, 1.0f, 0.0f);
-  casa->model2shader(shader_programme);
-  btVector3 casapos = btVector3(distanciaEntreHouses * 0, 0, distanciaEntreCapas * 1);
-  parallaxHouses->newFallBody(btVector3(casa->LX / 2, casa->LY / 2, casa->LZ / 2), casapos, 1, btVector3(0, 0, 0), 1);
-  parallaxHouses->setVelocity(1, btVector3(-velocityHouses, 0, 0));
-  
-  Model *casa2 = new Model(const_cast<char *>("mesh/casa.obj"));
-  casa2->setpos(glm::vec3(0.0f, casa2->LY / 2, 8.0f));
-  casa2->scale(glm::vec3(1.0f));
-  casa2->setColor(0.0f, 1.0f, 0.0f);
-  casa2->model2shader(shader_programme);
-  casapos = btVector3(distanciaEntreHouses * 1, 0, distanciaEntreCapas * 1);
-  parallaxHouses->newFallBody(btVector3(casa2->LX / 2, casa2->LY / 2, casa2->LZ / 2), casapos, 1, btVector3(0, 0, 0), 1);
-  parallaxHouses->setVelocity(2, btVector3(-velocityHouses, 0, 0));
-  
-  Model *arbol = new Model(const_cast<char *>("mesh/arbol.obj"));
-  arbol->setpos(glm::vec3(0.0f, arbol->LY / 2, 8.0f));
-  arbol->scale(glm::vec3(0.5f));
-  arbol->setColor(0.0f, 1.0f, 0.0f);
-  arbol->model2shader(shader_programme);
-  btVector3 proppos = btVector3(distanciaEntreProps * 0, 0, distanciaEntreCapas * 0);
-  parallaxProps->newFallBody(btVector3(arbol->LX / 2, arbol->LY / 2, arbol->LZ / 2), proppos, 1, btVector3(0, 0, 0), 2);
-  parallaxProps->setVelocity(3, btVector3(-velocityProps, 0, 0));
-  
-  Model *pasto = new Model(const_cast<char *>("mesh/pasto.obj"));
-  pasto->setpos(glm::vec3(0.0f, pasto->LY / 2, 8.0f));
-  pasto->scale(glm::vec3(0.5f));
-  pasto->setColor(0.0f, 1.0f, 0.0f);
-  pasto->model2shader(shader_programme);
-  proppos = btVector3(distanciaEntreProps * 1, 0, distanciaEntreCapas * 0);
-  parallaxProps->newFallBody(btVector3(pasto->LX / 2, pasto->LY / 2, pasto->LZ / 2), proppos, 1, btVector3(0, 0, 0), 2);
-  parallaxProps->setVelocity(4, btVector3(-velocityProps, 0, 0));
-  
-  Model *plantaone = new Model(const_cast<char *>("mesh/planta1.obj"));
-  plantaone->setpos(glm::vec3(0.0f, plantaone->LY / 2, 8.0f));
-  plantaone->scale(glm::vec3(0.5f));
-  plantaone->setColor(0.0f, 1.0f, 0.0f);
-  plantaone->model2shader(shader_programme);
-  proppos = btVector3(distanciaEntreProps * 2, 0, distanciaEntreCapas * 0);
-  parallaxProps->newFallBody(btVector3(plantaone->LX / 2, plantaone->LY / 2, plantaone->LZ / 2), proppos, 1, btVector3(0, 0, 0), 2);
-  parallaxProps->setVelocity(5, btVector3(-velocityProps, 0, 0));
-  
-  Model *plantatwo = new Model(const_cast<char *>("mesh/planta2.obj"));
-  plantatwo->setpos(glm::vec3(0.0f, plantatwo->LY / 2, 8.0f));
-  plantatwo->scale(glm::vec3(0.5f));
-  plantatwo->setColor(0.0f, 1.0f, 0.0f);
-  plantatwo->model2shader(shader_programme);
-  proppos = btVector3(distanciaEntreProps * 3, 0, distanciaEntreCapas * 0);
-  parallaxProps->newFallBody(btVector3(plantatwo->LX / 2, plantatwo->LY / 2, plantatwo->LZ / 2), proppos, 1, btVector3(0, 0, 0), 2);
-  parallaxProps->setVelocity(6, btVector3(-velocityProps, 0, 0));
-  
-  double nowTime;
-  double lastTime = 0.0;
-  btVector3 plataformaPos;
-  btVector3 rickPos = btVector3(0, 0, 0);
-  btVector3 previousObj;
-  
-  int previousPlatform;
-  double previousParallaxObj;
   int minXVel = -2;
   int maxXVel = 2;
   int maxYVel = 12;
@@ -207,12 +162,62 @@ int main(){
   double forceForwardJump = 0.2;
   
   Gaming *rules = new Gaming(
-    minXVel, maxXVel, maxYVel, maxZVel, 
+    minXVel, maxXVel, maxYVel, maxZVel,
     minX, maxX, minZ, maxZ,
     forceHorizontalJump, forceVerticalUpJump, forceVerticalDownJump,
     forceForwardJump, forceBackwardJump,
     distanciaEntreHouses, distanciaEntreProps
   );
+  
+  Model **casas = static_cast<Model **>(malloc(sizeof(Model *) * nHouses));
+  
+  casas[0] = new Model(const_cast<char *>("mesh/casa.obj"));
+  casas[0]->setpos(glm::vec3(0, 0, 0));
+  casas[0]->scale(glm::vec3(1.0f));
+  casas[0]->setColor(0.545f, 0.271f, 0.075f);
+  casas[0]->model2shader(shader_programme);
+  btVector3 casaPos = btVector3(0, 0, 12);
+  parallaxHouses->newFallBody(btVector3(casas[0]->LX / 2, casas[0]->LY / 2 + 0.1, casas[0]->LZ / 2), casaPos, 1, btVector3(platformVelocity * 0.5, 0, 0), PARALLAX_START_INDEX);
+  
+  for (int i = 1; i < nHouses; i += 1)
+  {
+    casas[i] = new Model(const_cast<char *>("mesh/casa.obj"));
+    casas[i]->setColor(0.545f, 0.271f, 0.075f);
+    casaPos = rules->getHousePos(casaPos.getX(), casaPos.getY(), casaPos.getZ());
+    casas[i]->setpos(glm::vec3(casaPos.getX(), casaPos.getY(), casaPos.getZ()));
+    casas[i]->model2shader(shader_programme);
+    parallaxHouses->newFallBody(btVector3(casas[i]->LX / 2, casas[i]->LY / 2 + 0.1, casas[i]->LZ / 2), casaPos, 1, btVector3(platformVelocity * 0.5, 0, 0), i);
+  }
+  Model **props = static_cast<Model **>(malloc(sizeof(Model *) * nProps));
+  
+  props[0] = new Model(const_cast<char *>(getRandomProp()));
+  props[0]->setpos(glm::vec3(0, 0, 0));
+  props[0]->scale(glm::vec3(1.0f));
+  props[0]->setColor(0.196f, 0.804f, 0.196f);
+  props[0]->model2shader(shader_programme);
+  btVector3 propPos = btVector3(0, 0, 7);
+  parallaxProps->newFallBody(btVector3(props[0]->LX / 2, props[0]->LY / 2 + 0.1, props[0]->LZ / 2), propPos, 1, btVector3(platformVelocity, 0, 0), PARALLAX_START_INDEX);
+  
+  for (int i = 1; i < nProps; i += 1)
+  {
+    props[i] = new Model(const_cast<char *>(getRandomProp()));
+    props[i]->setColor(0.196f, 0.804f, 0.196f);
+    propPos = rules->getPropPos(propPos.getX(), propPos.getY(), propPos.getZ());
+    props[i]->setpos(glm::vec3(propPos.getX(), propPos.getY(), propPos.getZ()));
+    props[i]->model2shader(shader_programme);
+    parallaxProps->newFallBody(btVector3(props[i]->LX / 2 + 0.1, props[i]->LY / 2 + 0.1, props[i]->LZ / 2), propPos, 1, btVector3(platformVelocity, 0, 0), i + PARALLAX_START_INDEX);
+  }
+  
+  double nowTime;
+  double lastTime = 0.0;
+  btVector3 plataformaPos;
+  btVector3 rickPos = btVector3(0, 0, 0);
+  btVector3 previousObj;
+  
+  int previousPlatform;
+  double previousParallaxObj;
+  
+  bool firstfirst = true;
   
   while (!glfwWindowShouldClose(g_window))
   {  
@@ -222,8 +227,7 @@ int main(){
     
     if (abs(world->getTransformOrigin(world->getLastPlatform()).getX() - world->getTransformOrigin(1).getX()) > (20 * plataformas[0]->LX))
     {
-      cout << "last platform modified" << endl;
-      cout << world->getLastPlatform();
+      // cout << "last platform modified" << world->getLastPlatform() << endl;
       if (world->getLastPlatform() == PLATFORMS_START_INDEX) {
         previousPlatform = world->getNMax() - 1;
       } else {
@@ -232,27 +236,25 @@ int main(){
       platPos = Gaming::getPlatformPos(platPos.getZ(), platPos.getY(), world->getTransformOrigin(previousPlatform).getX() + plataformas[0]->LX);
       world->editLastPlatform(platPos, 10000, btVector3(platformVelocity, 0, 0), world->getLastPlatform());
     }
-
-    if (abs(parallaxHouses->getTransformOrigin(parallaxHouses->getLastPlatform()).getX() - world->getTransformOrigin(1).getX()) > 20) {
-      cout << "last parallax modified" << endl;
-      cout << parallaxHouses->getLastPlatform();
-      
+    
+    if (abs(parallaxHouses->getTransformOrigin(parallaxHouses->getLastPlatform()).getX() - world->getTransformOrigin(1).getX()) > (10 * casas[0]->LX))
+    {
+      // cout << "last house modified " << parallaxHouses->getLastPlatform() << endl;
       if (parallaxHouses->getLastPlatform() == PARALLAX_START_INDEX) {
         previousParallaxObj = parallaxHouses->getNMax() - 1;
       } else {
         previousParallaxObj = parallaxHouses->getLastPlatform() - 1;
       }
       previousObj = parallaxHouses->getTransformOrigin(previousParallaxObj);
-
-      housepos = Gaming::getHousePos(previousObj.getX(), previousObj.getY(), previousObj.getZ());
-      parallaxHouses->editLastPlatform(housepos, 10000, btVector3(platformVelocity * 0.5, 0, 0), parallax->getUserIndex(parallax->getLastPlatform()));
+      
+      casaPos = rules->getHousePos(previousObj.getX(), previousObj.getY(), previousObj.getZ());
+      parallaxHouses->editLastPlatform(casaPos, 1, btVector3(platformVelocity * 0.5, 0, 0), parallaxHouses->getUserIndex(parallaxHouses->getLastPlatform()));
     }
-
-    if (abs(parallaxProps->getTransformOrigin(parallaxProps->getLastPlatform()).getX() - world->getTransformOrigin(1).getX()) > 20)
+    
+    if (abs(parallaxProps->getTransformOrigin(parallaxProps->getLastPlatform()).getX() - world->getTransformOrigin(1).getX()) > (10 * props[0]->LX))
     {
-      cout << "last parallax modified" << endl;
-      cout << parallaxProps->getLastPlatform();
-
+      // cout << "last props modified " << parallaxProps->getLastPlatform() << endl;
+      
       if (parallaxProps->getLastPlatform() == PARALLAX_START_INDEX)
       {
         previousParallaxObj = parallaxProps->getNMax() - 1;
@@ -262,42 +264,43 @@ int main(){
         previousParallaxObj = parallaxProps->getLastPlatform() - 1;
       }
       previousObj = parallaxProps->getTransformOrigin(previousParallaxObj);
-
-      proppos = Gaming::getHousePos(previousObj.getX(), previousObj.getY(), previousObj.getZ());
-      parallaxProps->editLastPlatform(proppos, 10000, btVector3(platformVelocity * 0.5, 0, 0), parallax->getUserIndex(parallax->getLastPlatform()));
+      
+      propPos = rules->getHousePos(previousObj.getX(), previousObj.getY(), previousObj.getZ());
+      parallaxProps->editLastPlatform(propPos, 1, btVector3(platformVelocity, 0, 0), parallaxProps->getUserIndex(parallaxProps->getLastPlatform()));
     }
-
-    if (nowTime >= 10.0f && firstTime)
+    
+    if (nowTime >= 5.0f && firstTime)
     {
+      cout << "PARTIMOS" << endl;
       platformVelocity = -5.0;
       for (int i = PLATFORMS_START_INDEX; i < nplataformas + PLATFORMS_START_INDEX; i += 1)
       {
         world->setVelocity(i, btVector3(platformVelocity, 0, 0));
       }
-      for (int i = 0; i < 2; i += 1) {
+      for (int i = 0; i < nHouses; i += 1) {
         parallaxHouses->setVelocity(i, btVector3(platformVelocity * 0.5, 0, 0));
       }
-
-      for (int i = 0; i < 4; i += 1) {
+      
+      for (int i = 0; i < nProps; i += 1) {
         parallaxProps->setVelocity(i, btVector3(platformVelocity, 0, 0));
       }
-
+      
       firstTime = false;
     }
     
     if ((nowTime - lastTime) > 15) {
-      cout << "dificultad mas" << endl;
+      cout << "Mas velocidad" << endl;
       platformVelocity -= 5.0;
       for (int i = 0; i < nplataformas; i += 1) {
         world->setVelocity(i + PLATFORMS_START_INDEX, btVector3(platformVelocity, 0, 0));
       }
-
-      for (int i = 0; i < 2; i += 1)
+      
+      for (int i = 0; i < nHouses; i += 1)
       {
         parallaxHouses->setVelocity(i, btVector3(platformVelocity * 0.5, 0, 0));
       }
-
-      for (int i = 0; i < 4; i += 1)
+      
+      for (int i = 0; i < nProps; i += 1)
       {
         parallaxProps->setVelocity(i, btVector3(platformVelocity, 0, 0));
       }
@@ -316,8 +319,8 @@ int main(){
     world->checkCollision(&allowJump);
     world->stepSimulation(fps);
     
-    parallaxHouses->stepSimulation();
-    parallaxProps->stepSimulation();
+    parallaxHouses->stepSimulation(fps);
+    parallaxProps->stepSimulation(fps);
     /* INPUT */
     input_processInput(g_window);
     
@@ -334,14 +337,6 @@ int main(){
     rick->setpos(glm::vec3(rickPos.getX(), rickPos.getY(), rickPos.getZ()));
     rick->draw();
     
-    eje->draw();
-    
-    axisX->draw();
-    
-    axisY->draw();
-    
-    axisZ->draw();
-    
     for (int i = 0; i < nplataformas; i += 1)
     {
       plataformaPos = world->getTransformOrigin(i + PLATFORMS_START_INDEX);
@@ -357,43 +352,37 @@ int main(){
       }
     }
     
-    pared->setpos(glm::vec3(50, 50, -2));
-    pared->scale(glm::vec3(10, 1, 1));
-    pared->draw();
+    /* PARALLAX DERECHO */
     
-    pared->setpos(glm::vec3(50, 50, 7.5));
-    pared->scale(glm::vec3(10, 1, 1));
-    pared->draw();
+    for (int i = 0; i < nHouses; i += 1)
+    {
+      casaPos = parallaxHouses->getTransformOrigin(i);
+      casas[i]->setpos(glm::vec3(casaPos.getX(), casaPos.getY(), 8 + distanciaEntreCapas));
+      casas[i]->draw();
+    }
     
-    casa1pos = parallaxHouses->getTransformOrigin(0);
+    for (int i = 0; i < nProps; i += 1)
+    {
+      propPos = parallaxProps->getTransformOrigin(i);
+      props[i]->setpos(glm::vec3(propPos.getX(), propPos.getY(), 8));
+      props[i]->draw();
+    }
     
-    casa2pos = parallaxHouses->getTransformOrigin(1);
+    /* PARALLAX IZQUIERDO */
     
-    arbol1pos = parallaxProps->getTransformOrigin(0);
+    for (int i = 0; i < nHouses; i += 1)
+    {
+      casaPos = parallaxHouses->getTransformOrigin(i);
+      casas[i]->setpos(glm::vec3(casaPos.getX(), casaPos.getY(), -4 - distanciaEntreCapas));
+      casas[i]->draw();
+    }
     
-    pasto1pos = parallaxProps->getTransformOrigin(1);
-    
-    plantaone1pos = parallaxProps->getTransformOrigin(2);
-    
-    plantatwo1pos = parallaxProps->getTransformOrigin(3);
-    
-    arbol->setpos(glm::vec3(arbol1pos.getX(), arbol1pos.getY(), arbol1pos.getZ()));
-    arbol->draw();
-    
-    pasto->setpos(glm::vec3(pasto1pos.getX(), pasto1pos.getY(), pasto1pos.getZ()));
-    pasto->draw();
-    
-    casa->setpos(glm::vec3(casa1pos.getX(), casa1pos.getY(), casa1pos.getZ()));
-    casa->draw();
-    
-    casa2->setpos(glm::vec3(casa2pos.getX(), casa2pos.getY(), casa2pos.getZ()));
-    casa2->draw();
-    
-    plantaone->setpos(glm::vec3(plantaone1pos.getX(), plantaone1pos.getY(), plantaone1pos.getZ()));
-    plantaone->draw();
-    
-    plantatwo->setpos(glm::vec3(plantatwo1pos.getX(), plantatwo1pos.getY(), plantatwo1pos.getZ()));
-    plantatwo->draw();
+    for (int i = 0; i < nProps; i += 1)
+    {
+      propPos = parallaxProps->getTransformOrigin(i);
+      props[i]->setpos(glm::vec3(propPos.getX(), propPos.getY(), -4));
+      props[i]->draw();
+    }
     
     /* SWAP BUFFER */
     

@@ -53,8 +53,8 @@ public:
   
   static int getN(int previousPos);
   static btVector3 getPlatformPos(int previousZPlatform, int previousYPlatform, int x);
-  btVector3 Gaming::getHousePos(double previousXHouse, double y, double z);
-  btVector3 Gaming::getPropPos(double previousXProp, double y, double z);
+  btVector3 getHousePos(double previousXHouse, double y, double z);
+  btVector3 getPropPos(double previousXProp, double y, double z);
 };
 
 #endif
