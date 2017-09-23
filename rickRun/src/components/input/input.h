@@ -35,6 +35,7 @@ extern double jumpVerticalUpForce;
 extern double jumpVerticalDownForce;
 extern double jumpForwardForce;
 extern double jumpBackwardForce;
+extern double fps;
 
 extern Bullet* world;
 

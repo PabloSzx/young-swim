@@ -174,9 +174,9 @@ int main(){
   
   int previousPlatform;
   int minXVel = -2;
-  int maxXVel = 1;
-  int maxYVel = 3;
-  int maxZVel = 4;
+  int maxXVel = 2;
+  int maxYVel = 12;
+  int maxZVel = 3;
   int minX = -3;
   int maxX = 3;
   int minZ = -3;
@@ -213,7 +213,7 @@ int main(){
       world->editLastPlatform(platPos, 10000, btVector3(platformVelocity, 0, 0), world->getLastPlatform());
     }
     
-    if (nowTime >= 10.0f && firstTime)
+    if (nowTime >= 5.0f && firstTime)
     {
       platformVelocity = -5.0;
       for (int i = 4; i < nplataformas + 4; i += 1)

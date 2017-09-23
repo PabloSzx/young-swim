@@ -102,6 +102,12 @@ void input_processInput(GLFWwindow *window)
     if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
     cameraPos += glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed;
 
+    // btVector3 totalForceOnRick = world->getVelocity(1);
+
+    // cout << fps << "     - ";
+    // cout << "forceX: " << totalForceOnRick.getX() 
+    // << "  forceY: " << totalForceOnRick.getY() 
+    // << "   forceZ: " << totalForceOnRick.getZ() << endl;
     if (glfwGetKey(window, GLFW_KEY_I) == GLFW_PRESS) {
         world->applyImpulse(1, btVector3(jumpForwardForce, 0.0, 0.0));
     }

@@ -171,6 +171,10 @@ void Bullet::applyForce(int i, btVector3 force)
     // this->applyGravity(i);
 }
 
+btVector3 Bullet::getTotalForce(int i) {
+    return this->rigidBodys[i]->getTotalForce();
+}
+
 void Bullet::wakeUp(int i) {
     if (!this->rigidBodys[i]->isActive())
     {

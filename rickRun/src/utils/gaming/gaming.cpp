@@ -10,10 +10,10 @@ Gaming::Gaming(
     double forceForwardJump, double forceBackwardJump
     )
 {
-    this->maxYVelocity = 8;
-    this->maxXVelocity = 1;
-    this->maxZVelocity = 8;
-    this->minXVelocity = -1;
+    this->maxYVelocity = maxYVelocity;
+    this->maxXVelocity = maxXVelocity;
+    this->maxZVelocity = maxZVelocity;
+    this->minXVelocity = minXVelocity;
     this->minX = minX;
     this->maxX = maxX;
     this->minZ = minZ;
@@ -74,19 +74,21 @@ void Gaming::checkRickVel(Bullet *world)
     btVector3 rickVelocity = world->getVelocity(1);
     if (rickVelocity.getY() > this->maxYVelocity)
     {
-        world->setVelocity(1, btVector3(rickVelocity.getX(), rickVelocity.getY() - 1, rickVelocity.getZ()));
+        world->setVelocity(1, btVector3(rickVelocity.getX(), this->maxYVelocity, rickVelocity.getZ()));
     }
-    else if (rickVelocity.getZ() > this->maxZVelocity)
+    
+    if (rickVelocity.getZ() > this->maxZVelocity)
     {
-        world->setVelocity(1, btVector3(rickVelocity.getX(), rickVelocity.getY(), rickVelocity.getZ() - 1));
+        world->setVelocity(1, btVector3(rickVelocity.getX(), rickVelocity.getY(), this->maxZVelocity));
     }
     else if (rickVelocity.getZ() < - this->maxZVelocity) 
     {
-        world->setVelocity(1, btVector3(rickVelocity.getX(), rickVelocity.getY(), rickVelocity.getZ() + 1));
+        world->setVelocity(1, btVector3(rickVelocity.getX(), rickVelocity.getY(), - this->maxZVelocity));
     }
-    else if (rickVelocity.getX() > this->maxXVelocity)
+    
+    if (rickVelocity.getX() > this->maxXVelocity)
     {
-        world->setVelocity(1, btVector3(rickVelocity.getX() - 1, rickVelocity.getY(), rickVelocity.getZ()));
+        world->setVelocity(1, btVector3(this->maxXVelocity, rickVelocity.getY(), rickVelocity.getZ()));
     }
     else if (rickVelocity.getX() < this->minXVelocity)
     {
