@@ -10,6 +10,8 @@
 #include "../log/log.h"
 #include "window.h"
 
+using namespace std;
+
 bool window_start_gl() {
     log_gl_log("starting GLFW %s", glfwGetVersionString());
     
@@ -81,7 +83,7 @@ void window_update_fps_counter(GLFWwindow *window)
     if (elapsed_seconds > 0.25)
     {
         previous_seconds = current_seconds;
-        double fps = (double)frame_count / elapsed_seconds;
+        fps = (double)frame_count / elapsed_seconds;
         char tmp[128];
         sprintf(tmp, "opengl @ fps: %.2f", fps);
         glfwSetWindowTitle(window, tmp);

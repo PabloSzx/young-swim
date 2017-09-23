@@ -37,7 +37,7 @@ public:
   void applyImpulse(int i, btVector3 impulse);
   void applyForce(int i, btVector3 force);
   void applyTranslate(int i, btVector3 vect);
-  void stepSimulation();
+  void stepSimulation(double fps);
   btVector3 getTransformOrigin(int i);
   void translate(int i, btVector3 pos);
   void wakeUp(int i);

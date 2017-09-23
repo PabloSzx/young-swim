@@ -178,8 +178,8 @@ void Bullet::wakeUp(int i) {
     }
 }
 
-void Bullet::stepSimulation() {
-    this->dynamicsWorld->stepSimulation(1 / 60.f, 10);
+void Bullet::stepSimulation(double fps) {
+    this->dynamicsWorld->stepSimulation(1 / fps, 10);
 }
 
 void Bullet::checkCollision(bool* allowJump) {

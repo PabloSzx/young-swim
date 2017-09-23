@@ -41,6 +41,8 @@ double vx = 0.0;
 double vy = 0.0;
 double vz = 0.0;
 
+double fps = 60.0;
+
 // timing
 float deltaTime = 0.0f; // time between current frame and last frame
 float lastFrame = 0.0f;

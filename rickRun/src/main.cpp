@@ -124,9 +124,9 @@ int main(){
   axisZ->model2shader(shader_programme);
   
   parallax = new Bullet(11, btVector3(0, -9.8, 0));
-
+  
   parallax->newPlane(btVector3(0, 1, 0), -3.0, 0); //0
-
+  
   Model *arbol = new Model(const_cast<char *>("mesh/arbol.obj"));
   arbol->setpos(glm::vec3(0.0f, arbol->LY / 2, 8.0f));
   arbol->scale(glm::vec3(0.5f));
@@ -134,7 +134,7 @@ int main(){
   arbol->model2shader(shader_programme);
   btVector3 arbol1pos = btVector3(0, 10, 0);
   parallax->newFallBody(btVector3(arbol->LX / 2, arbol->LY / 2, arbol->LZ / 2), arbol1pos, 1, btVector3(0, 0, 0), 1);
-
+  
   Model *pasto = new Model(const_cast<char *>("mesh/pasto.obj"));
   pasto->setpos(glm::vec3(0.0f, pasto->LY / 2, 8.0f));
   pasto->scale(glm::vec3(0.5f));
@@ -142,7 +142,7 @@ int main(){
   pasto->model2shader(shader_programme);
   btVector3 pasto1pos = btVector3(12, 10, 0);
   parallax->newFallBody(btVector3(pasto->LX / 2, pasto->LY / 2, pasto->LZ / 2), pasto1pos, 1, btVector3(0, 0, 0), 2);
-
+  
   Model *casa = new Model(const_cast<char *>("mesh/casa.obj"));
   casa->setpos(glm::vec3(0.0f, casa->LY / 2, 8.0f));
   casa->scale(glm::vec3(1.0f));
@@ -158,7 +158,7 @@ int main(){
   plantaone->model2shader(shader_programme);
   btVector3 plantaone1pos = btVector3(36, 10, 0);
   parallax->newFallBody(btVector3(plantaone->LX / 2, plantaone->LY / 2, plantaone->LZ / 2), plantaone1pos, 1, btVector3(0, 0, 0), 3);
-
+  
   Model *plantatwo = new Model(const_cast<char *>("mesh/planta2.obj"));
   plantatwo->setpos(glm::vec3(0.0f, plantatwo->LY / 2, 8.0f));
   plantatwo->scale(glm::vec3(0.5f));
@@ -166,7 +166,7 @@ int main(){
   plantatwo->model2shader(shader_programme);
   btVector3 plantatwo1pos = btVector3(48, 10, 0);
   parallax->newFallBody(btVector3(plantatwo->LX / 2, plantatwo->LY / 2, plantatwo->LZ / 2), plantatwo1pos, 1, btVector3(0, 0, 0), 3);
-
+  
   double nowTime;
   double lastTime = 0.0;
   btVector3 plataformaPos;
@@ -195,7 +195,9 @@ int main(){
   );
   
   while (!glfwWindowShouldClose(g_window))
-  {
+  {  
+    window_update_fps_counter (g_window);
+    
     nowTime = glfwGetTime();
     
     if (abs(world->getTransformOrigin(world->getLastPlatform()).getX() - world->getTransformOrigin(1).getX()) > (20 * plataformas[0]->LX))
@@ -240,9 +242,9 @@ int main(){
     
     /* PHYSICS */
     world->checkCollision(&allowJump);
-    world->stepSimulation();
-
-    parallax->stepSimulation();
+    world->stepSimulation(fps);
+    
+    parallax->stepSimulation(fps);
     
     /* INPUT */
     input_processInput(g_window);
@@ -274,7 +276,7 @@ int main(){
       plataformas[i]->setpos(glm::vec3(plataformaPos.getX(), plataformaPos.getY(), plataformaPos.getZ()));
       plataformas[i]->draw();
     }
-        
+    
     for (float i = -20; i <= 20; i += 1.05) {
       for (float j = -20; j <= 20; j += 1.05)
       {
@@ -289,32 +291,32 @@ int main(){
     pared->setpos(glm::vec3(50, 50, 7.5));
     pared->scale(glm::vec3(10, 1, 1));
     pared->draw();
-
+    
     arbol1pos = parallax->getTransformOrigin(1);
-
+    
     pasto1pos = parallax->getTransformOrigin(2);
-
+    
     casa1pos = parallax->getTransformOrigin(3);
-
+    
     plantaone1pos = parallax->getTransformOrigin(4);
-
+    
     plantatwo1pos = parallax->getTransformOrigin(5);
-
+    
     arbol->setpos(glm::vec3(arbol1pos.getX(), arbol1pos.getY(), arbol1pos.getZ()));
     arbol->draw();
-
+    
     pasto->setpos(glm::vec3(pasto1pos.getX(), pasto1pos.getY(), pasto1pos.getZ()));
     pasto->draw();
-
+    
     casa->setpos(glm::vec3(casa1pos.getX(), casa1pos.getY(), casa1pos.getZ()));
     casa->draw();
-
+    
     plantaone->setpos(glm::vec3(plantaone1pos.getX(), plantaone1pos.getY(), plantaone1pos.getZ()));
     plantaone->draw();
-
+    
     plantatwo->setpos(glm::vec3(plantatwo1pos.getX(), plantatwo1pos.getY(), plantatwo1pos.getZ()));
     plantatwo->draw();
-
+    
     /* SWAP BUFFER */
     
     window_swap();
