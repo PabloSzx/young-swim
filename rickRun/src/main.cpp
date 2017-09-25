@@ -73,13 +73,13 @@ int main(){
   world = new Bullet(nplataformas + 2, btVector3(0, 0, 0), PLATFORMS_START_INDEX);
   world->newPlane(btVector3(0, 1, 0), -3.7, 0); //0
   
-  Model *rick = new Model(const_cast<char *>("mesh/box.obj"));
+  Model *rick = new Model(const_cast<char *>("mesh/rick.obj"));
   rick->setpos(glm::vec3(0.0f, 10.0f, 0.0f));
   rick->scale(glm::vec3(0.6f));
   rick->setColor(1.0f, 0.894f, 0.882f);
   rick->model2shader(shader_programme);
   
-  world->newFallBody(btVector3(rick->LX, rick->LY, rick->LZ), btVector3(0, 10, 0), 1, btVector3(0, 0, 0), -1); //1
+  world->newFallBody(btVector3(rick->LX, rick->LY * 2, rick->LZ), btVector3(0, 10, 0), 1, btVector3(0, 0, 0), -1); //1
   
   Model **plataformas = static_cast<Model **>(malloc(sizeof(Model *) * nplataformas));
   double platformVelocity = 0.0;
@@ -89,7 +89,7 @@ int main(){
   plataformas[0]->setColor(0.753f, 0.753f, 0.753f);
   plataformas[0]->model2shader(shader_programme);
   btVector3 platPos = btVector3(0, 0, 0);
-  world->newFallBody(btVector3(plataformas[0]->LX / 2, plataformas[0]->LY / 2 + 0.1, plataformas[0]->LZ / 2), platPos, 10000, btVector3(platformVelocity, 0, 0), PLATFORMS_START_INDEX);
+  world->newFallBody(btVector3(plataformas[0]->LX / 2, plataformas[0]->LY * 2, plataformas[0]->LZ / 2), platPos, 10000, btVector3(platformVelocity, 0, 0), PLATFORMS_START_INDEX);
   
   for (int i = 1; i < nplataformas; i+=1) {
     plataformas[i] = new Model(const_cast<char *>("mesh/platform.obj"));
@@ -97,7 +97,7 @@ int main(){
     platPos = Gaming::getPlatformPos(platPos.getZ(), platPos.getY(), i * plataformas[i]->LX);
     plataformas[i]->setpos(glm::vec3(platPos.getX(), platPos.getY(), platPos.getZ()));
     plataformas[i]->model2shader(shader_programme);
-    world->newFallBody(btVector3(plataformas[i]->LX / 2 + 0.1, plataformas[i]->LY / 2 + 0.1, plataformas[i]->LZ / 2), platPos, 10000, btVector3(platformVelocity, 0, 0), i + PLATFORMS_START_INDEX);
+    world->newFallBody(btVector3(plataformas[i]->LX / 2 + 0.1, plataformas[i]->LY * 2, plataformas[i]->LZ / 2), platPos, 10000, btVector3(platformVelocity, 0, 0), i + PLATFORMS_START_INDEX);
   }
   // cout << rick->LX << " " << rick->LY << " " << rick->LZ << endl;
   
@@ -150,7 +150,7 @@ int main(){
   int minXVel = -2;
   int maxXVel = 2;
   int maxYVel = 12;
-  int maxZVel = 3;
+  int maxZVel = 6;
   int minX = -3;
   int maxX = 3;
   int minZ = -3;
@@ -317,10 +317,10 @@ int main(){
     
     /* PHYSICS */
     world->checkCollision(&allowJump);
-    world->stepSimulation(fps);
+    world->stepSimulation(60);
     
-    parallaxHouses->stepSimulation(fps);
-    parallaxProps->stepSimulation(fps);
+    parallaxHouses->stepSimulation(60);
+    parallaxProps->stepSimulation(60);
     /* INPUT */
     input_processInput(g_window);
     

@@ -51,7 +51,7 @@ void Bullet::newPlane(btVector3 plane, float constant, int index)
     
     this->rigidBodys[this->n]->setCcdMotionThreshold(1e-7);
     this->rigidBodys[this->n]->setCcdSweptSphereRadius(0.50);
-    this->rigidBodys[this->n]->setFriction(0.1);
+    this->rigidBodys[this->n]->setFriction(0.5);
     this->rigidBodys[this->n]->setUserIndex(index);
     this->dynamicsWorld->addRigidBody(this->rigidBodys[this->n]);
     this->n += 1;
@@ -85,7 +85,6 @@ void Bullet::newFallBody(btVector3 extents, btVector3 pos, btScalar mass, btVect
     if ((this->n + 1) == this->nmax)
     {
         cout << "No more bodys slots available" << endl;
-        cout << "indice: " << index << "caquita" << endl;
     } else {
         this->n += 1;
     }
@@ -208,7 +207,7 @@ void Bullet::checkCollision(bool* allowJump) {
                 if (pt.getDistance() < 0.f)
                 {
                     // cout << "choque!     " << a << " / " << b << endl;
-                    if (b >= resetEdit && *allowJump == false) {
+                    if (b >= 0 && *allowJump == false) {
                         *allowJump = true;
                     }
                     // const btVector3 &ptA = pt.getPositionWorldOnA();
