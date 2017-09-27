@@ -37,7 +37,7 @@ extern double jumpForwardForce;
 extern double jumpBackwardForce;
 extern double fps;
 
-extern Bullet* world;
+extern Bullet* platformWorld;
 
 void input_setCallbacks();
 void input_framebuffer_size_callback(GLFWwindow *window, int width, int height);

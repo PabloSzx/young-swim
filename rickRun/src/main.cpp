@@ -15,11 +15,11 @@
 #include <glm/gtc/type_ptr.hpp>
 #include <iostream>
 
-#include "./utils/shader/shader.hpp"
-#include "./utils/window/window.hpp"
+#include "./util/shader/shader.hpp"
+#include "./util/window/window.hpp"
 #include "./components/model/model.hpp"
-#include "./utils/log/log.hpp"
-#include "./components/gaming/gaming.hpp"
+#include "./util/log/log.hpp"
+#include "./components/parameters/parameters.hpp"
 #include "./components/input/input.hpp"
 #include "./components/camera/camera.hpp"
 #include "./components/physics/physics.hpp"
@@ -72,7 +72,7 @@ int main(){
   double forceBackwardJump = -0.2;
   double forceForwardJump = 0.2;
   
-  Gaming *rules = new Gaming(
+  Parameters *rules = new Parameters(
     minXVel, maxXVel, maxYVel, maxZVel,
     minX, maxX, minZ, maxZ,
     forceHorizontalJump, forceVerticalUpJump, forceVerticalDownJump,
@@ -81,17 +81,17 @@ int main(){
     distanciaEntreCapas
   );
   
-  World *base = new World(40, 20, 20, 0.0);
+  World *core = new World(40, 20, 20, 0.0);
   
-  base->genPhysics();
+  core->genPhysics();
   
-  base->genRick();
+  core->genRick();
   
-  base->genPlatforms();
+  core->genPlatforms();
   
-  base->genParallaxHouses(rules);
+  core->genParallaxHouses(rules);
   
-  base->genParallaxProps(rules);
+  core->genParallaxProps(rules);
   
   double nowTime;
   double lastTime = 0.0;
@@ -102,37 +102,37 @@ int main(){
     
     nowTime = glfwGetTime();
     
-    base->dynamicPlatforms();
+    core->dynamicPlatforms();
     
-    base->dynamicHouses(rules);
+    core->dynamicHouses(rules);
     
-    base->dynamicProps(rules);
+    core->dynamicProps(rules);
     
     if (nowTime >= 5.0f && firstTime) {
-      base->startPlatformVelocity();
+      core->startPlatformVelocity();
       
       firstTime = false;
     }
     
     if ((nowTime - lastTime) > 15) {
       cout << "Mas velocidad" << endl;
-      base->morePlatformVelocity();
+      core->morePlatformVelocity();
       
       lastTime = nowTime;
     }
     
-    rules->checkRickPos(world);
-    rules->checkRickVel(world);
+    rules->checkRickPos(platformWorld);
+    rules->checkRickVel(platformWorld);
     
-    base->getPhysicsPos();
+    core->getPhysicsPos();
     
-    base->gravityRick();
+    core->gravityRick();
     
     window_frameCounter();
     
     /* PHYSICS */
-    world->checkCollision(&allowJump);
-    world->stepSimulation(fps);
+    platformWorld->checkCollision(&allowJump);
+    platformWorld->stepSimulation(fps);
     
     parallaxHouses->stepSimulation(fps);
     parallaxProps->stepSimulation(fps);
@@ -145,17 +145,17 @@ int main(){
     /* CAMERA */
     
     camera_projectionMatrixPerspective();
-    camera_viewMatrixPerspective(glm::vec3(base->getRickPos().getX(), base->getRickPos().getY() + 2.0, base->getRickPos().getZ() + 4.5));
+    camera_viewMatrixPerspective(glm::vec3(core->getRickPos().getX(), core->getRickPos().getY() + 2.0, core->getRickPos().getZ() + 4.5));
     
     /* MODEL DRAW */
-    base->drawRick();
+    core->drawRick();
     
-    base->drawPlatforms();
+    core->drawPlatforms();
     
-    base->drawPlane();
+    core->drawPlane();
     
-    base->drawHouses(rules);
-    base->drawProps();
+    core->drawHouses(rules);
+    core->drawProps();
     
     /* SWAP BUFFER */
     

@@ -25,7 +25,7 @@ void World::genRick() {
     this->rick = new Model(const_cast<char *>("mesh/rick.obj"), glm::vec3(0.0f, 10.0f, 0.0f), glm::vec3(0.6f));
     this->rick->setColor(1.0f, 0.894f, 0.882f);
     this->rick->model2shader(shader_programme);
-    world->newFallBody(btVector3(rick->LX, rick->LY * 2, rick->LZ), btVector3(0, 10, 0), 1, btVector3(0, 0, 0), -1); //1
+    platformWorld->newFallBody(btVector3(rick->LX, rick->LY * 2, rick->LZ), btVector3(0, 10, 0), 1, btVector3(0, 0, 0), -1); //1
 };
 void World::genPlatforms() {
     this->plataformas = static_cast<Model **>(malloc(sizeof(Model *) * this->nPlataformas));
@@ -33,25 +33,25 @@ void World::genPlatforms() {
     this->plataformas[0]->setColor(0.753f, 0.753f, 0.753f);
     this->plataformas[0]->model2shader(shader_programme);
     this->platPos = btVector3(0, 0, 0);
-    world->newFallBody(btVector3(this->plataformas[0]->LX / 2, this->plataformas[0]->LY * 2, this->plataformas[0]->LZ / 2), platPos, 10000, btVector3(this->platformVelocity, 0, 0), PLATFORMS_START_INDEX);
+    platformWorld->newFallBody(btVector3(this->plataformas[0]->LX / 2, this->plataformas[0]->LY * 2, this->plataformas[0]->LZ / 2), platPos, 10000, btVector3(this->platformVelocity, 0, 0), PLATFORMS_START_INDEX);
     
     for (int i = 1; i < this->nPlataformas; i+=1) {
-        this->platPos = Gaming::getPlatformPos(this->platPos.getZ(), this->platPos.getY(), i * this->plataformas[0]->LX);
+        this->platPos = Parameters::getPlatformPos(this->platPos.getZ(), this->platPos.getY(), i * this->plataformas[0]->LX);
         this->plataformas[i] = new Model(const_cast<char *>("mesh/platform.obj"), glm::vec3(this->platPos.getX(), this->platPos.getY(), this->platPos.getZ()));
         this->plataformas[i]->setColor(0.753f, 0.753f, 0.753f);
         this->plataformas[i]->model2shader(shader_programme);
-        world->newFallBody(btVector3(this->plataformas[0]->LX / 2 + 0.1, this->plataformas[0]->LY * 2, this->plataformas[0]->LZ / 2), this->platPos, 10000, btVector3(this->platformVelocity, 0, 0), i + PLATFORMS_START_INDEX);
+        platformWorld->newFallBody(btVector3(this->plataformas[0]->LX / 2 + 0.1, this->plataformas[0]->LY * 2, this->plataformas[0]->LZ / 2), this->platPos, 10000, btVector3(this->platformVelocity, 0, 0), i + PLATFORMS_START_INDEX);
     }
     
 };
 void World::genPhysics() {
-    world = new Bullet(this->nPlataformas + 2, btVector3(0, 0, 0), PLATFORMS_START_INDEX);
-    world->newPlane(btVector3(0, 1, 0), -3.7, 0); //0
+    platformWorld = new Bullet(this->nPlataformas + 2, btVector3(0, 0, 0), PLATFORMS_START_INDEX);
+    platformWorld->newPlane(btVector3(0, 1, 0), -3.7, 0); //0
     this->plano = new Model(const_cast<char *>("mesh/plano.obj"));
     this->plano->setColor(0.8f, 0.0f, 0.0f);
     this->plano->model2shader(shader_programme);
 };
-void World::genParallaxHouses(Gaming* rules) {
+void World::genParallaxHouses(Parameters* rules) {
     parallaxHouses = new Bullet(nHouses, btVector3(0, 0, 0), 0);
     
     this->casas = static_cast<Model **>(malloc(sizeof(Model *) * nHouses));
@@ -72,7 +72,7 @@ void World::genParallaxHouses(Gaming* rules) {
     }
     
 };
-void World::genParallaxProps(Gaming* rules) {
+void World::genParallaxProps(Parameters* rules) {
     parallaxProps = new Bullet(nProps, btVector3(0, 0, 0), 0);
     this->props = static_cast<Model **>(malloc(sizeof(Model *) * nProps));
     
@@ -96,7 +96,7 @@ void World::startPlatformVelocity() {
     this->platformVelocity = -5.0;
     for (int i = PLATFORMS_START_INDEX; i < nPlataformas + PLATFORMS_START_INDEX; i += 1)
     {
-        world->setVelocity(i, btVector3(this->platformVelocity, 0, 0));
+        platformWorld->setVelocity(i, btVector3(this->platformVelocity, 0, 0));
     }
     this->startHousesVelocity();
     this->startPropsVelocity();
@@ -114,7 +114,7 @@ void World::startPropsVelocity() {
 void World::morePlatformVelocity() {
     platformVelocity -= 5.0;
     for (int i = 0; i < nPlataformas; i += 1) {
-        world->setVelocity(i + PLATFORMS_START_INDEX, btVector3(platformVelocity, 0, 0));
+        platformWorld->setVelocity(i + PLATFORMS_START_INDEX, btVector3(platformVelocity, 0, 0));
     }
     
     this->moreHousesVelocity();
@@ -135,29 +135,29 @@ void World::morePropsVelocity() {
     
 };
 void World::gravityRick() {
-    world->applyForce(1, btVector3(0, -9.8, 0));
+    platformWorld->applyForce(1, btVector3(0, -9.8, 0));
 };
 void World::dynamicPlatforms() {
     int previousPlatform;
     
-    if (abs(world->getTransformOrigin(world->getLastPlatform()).getX() - world->getTransformOrigin(1).getX()) > (20 * this->plataformas[0]->LX))
+    if (abs(platformWorld->getTransformOrigin(platformWorld->getLastPlatform()).getX() - platformWorld->getTransformOrigin(1).getX()) > (20 * this->plataformas[0]->LX))
     {
-        // cout << "last platform modified" << world->getLastPlatform() << endl;
-        if (world->getLastPlatform() == PLATFORMS_START_INDEX) {
-            previousPlatform = world->getNMax() - 1;
+        // cout << "last platform modified" << platformWorld->getLastPlatform() << endl;
+        if (platformWorld->getLastPlatform() == PLATFORMS_START_INDEX) {
+            previousPlatform = platformWorld->getNMax() - 1;
         } else {
-            previousPlatform = world->getLastPlatform() - 1;
+            previousPlatform = platformWorld->getLastPlatform() - 1;
         }
-        this->platPos = Gaming::getPlatformPos(this->platPos.getZ(), this->platPos.getY(), world->getTransformOrigin(previousPlatform).getX() + this->plataformas[0]->LX);
-        world->editLastPlatform(this->platPos, 10000, btVector3(this->platformVelocity, 0, 0), world->getLastPlatform());
+        this->platPos = Parameters::getPlatformPos(this->platPos.getZ(), this->platPos.getY(), platformWorld->getTransformOrigin(previousPlatform).getX() + this->plataformas[0]->LX);
+        platformWorld->editLastPlatform(this->platPos, 10000, btVector3(this->platformVelocity, 0, 0), platformWorld->getLastPlatform());
     }
     
 };
-void World::dynamicHouses(Gaming* rules) {
+void World::dynamicHouses(Parameters* rules) {
     int previousParallaxObj;
     btVector3 previousObj;
     
-    if (abs(parallaxHouses->getTransformOrigin(parallaxHouses->getLastPlatform()).getX() - world->getTransformOrigin(1).getX()) > (10 * this->casas[0]->LX))
+    if (abs(parallaxHouses->getTransformOrigin(parallaxHouses->getLastPlatform()).getX() - platformWorld->getTransformOrigin(1).getX()) > (10 * this->casas[0]->LX))
     {
         // cout << "last house modified " << parallaxHouses->getLastPlatform() << endl;
         if (parallaxHouses->getLastPlatform() == PARALLAX_START_INDEX) {
@@ -172,11 +172,11 @@ void World::dynamicHouses(Gaming* rules) {
     }
     
 };
-void World::dynamicProps(Gaming *rules) {
+void World::dynamicProps(Parameters *rules) {
     int previousParallaxObj;
     btVector3 previousObj;
     
-    if (abs(parallaxProps->getTransformOrigin(parallaxProps->getLastPlatform()).getX() - world->getTransformOrigin(1).getX()) > (10 * this->props[0]->LX))
+    if (abs(parallaxProps->getTransformOrigin(parallaxProps->getLastPlatform()).getX() - platformWorld->getTransformOrigin(1).getX()) > (10 * this->props[0]->LX))
     {
         // cout << "last props modified " << parallaxProps->getLastPlatform() << endl;
         
@@ -196,7 +196,7 @@ void World::dynamicProps(Gaming *rules) {
     
 };
 void World::getPhysicsPos() {
-    this->rickPos = world->getTransformOrigin(1);
+    this->rickPos = platformWorld->getTransformOrigin(1);
     
 }
 void World::drawRick() {
@@ -208,7 +208,7 @@ void World::drawPlatforms() {
     
     for (int i = 0; i < nPlataformas; i += 1)
     {
-        plataformaPos = world->getTransformOrigin(i + PLATFORMS_START_INDEX);
+        plataformaPos = platformWorld->getTransformOrigin(i + PLATFORMS_START_INDEX);
         this->plataformas[i]->setpos(glm::vec3(plataformaPos.getX(), plataformaPos.getY(), plataformaPos.getZ()));
         this->plataformas[i]->draw();
     }
@@ -224,7 +224,7 @@ void World::drawPlane() {
     }
     
 };
-void World::drawHouses(Gaming* rules) {
+void World::drawHouses(Parameters* rules) {
     for (int i = 0; i < this->nHouses; i += 1)
     {
         this->casaPos = parallaxHouses->getTransformOrigin(i);

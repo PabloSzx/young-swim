@@ -3,11 +3,11 @@
 
 #include "../../components/model/model.hpp"
 #include "../../components/physics/physics.hpp"
-#include "../../components/gaming/gaming.hpp"
+#include "../../components/parameters/parameters.hpp"
 
 #include "../../data/constants.hpp"
 
-extern Bullet *world;
+extern Bullet *platformWorld;
 extern Bullet *parallaxHouses;
 extern Bullet *parallaxProps;
 
@@ -34,8 +34,8 @@ public:
     void genRick();//listo
     void genPlatforms();//listo
     void genPhysics();//listo
-    void genParallaxHouses(Gaming* rules); //listo
-    void genParallaxProps(Gaming* rules);//listo
+    void genParallaxHouses(Parameters* rules); //listo
+    void genParallaxProps(Parameters* rules);//listo
     void startPlatformVelocity();//listo
     void morePlatformVelocity();//listo
     void startHousesVelocity();//listo
@@ -45,13 +45,13 @@ public:
     void getPhysicsPos();//listo
     void gravityRick();//listo
     void dynamicPlatforms();//listo
-    void dynamicHouses(Gaming* rules);//listo
-    void dynamicProps(Gaming* rules);//listo
+    void dynamicHouses(Parameters* rules);//listo
+    void dynamicProps(Parameters* rules);//listo
     
     void drawRick();//listo
     void drawPlatforms();//listo
     void drawPlane();//listo
-    void drawHouses(Gaming* rules);
+    void drawHouses(Parameters* rules);
     void drawProps();
 
 

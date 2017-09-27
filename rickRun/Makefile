@@ -1,5 +1,5 @@
 CC=g++ -std=c++11
-SRC=src/main.cpp src/components/camera/camera.cpp src/components/model/model.cpp src/components/physics/physics.cpp src/utils/shader/shader.cpp src/utils/log/log.cpp src/utils/window/window.cpp src/components/input/input.cpp src/components/gaming/gaming.cpp src/containers/world/world.cpp
+SRC=src/main.cpp src/components/camera/camera.cpp src/components/model/model.cpp src/components/physics/physics.cpp src/util/shader/shader.cpp src/util/log/log.cpp src/util/window/window.cpp src/components/input/input.cpp src/components/parameters/parameters.cpp src/containers/world/world.cpp
 EXEC=bin/prog
 OS := $(shell uname)
 INCLUDE=

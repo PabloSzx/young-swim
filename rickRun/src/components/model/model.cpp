@@ -11,7 +11,7 @@
 #include <assimp/cimport.h> // C importer
 #include <assimp/scene.h> // collects data
 #include <assimp/postprocess.h> // various extra operations
-#include "../../utils/window/window.hpp"
+#include "../../util/window/window.hpp"
 #include "model.hpp"
 
 using namespace std;

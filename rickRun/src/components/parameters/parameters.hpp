@@ -1,5 +1,5 @@
-#ifndef GAMING_H
-#define GAMING_H
+#ifndef ParametersS_H
+#define ParametersS_H
 
 #ifdef APPLE
 #include <BulletDynamics/btBulletDynamicsCommon.h>
@@ -15,7 +15,7 @@ extern double jumpVerticalDownForce;
 extern double jumpForwardForce;
 extern double jumpBackwardForce;
 
-class Gaming{
+class Parameters{
 private:
   int maxYVelocity;
   int maxXVelocity;
@@ -35,7 +35,7 @@ private:
   double distanciaEntreCapas;
   
 public:
-  Gaming(
+  Parameters(
     int minXVelocity, int maxXVelocity, int maxYVelocity, int maxZVelocity,
     int minX, int maxX, int minZ, int maxZ,
     double forceHorizontalJump, double forceVerticalUpJump, double forceVerticalDownJump,

@@ -1,9 +1,9 @@
-#include "gaming.hpp"
+#include "parameters.hpp"
 #include <iostream>
 #include <time.h>
 
 using namespace std;
-Gaming::Gaming(
+Parameters::Parameters(
     int minXVelocity, int maxXVelocity, int maxYVelocity, int maxZVelocity,
     int minX, int maxX, int minZ, int maxZ,
     double forceHorizontalJump, double forceVerticalUpJump, double forceVerticalDownJump,
@@ -31,31 +31,31 @@ Gaming::Gaming(
     this->setForceForwardJump(forceForwardJump);
     this->setForceBackwardJump(forceBackwardJump);
 }
-void Gaming::setForceHorizontalJump(double force) {
+void Parameters::setForceHorizontalJump(double force) {
     jumpHorizontalForce = force;
     this->forceHorizontalJump = force;
 }
-void Gaming::setForceVerticalUpJump(double force)
+void Parameters::setForceVerticalUpJump(double force)
 {
     jumpVerticalUpForce = force;
     this->forceVerticalUpJump = force;
 }
-void Gaming::setForceVerticalDownJump(double force)
+void Parameters::setForceVerticalDownJump(double force)
 {
     jumpVerticalDownForce = force;
     this->forceVerticalDownJump = force;
 }
-void Gaming::setForceForwardJump(double force)
+void Parameters::setForceForwardJump(double force)
 {
     jumpForwardForce = force;
     this->forceForwardJump = force;
 }
-void Gaming::setForceBackwardJump(double force)
+void Parameters::setForceBackwardJump(double force)
 {
     jumpBackwardForce = force;
     this->forceBackwardJump = force;
 }
-void Gaming::checkRickPos(Bullet* world) {
+void Parameters::checkRickPos(Bullet* world) {
     btVector3 rickPos = world->getTransformOrigin(1);
     if (rickPos.getZ() < this->minZ)
     {
@@ -75,7 +75,7 @@ void Gaming::checkRickPos(Bullet* world) {
     }
 }
 
-void Gaming::checkRickVel(Bullet *world)
+void Parameters::checkRickVel(Bullet *world)
 {
     btVector3 rickVelocity = world->getVelocity(1);
     if (rickVelocity.getY() > this->maxYVelocity)
@@ -102,7 +102,7 @@ void Gaming::checkRickVel(Bullet *world)
     }
 }
 
-int Gaming::getN(int previousPos) {
+int Parameters::getN(int previousPos) {
     int second;
     int third;
     if (previousPos == 0) {
@@ -125,24 +125,24 @@ int Gaming::getN(int previousPos) {
     return third;
 }
 
-btVector3 Gaming::getPlatformPos(int previousZPlatform, int previousYPlatform, int x) {
+btVector3 Parameters::getPlatformPos(int previousZPlatform, int previousYPlatform, int x) {
     btVector3 ret = btVector3(x, getN(previousYPlatform), getN(previousZPlatform));
     return ret;
 }
 
-btVector3 Gaming::getHousePos(double previousXHouse, double y, double z)
+btVector3 Parameters::getHousePos(double previousXHouse, double y, double z)
 {
     btVector3 ret = btVector3(previousXHouse + this->distanciaEntreHouse, y, z);
     return ret;
 }
 
-btVector3 Gaming::getPropPos(double previousXProp, double y, double z)
+btVector3 Parameters::getPropPos(double previousXProp, double y, double z)
 {
     btVector3 ret = btVector3(previousXProp + this->distanciaEntreProp, y, z);
     return ret;
 }
 
-double Gaming::getDistanciaEntreCapas() {
+double Parameters::getDistanciaEntreCapas() {
     return this->distanciaEntreCapas;
 }
 

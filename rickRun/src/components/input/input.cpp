@@ -35,22 +35,22 @@ void input_mouse_callback(GLFWwindow *window, double xpos, double ypos)
     int jumpSensitivity = 5;
     if (xoffset > jumpSensitivity && yoffset > jumpSensitivity)
     {
-        // world->applyImpulse(1, btVector3(0,1.0,1.0));
+        // platformWorld->applyImpulse(1, btVector3(0,1.0,1.0));
         // camera_resetPerspective();
     }
     else if (xoffset > jumpSensitivity && yoffset < -jumpSensitivity)
     {
-        // world->applyImpulse(1, btVector3(0, -1.0, 1.0));
+        // platformWorld->applyImpulse(1, btVector3(0, -1.0, 1.0));
         // camera_resetPerspective();
     }
     else if (xoffset < -jumpSensitivity && yoffset > jumpSensitivity)
     {
-        // world->applyImpulse(1, btVector3(0, 1.0, -1.0));
+        // platformWorld->applyImpulse(1, btVector3(0, 1.0, -1.0));
         // camera_resetPerspective();
     }
     else if (xoffset < -jumpSensitivity && yoffset < -jumpSensitivity)
     {
-        // world->applyImpulse(1, btVector3(0, -1.0, -1.0));
+        // platformWorld->applyImpulse(1, btVector3(0, -1.0, -1.0));
         // camera_resetPerspective();
     }
 
@@ -102,38 +102,38 @@ void input_processInput(GLFWwindow *window)
     if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
     cameraPos += glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed;
 
-    // btVector3 totalForceOnRick = world->getVelocity(1);
+    // btVector3 totalForceOnRick = platformWorld->getVelocity(1);
 
     // cout << fps << "     - ";
     // cout << "forceX: " << totalForceOnRick.getX() 
     // << "  forceY: " << totalForceOnRick.getY() 
     // << "   forceZ: " << totalForceOnRick.getZ() << endl;
     if (glfwGetKey(window, GLFW_KEY_I) == GLFW_PRESS) {
-        world->applyImpulse(1, btVector3(jumpForwardForce, 0.0, 0.0));
+        platformWorld->applyImpulse(1, btVector3(jumpForwardForce, 0.0, 0.0));
     }
     if (glfwGetKey(window, GLFW_KEY_K) == GLFW_PRESS)
     {
-        world->applyImpulse(1, btVector3(jumpBackwardForce, jumpVerticalDownForce, 0.0));
+        platformWorld->applyImpulse(1, btVector3(jumpBackwardForce, jumpVerticalDownForce, 0.0));
     }
     if (glfwGetKey(window, GLFW_KEY_J) == GLFW_PRESS)
     {
-        world->applyImpulse(1, btVector3(0.0, 0.0, -jumpHorizontalForce));
+        platformWorld->applyImpulse(1, btVector3(0.0, 0.0, -jumpHorizontalForce));
     }
     if (glfwGetKey(window, GLFW_KEY_L) == GLFW_PRESS)
     {
-        world->applyImpulse(1, btVector3(0.0, 0.0, jumpHorizontalForce));
+        platformWorld->applyImpulse(1, btVector3(0.0, 0.0, jumpHorizontalForce));
     }
     if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS)
     {
         if (allowJump) {
             allowJump = false;
-            world->applyImpulse(1, btVector3(0.0, jumpVerticalUpForce, 0.0f));
+            platformWorld->applyImpulse(1, btVector3(0.0, jumpVerticalUpForce, 0.0f));
         }
     }
     if (glfwGetKey(window, GLFW_KEY_P) == GLFW_PRESS)
     {
-        // world->applyImpulse(1, btVector3(0.0, 1.0f, 0.0f));
-        // world->translate(1, btVector3(0.0, 0.0, 0.0));
+        // platformWorld->applyImpulse(1, btVector3(0.0, 1.0f, 0.0f));
+        // platformWorld->translate(1, btVector3(0.0, 0.0, 0.0));
         cout << endl << endl << endl;
         cout << "cameraUp" << cameraUp[0] << "/" << cameraUp[1] << "/" << cameraUp[2] << endl;
         cout << "cameraFront" << cameraFront[0] << "/" << cameraFront[1] << "/" << cameraFront[2] << endl;

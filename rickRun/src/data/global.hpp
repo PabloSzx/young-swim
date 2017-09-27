@@ -59,7 +59,7 @@ int view_mat_location;
 glm::mat4 view;
 glm::mat4 projection;
 
-Bullet *world;
+Bullet *platformWorld; //MUNDO DE RICK Y SUS PLATAFORMAS... AQUI RICK RECIBE GRAVEDAD Y LAS PLATAFORMAS SE MUEVEN XD
 Bullet *parallaxHouses;
 Bullet *parallaxProps;
 
