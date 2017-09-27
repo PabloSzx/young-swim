@@ -6,11 +6,42 @@
         {
             "taskName": "make",
             "type": "shell",
-            "command": "cd ${fileDirname} && cd .. && make",
+            "command": "cd rickRun && make",
             "group": {
                 "kind": "build",
                 "isDefault": true
-            }
+            },
+            "problemMatcher": []
+        },
+        {
+            "taskName": "make and run",
+            "type": "shell",
+            "command": "cd rickRun && make makeandrun",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "problemMatcher": []
+        },
+        {
+            "taskName": "run",
+            "type": "shell",
+            "command": "cd rickRun && make run",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "problemMatcher": []
+        },
+        {
+            "taskName": "clear",
+            "type": "shell",
+            "command": "cd rickRun && make clear",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "problemMatcher": []
         }
     ]
 }

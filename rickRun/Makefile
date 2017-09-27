@@ -13,12 +13,21 @@ else
 LIBS=-lGL -lGLEW -lglfw -lassimp -I /usr/include/bullet -lBulletDynamics -lBulletCollision -lLinearMath
 endif
 
+
+
 all:
 	${CC} ${FLAGS} ${FRAMEWORK} ${SRC} ${LIBS} -o ${EXEC}
+	#
+	#
+	#     TYPE "make run" TO PLAY
+	#     TYPE "make makeandrun" TO COMPILE AND PLAY
+	#     TYPE "make clear" TO CLEAR TEMP FILES
+	#
+	#
+makeandrun:
+	make && make run
+run:
 	./bin/prog
-	make clear
 
 clear:
-	rm bin/prog
-	rm gl.log
-	rm log/*
+	rm log/gl.log bin/prog
