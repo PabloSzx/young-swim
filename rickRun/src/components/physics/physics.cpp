@@ -1,4 +1,4 @@
-#include "physics.h"
+#include "physics.hpp"
 
 using namespace std;
 Bullet::Bullet(int nmax, btVector3 gravity, int resetEdit) {

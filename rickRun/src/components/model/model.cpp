@@ -11,8 +11,8 @@
 #include <assimp/cimport.h> // C importer
 #include <assimp/scene.h> // collects data
 #include <assimp/postprocess.h> // various extra operations
-#include "../../utils/window/window.h"
-#include "model.h"
+#include "../../utils/window/window.hpp"
+#include "model.hpp"
 
 using namespace std;
 Model::Model(char* filename, glm::vec3 pos, glm::vec3 scale) {

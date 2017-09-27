@@ -1,10 +1,10 @@
-#include "log.h"
+#include "log.hpp"
 #include <stdio.h>
 #include <GLFW/glfw3.h>
 #include <time.h>
 #include <assert.h>
 #include <stdarg.h>
-#include "../../data/constants.h"
+#include "../../data/constants.hpp"
 
 bool log_restart_gl_log()
 {

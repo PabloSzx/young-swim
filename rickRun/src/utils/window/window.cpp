@@ -6,9 +6,9 @@
 #include <assimp/cimport.h> // C importer
 #include <assimp/scene.h> // collects data
 #include <assimp/postprocess.h> // various extra operations
-#include "../shader/shader.h"
-#include "../log/log.h"
-#include "window.h"
+#include "../shader/shader.hpp"
+#include "../log/log.hpp"
+#include "window.hpp"
 
 using namespace std;
 

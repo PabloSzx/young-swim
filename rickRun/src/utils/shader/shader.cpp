@@ -1,10 +1,10 @@
-#include "shader.h"
-#include "../log/log.h"
+#include "shader.hpp"
+#include "../log/log.hpp"
 #include <stdio.h>
 #include <time.h>
 #include <string.h>
 #include <assert.h>
-#include "../../data/constants.h"
+#include "../../data/constants.hpp"
 
 bool shader_parse_file_into_str(
 	const char *file_name, char *shader_str, int max_len)
