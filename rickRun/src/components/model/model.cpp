@@ -15,7 +15,7 @@
 #include "model.h"
 
 using namespace std;
-Model::Model(char* filename) {
+Model::Model(char* filename, glm::vec3 pos, glm::vec3 scale) {
   this->pos = glm::vec3(0,0,0);
   this->model = glm::mat4();
   this->filename = filename;
@@ -26,6 +26,43 @@ Model::Model(char* filename) {
   this->red = 1.0f;
   this->green = 1.0f;
   this->blue = 1.0f;
+
+  this->setpos(pos);
+  this->scale(scale);
+}
+
+Model::Model(char *filename, glm::vec3 pos)
+{
+  this->pos = glm::vec3(0, 0, 0);
+  this->model = glm::mat4();
+  this->filename = filename;
+  this->matloc = 0;
+  this->lastScale = glm::vec3(1.0f, 1.0f, 1.0f);
+  assert(this->load_mesh(filename));
+  this->setmatloc(shader_programme, "matrix");
+  this->red = 1.0f;
+  this->green = 1.0f;
+  this->blue = 1.0f;
+
+  this->setpos(pos);
+  this->scale(glm::vec3(1.0f));
+}
+
+Model::Model(char *filename)
+{
+  this->pos = glm::vec3(0, 0, 0);
+  this->model = glm::mat4();
+  this->filename = filename;
+  this->matloc = 0;
+  this->lastScale = glm::vec3(1.0f, 1.0f, 1.0f);
+  assert(this->load_mesh(filename));
+  this->setmatloc(shader_programme, "matrix");
+  this->red = 1.0f;
+  this->green = 1.0f;
+  this->blue = 1.0f;
+
+  this->setpos(glm::vec3(0.0f, 0.0f, 0.0f));
+  this->scale(glm::vec3(1.0f));
 }
 
 GLuint Model::getvao(){
@@ -226,6 +263,8 @@ bool Model::load_mesh (const char* file_name) {
       texcoords[i * 2] = (GLfloat)vt->x;
       texcoords[i * 2 + 1] = (GLfloat)vt->y;
     }
+
+    this->texcoords = texcoords;
   }
 
   /* copy mesh data into VBOs */

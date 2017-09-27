@@ -73,9 +73,7 @@ int main(){
   world = new Bullet(nplataformas + 2, btVector3(0, 0, 0), PLATFORMS_START_INDEX);
   world->newPlane(btVector3(0, 1, 0), -3.7, 0); //0
   
-  Model *rick = new Model(const_cast<char *>("mesh/rick.obj"));
-  rick->setpos(glm::vec3(0.0f, 10.0f, 0.0f));
-  rick->scale(glm::vec3(0.6f));
+  Model *rick = new Model(const_cast<char *>("mesh/rick.obj"), glm::vec3(0.0f, 10.0f, 0.0f), glm::vec3(0.6f));
   rick->setColor(1.0f, 0.894f, 0.882f);
   rick->model2shader(shader_programme);
   
@@ -84,55 +82,25 @@ int main(){
   Model **plataformas = static_cast<Model **>(malloc(sizeof(Model *) * nplataformas));
   double platformVelocity = 0.0;
   plataformas[0] = new Model(const_cast<char *>("mesh/platform.obj"));
-  plataformas[0]->setpos(glm::vec3(0, 0, 0));
-  plataformas[0]->scale(glm::vec3(1.0f));
   plataformas[0]->setColor(0.753f, 0.753f, 0.753f);
   plataformas[0]->model2shader(shader_programme);
   btVector3 platPos = btVector3(0, 0, 0);
   world->newFallBody(btVector3(plataformas[0]->LX / 2, plataformas[0]->LY * 2, plataformas[0]->LZ / 2), platPos, 10000, btVector3(platformVelocity, 0, 0), PLATFORMS_START_INDEX);
-  
+
+
   for (int i = 1; i < nplataformas; i+=1) {
-    plataformas[i] = new Model(const_cast<char *>("mesh/platform.obj"));
+    platPos = Gaming::getPlatformPos(platPos.getZ(), platPos.getY(), i * plataformas[0]->LX);
+    plataformas[i] = new Model(const_cast<char *>("mesh/platform.obj"), glm::vec3(platPos.getX(), platPos.getY(), platPos.getZ()));
     plataformas[i]->setColor(0.753f, 0.753f, 0.753f);
-    platPos = Gaming::getPlatformPos(platPos.getZ(), platPos.getY(), i * plataformas[i]->LX);
-    plataformas[i]->setpos(glm::vec3(platPos.getX(), platPos.getY(), platPos.getZ()));
     plataformas[i]->model2shader(shader_programme);
-    world->newFallBody(btVector3(plataformas[i]->LX / 2 + 0.1, plataformas[i]->LY * 2, plataformas[i]->LZ / 2), platPos, 10000, btVector3(platformVelocity, 0, 0), i + PLATFORMS_START_INDEX);
+    world->newFallBody(btVector3(plataformas[0]->LX / 2 + 0.1, plataformas[0]->LY * 2, plataformas[0]->LZ / 2), platPos, 10000, btVector3(platformVelocity, 0, 0), i + PLATFORMS_START_INDEX);
   }
+
   // cout << rick->LX << " " << rick->LY << " " << rick->LZ << endl;
-  
+
   Model *plano = new Model(const_cast<char *>("mesh/plano.obj"));
-  plano->setpos(glm::vec3(0.0f, 0.0f, 0.0f));
   plano->setColor(0.8f, 0.0f, 0.0f);
   plano->model2shader(shader_programme);
-  
-  Model *pared = new Model(const_cast<char *>("mesh/pared.obj"));
-  pared->setpos(glm::vec3(0.0f, 0.0f, 0.0f));
-  pared->setColor(0.5f, 0.5f, 0.5f);
-  pared->model2shader(shader_programme);
-  
-  Model *eje = new Model(const_cast<char *>("mesh/axis.obj"));
-  eje->setpos(glm::vec3(0.0f, 0.0f, 0.0f));
-  eje->scale(glm::vec3(1.0f));
-  eje->model2shader(shader_programme);
-  
-  Model *axisX = new Model(const_cast<char *>("mesh/x.obj"));
-  axisX->setpos(glm::vec3(8.0f, 0.0f, 0.0f));
-  axisX->scale(glm::vec3(0.5f));
-  axisX->setColor(0.0f, 0.0f, 0.0f);
-  axisX->model2shader(shader_programme);
-  
-  Model *axisY = new Model(const_cast<char *>("mesh/y.obj"));
-  axisY->setpos(glm::vec3(0.0f, 8.0f, 0.0f));
-  axisY->scale(glm::vec3(0.5f));
-  axisY->setColor(0.0f, 0.0f, 0.0f);
-  axisY->model2shader(shader_programme);
-  
-  Model *axisZ = new Model(const_cast<char *>("mesh/z.obj"));
-  axisZ->setpos(glm::vec3(0.0f, 0.0f, 8.0f));
-  axisZ->scale(glm::vec3(0.5f));
-  axisZ->setColor(0.0f, 0.0f, 0.0f);
-  axisZ->model2shader(shader_programme);
   
   int nHouses = 20;
   int nProps = 20;
@@ -172,8 +140,6 @@ int main(){
   Model **casas = static_cast<Model **>(malloc(sizeof(Model *) * nHouses));
   
   casas[0] = new Model(const_cast<char *>("mesh/casa.obj"));
-  casas[0]->setpos(glm::vec3(0, 0, 0));
-  casas[0]->scale(glm::vec3(1.0f));
   casas[0]->setColor(0.545f, 0.271f, 0.075f);
   casas[0]->model2shader(shader_programme);
   btVector3 casaPos = btVector3(0, 0, 12);
@@ -181,18 +147,15 @@ int main(){
   
   for (int i = 1; i < nHouses; i += 1)
   {
-    casas[i] = new Model(const_cast<char *>("mesh/casa.obj"));
-    casas[i]->setColor(0.545f, 0.271f, 0.075f);
     casaPos = rules->getHousePos(casaPos.getX(), casaPos.getY(), casaPos.getZ());
-    casas[i]->setpos(glm::vec3(casaPos.getX(), casaPos.getY(), casaPos.getZ()));
+    casas[i] = new Model(const_cast<char *>("mesh/casa.obj"), glm::vec3(casaPos.getX(), casaPos.getY(), casaPos.getZ()));
+    casas[i]->setColor(0.545f, 0.271f, 0.075f);
     casas[i]->model2shader(shader_programme);
     parallaxHouses->newFallBody(btVector3(casas[i]->LX / 2, casas[i]->LY / 2 + 0.1, casas[i]->LZ / 2), casaPos, 1, btVector3(platformVelocity * 0.5, 0, 0), i);
   }
   Model **props = static_cast<Model **>(malloc(sizeof(Model *) * nProps));
-  
+
   props[0] = new Model(const_cast<char *>(getRandomProp()));
-  props[0]->setpos(glm::vec3(0, 0, 0));
-  props[0]->scale(glm::vec3(1.0f));
   props[0]->setColor(0.196f, 0.804f, 0.196f);
   props[0]->model2shader(shader_programme);
   btVector3 propPos = btVector3(0, 0, 7);
@@ -200,10 +163,9 @@ int main(){
   
   for (int i = 1; i < nProps; i += 1)
   {
-    props[i] = new Model(const_cast<char *>(getRandomProp()));
-    props[i]->setColor(0.196f, 0.804f, 0.196f);
     propPos = rules->getPropPos(propPos.getX(), propPos.getY(), propPos.getZ());
-    props[i]->setpos(glm::vec3(propPos.getX(), propPos.getY(), propPos.getZ()));
+    props[i] = new Model(const_cast<char *>(getRandomProp()), glm::vec3(propPos.getX(), propPos.getY(), propPos.getZ()));
+    props[i]->setColor(0.196f, 0.804f, 0.196f);
     props[i]->model2shader(shader_programme);
     parallaxProps->newFallBody(btVector3(props[i]->LX / 2 + 0.1, props[i]->LY / 2 + 0.1, props[i]->LZ / 2), propPos, 1, btVector3(platformVelocity, 0, 0), i + PARALLAX_START_INDEX);
   }
