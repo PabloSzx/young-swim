@@ -211,6 +211,8 @@ void Bullet::checkCollision(bool* allowJump) {
                         if (pt.getPositionWorldOnB().getY() - pt.getPositionWorldOnA().getY() >= 0) {
                             *allowJump = true;
                         }
+                    } else if (b == 0) {
+                        restart = true;
                     }
                     
                 }

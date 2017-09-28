@@ -9,6 +9,8 @@
 
 #include "iostream"
 
+extern bool restart;
+
 class Bullet {
 private:
   btBroadphaseInterface *broadphase;

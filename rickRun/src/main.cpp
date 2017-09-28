@@ -36,7 +36,8 @@
 
 using namespace std;
 
-int main(){
+int main() {
+  restart = false;
   bool firstTime = true;
   srand (time(NULL));
   
@@ -98,6 +99,23 @@ int main(){
   
   while (!glfwWindowShouldClose(g_window))
   {  
+    if (restart) {
+      core = new World(40, 20, 20, 0.0);
+      
+      core->genPhysics();
+      
+      core->genRick();
+      
+      core->genPlatforms(rules);
+      
+      core->genParallaxHouses(rules);
+      
+      core->genParallaxProps(rules);
+      
+      restart = false;
+      firstTime = true;
+      glfwSetTime(0.0);
+    }
     window_update_fps_counter (g_window);
     
     nowTime = glfwGetTime();
@@ -136,7 +154,7 @@ int main(){
     
     parallaxHouses->stepSimulation(fps);
     parallaxProps->stepSimulation(fps);
-
+    
     /* INPUT */
     input_processInput(g_window);
     
