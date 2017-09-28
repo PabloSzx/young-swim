@@ -77,9 +77,9 @@ void Bullet::newFallBody(btVector3 extents, btVector3 pos, btScalar mass, btVect
     
     this->rigidBodys[this->n]->setFriction(0.5);
     this->rigidBodys[this->n]->setLinearVelocity(velocity);
-
+    
     this->rigidBodys[this->n]->setUserIndex(index);
-
+    
     this->dynamicsWorld->addRigidBody(this->rigidBodys[this->n]);
     
     if ((this->n + 1) == this->nmax)
@@ -92,29 +92,29 @@ void Bullet::newFallBody(btVector3 extents, btVector3 pos, btScalar mass, btVect
 
 void Bullet::editLastPlatform(btVector3 pos, btScalar mass, btVector3 velocity, int index) {
     this->dynamicsWorld->removeRigidBody(this->rigidBodys[this->lastPlatform]);
-
+    
     this->motionStates[this->lastPlatform] = new btDefaultMotionState(btTransform(btQuaternion(0, 0, 0, 1), pos));
-
+    
     btVector3 fallInertia(0, 0, 0);
-
+    
     this->shapes[this->lastPlatform]->calculateLocalInertia(mass, fallInertia);
-
+    
     btRigidBody::btRigidBodyConstructionInfo fallRigidBodyCI(mass, this->motionStates[this->lastPlatform], this->shapes[this->lastPlatform], fallInertia);
-
+    
     this->rigidBodys[this->lastPlatform] = new btRigidBody(fallRigidBodyCI);
     // this->rigidBodys[this->n]->setRestitution(-100.0);
-
+    
     this->rigidBodys[this->lastPlatform]->setCcdMotionThreshold(1e-7);
     this->rigidBodys[this->lastPlatform]->setCcdSweptSphereRadius(0.0);
-
+    
     this->rigidBodys[this->lastPlatform]->setFriction(0.5);
     this->rigidBodys[this->lastPlatform]->setLinearVelocity(velocity);
     this->rigidBodys[this->lastPlatform]->setUserIndex(index);
-
+    
     this->dynamicsWorld->addRigidBody(this->rigidBodys[this->lastPlatform]);
-
+    
     this->lastPlatform += 1;
-
+    
     if (this->lastPlatform == this->nmax) {
         this->lastPlatform = this->resetEdit;
     }
@@ -142,7 +142,7 @@ void Bullet::editBody(int i, btVector3 extents, btVector3 pos, btScalar mass, bt
     this->rigidBodys[i]->setFriction(0.5);
     this->rigidBodys[i]->setLinearVelocity(velocity);
     this->rigidBodys[i]->setUserIndex(index);
-
+    
     this->dynamicsWorld->addRigidBody(this->rigidBodys[i]);
 }
 
@@ -206,13 +206,13 @@ void Bullet::checkCollision(bool* allowJump) {
                 btManifoldPoint &pt = contactManifold->getContactPoint(j);
                 if (pt.getDistance() < 0.f)
                 {
-                    // cout << "choque!     " << a << " / " << b << endl;
-                    if (b >= 0 && *allowJump == false) {
-                        *allowJump = true;
+                    if (b >= 2 && *allowJump == false) {
+                        this->setVelocity(1, btVector3(0.0, this->getVelocity(1).getY(), 0.0));
+                        if (pt.getPositionWorldOnB().getY() - pt.getPositionWorldOnA().getY() >= 0) {
+                            *allowJump = true;
+                        }
                     }
-                    // const btVector3 &ptA = pt.getPositionWorldOnA();
-                    // const btVector3 &ptB = pt.getPositionWorldOnB();
-                    // const btVector3 &normalOnB = pt.m_normalWorldOnB;
+                    
                 }
             }
         }
