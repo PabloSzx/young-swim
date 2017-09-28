@@ -58,7 +58,9 @@ void World::genParallaxHouses(Parameters* rules) {
     
     this->casas[0] = new Model(const_cast<char *>("mesh/casa.obj"));
     this->casas[0]->setColor(0.545f, 0.271f, 0.075f);
+    this->casas[0]->scale(glm::vec3(5.0f,5.0f,1.0f));
     this->casas[0]->model2shader(shader_programme);
+    
     this->casaPos = btVector3(0, 0, 12);
     parallaxHouses->newFallBody(btVector3(this->casas[0]->LX / 2, this->casas[0]->LY / 2 + 0.1, this->casas[0]->LZ / 2), this->casaPos, 1, btVector3(this->platformVelocity * 0.5, 0, 0), PARALLAX_START_INDEX);
     
@@ -67,6 +69,7 @@ void World::genParallaxHouses(Parameters* rules) {
         this->casaPos = rules->getNextHousePos(this->casaPos.getX(), this->casaPos.getY(), this->casaPos.getZ());
         this->casas[i] = new Model(const_cast<char *>("mesh/casa.obj"), glm::vec3(this->casaPos.getX(), this->casaPos.getY(), this->casaPos.getZ()));
         this->casas[i]->setColor(0.545f, 0.271f, 0.075f);
+        this->casas[i]->scale(glm::vec3(5.0f,5.0f,1.0f));
         this->casas[i]->model2shader(shader_programme);
         parallaxHouses->newFallBody(btVector3(this->casas[i]->LX / 2, this->casas[i]->LY / 2 + 0.1, this->casas[i]->LZ / 2), this->casaPos, 1, btVector3(this->platformVelocity * 0.5, 0, 0), i);
     }

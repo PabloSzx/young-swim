@@ -56,7 +56,7 @@ int main() {
   camera_projMatrixLocation();
   
   int distanciaEntreProps = 20;
-  int distanciaEntreHouses = 20;
+  int distanciaEntreHouses = 50;
   int distanciaEntreCapas = 5;
   
   int minXVel = -2;
