@@ -58,10 +58,6 @@ public:
     void printMax();
     bool colisiona (Model* compar);
     void setColor(GLfloat red, GLfloat green, GLfloat blue);
-    
-
-    static void makeRick();
-    static void makePlatforms();
 };
 
 #endif

@@ -87,7 +87,7 @@ int main(){
   
   core->genRick();
   
-  core->genPlatforms();
+  core->genPlatforms(rules);
   
   core->genParallaxHouses(rules);
   
@@ -102,7 +102,7 @@ int main(){
     
     nowTime = glfwGetTime();
     
-    core->dynamicPlatforms();
+    core->dynamicPlatforms(rules);
     
     core->dynamicHouses(rules);
     
@@ -136,6 +136,7 @@ int main(){
     
     parallaxHouses->stepSimulation(fps);
     parallaxProps->stepSimulation(fps);
+
     /* INPUT */
     input_processInput(g_window);
     

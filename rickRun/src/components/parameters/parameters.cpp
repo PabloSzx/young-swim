@@ -125,18 +125,18 @@ int Parameters::getN(int previousPos) {
     return third;
 }
 
-btVector3 Parameters::getPlatformPos(int previousZPlatform, int previousYPlatform, int x) {
+btVector3 Parameters::getNextPlatformPos(int previousZPlatform, int previousYPlatform, int x) {
     btVector3 ret = btVector3(x, getN(previousYPlatform), getN(previousZPlatform));
     return ret;
 }
 
-btVector3 Parameters::getHousePos(double previousXHouse, double y, double z)
+btVector3 Parameters::getNextHousePos(double previousXHouse, double y, double z)
 {
     btVector3 ret = btVector3(previousXHouse + this->distanciaEntreHouse, y, z);
     return ret;
 }
 
-btVector3 Parameters::getPropPos(double previousXProp, double y, double z)
+btVector3 Parameters::getNextPropPos(double previousXProp, double y, double z)
 {
     btVector3 ret = btVector3(previousXProp + this->distanciaEntreProp, y, z);
     return ret;

@@ -50,13 +50,14 @@ public:
   void setForceVerticalDownJump(double force);
   void setForceForwardJump(double force);
   void setForceBackwardJump(double force);
-  btVector3 getHousePos(int previousXHouse, int x, int z);
-  btVector3 getPropPos(int previousXProp, int x, int z);
-  
-  static int getN(int previousPos);
-  static btVector3 getPlatformPos(int previousZPlatform, int previousYPlatform, int x);
-  btVector3 getHousePos(double previousXHouse, double y, double z);
-  btVector3 getPropPos(double previousXProp, double y, double z);
+
+  /* GENERACION DE PLATAFORMAS SEMI ALEATORIA Y PARALLAX OBJECTS */
+  btVector3 getNextHousePos(int previousXHouse, int x, int z);
+  btVector3 getNextPropPos(int previousXProp, int x, int z);
+  int getN(int previousPos);
+  btVector3 getNextPlatformPos(int previousZPlatform, int previousYPlatform, int x);
+  btVector3 getNextHousePos(double previousXHouse, double y, double z);
+  btVector3 getNextPropPos(double previousXProp, double y, double z);
   double getDistanciaEntreCapas();
 };
 

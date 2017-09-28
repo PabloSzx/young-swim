@@ -32,7 +32,7 @@ private:
 public:
     World(int nPlataformas, int nHouses, int nProps, double platformInitialVelocity);//listo
     void genRick();//listo
-    void genPlatforms();//listo
+    void genPlatforms(Parameters* rules);//listo
     void genPhysics();//listo
     void genParallaxHouses(Parameters* rules); //listo
     void genParallaxProps(Parameters* rules);//listo
@@ -44,7 +44,7 @@ public:
     void morePropsVelocity();//listo
     void getPhysicsPos();//listo
     void gravityRick();//listo
-    void dynamicPlatforms();//listo
+    void dynamicPlatforms(Parameters* rules);//listo
     void dynamicHouses(Parameters* rules);//listo
     void dynamicProps(Parameters* rules);//listo
     
