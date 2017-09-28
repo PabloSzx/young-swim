@@ -5,15 +5,15 @@
 #include <glm/glm.hpp>
 #include "../components/physics/physics.hpp"
 
-int g_gl_width = 640;       //constants
-int g_gl_height = 400;       //constants
+int g_gl_width = 1280;       //constants
+int g_gl_height = 720;       //constants
 GLFWwindow *g_window = NULL; //main
 
 // camera
 // glm::vec3 cameraPos = glm::vec3(0.0f, 0.0f, 0.0f);
 // glm::vec3 cameraFront = glm::vec3(0.0f, 0.0f, -1.0f);
 // glm::vec3 cameraUp = glm::vec3(0.0f, 1.0f, 0.0f);
-glm::vec3 cameraPos = glm::vec3(-5.22f, 1.75f, -4.6f);
+glm::vec3 cameraPos = glm::vec3(-7.4f, 2.52f, -4.3f);
 glm::vec3 cameraFront = glm::vec3(0.94f, -0.33f, -0.09f);
 glm::vec3 cameraUp = glm::vec3(0.0f, 1.0f, 0.0f);
 
@@ -25,6 +25,7 @@ double jumpForwardForce;
 double jumpBackwardForce;
 
 bool restart;
+bool fullscreen = true;
 
 bool firstMouse = true;
 // float yaw = -90.0f; // yaw is initialized to -90.0 degrees since a yaw of 0.0 results in a direction vector pointing to the right so we initially rotate a bit to the left.

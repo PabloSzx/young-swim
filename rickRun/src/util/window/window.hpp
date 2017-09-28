@@ -10,6 +10,7 @@ extern GLFWwindow *g_window;
 extern float deltaTime;
 extern float lastFrame;
 extern double fps;
+extern bool fullscreen;
 
 bool window_start_gl();
 void window_flags();

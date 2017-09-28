@@ -31,11 +31,17 @@ bool window_start_gl() {
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
     #endif
     
-    g_window = glfwCreateWindow(
-        // g_gl_width, g_gl_height, "Extended Init.", glfwGetPrimaryMonitor(), NULL
-        g_gl_width, g_gl_height, "Extended Init.", NULL, NULL
-        
-    );
+    if (fullscreen) {
+        g_window = glfwCreateWindow(
+            g_gl_width, g_gl_height, "Extended Init.", glfwGetPrimaryMonitor(), NULL
+            
+        );
+    } else {
+        g_window = glfwCreateWindow(
+            g_gl_width, g_gl_height, "Extended Init.", NULL, NULL
+            
+        ); 
+    }
     if (!g_window)
     {
         fprintf(stderr, "ERROR: could not open window with GLFW3\n");
@@ -70,7 +76,7 @@ void window_flags() {
     glFrontFace(GL_CCW);                  // set counter-clock-wise vertex order to mean the front
     glClearColor(0.8f, 0.5f, 0.5f, 1.0f); // grey background to help spot mistakes
     // glViewport (0, 0, g_gl_width, g_gl_height);
-
+    
     glfwSetInputMode(g_window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 }
 

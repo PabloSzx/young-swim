@@ -38,6 +38,7 @@ using namespace std;
 
 int main() {
   restart = false;
+  fullscreen = false;
   bool firstTime = true;
   srand (time(NULL));
   
