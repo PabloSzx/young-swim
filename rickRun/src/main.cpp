@@ -9,7 +9,6 @@
 #include <assert.h>
 #include <math.h>
 #include <string>
-#include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
@@ -24,6 +23,7 @@
 #include "./components/camera/camera.hpp"
 #include "./components/physics/physics.hpp"
 #include "./containers/world/world.hpp"
+#include "./components/time/time.hpp"
 
 #ifdef APPLE
 #include <BulletDynamics/btBulletDynamicsCommon.h>
@@ -39,7 +39,6 @@ using namespace std;
 int main() {
   restart = false;
   fullscreen = false;
-  bool firstTime = true;
   srand (time(NULL));
   
   log_restart_gl_log ();
@@ -94,10 +93,9 @@ int main() {
   core->genParallaxHouses(rules);
   
   core->genParallaxProps(rules);
-  
-  double nowTime;
-  double lastTime = 0.0;
-  
+
+  Time *timer = new Time();
+    
   while (!glfwWindowShouldClose(g_window))
   {  
     if (restart) {
@@ -114,12 +112,11 @@ int main() {
       core->genParallaxProps(rules);
       
       restart = false;
-      firstTime = true;
-      glfwSetTime(0.0);
+      timer->restart();
     }
     window_update_fps_counter (g_window);
     
-    nowTime = glfwGetTime();
+    timer->updateNow();
     
     core->dynamicPlatforms(rules);
     
@@ -127,18 +124,13 @@ int main() {
     
     core->dynamicProps(rules);
     
-    if (nowTime >= 5.0f && firstTime) {
+    if (timer->checkFirstTime(5.0)) {
       core->startPlatformVelocity();
-      
-      firstTime = false;
-    }
-    
-    if ((nowTime - lastTime) > 15) {
+    } else if (timer->every(15.0)) {
       cout << "Mas velocidad" << endl;
       core->morePlatformVelocity();
-      
-      lastTime = nowTime;
-    }
+    } 
+    
     
     rules->checkRickPos(platformWorld);
     rules->checkRickVel(platformWorld);
