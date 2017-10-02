@@ -22,25 +22,27 @@ World::World(int nPlataformas, int nHouses, int nProps, double platformInitialVe
     this->platformVelocity = platformInitialVelocity;
 }
 void World::genRick() {
-    this->rick = new Model(const_cast<char *>("mesh/rick.obj"), glm::vec3(0.0f, 10.0f, 0.0f), glm::vec3(0.6f));
+    this->rick = new Model(const_cast<char *>("mesh/rick.obj"));
+    this->rick->scale(glm::vec3(0.6f));
     this->rick->setColor(1.0f, 0.894f, 0.882f);
     this->rick->model2shader(shader_programme);
-    platformWorld->newFallBody(btVector3(rick->LX, rick->LY * 2, rick->LZ), btVector3(0, 10, 0), 1, btVector3(0, 0, 0), -1); //1
+    platformWorld->newFallBody(btVector3(rick->LX / 2, rick->LY / 4, rick->LZ / 2), btVector3(0.0, 10.0, 0.0), 1.0, btVector3(0, 0, 0), -1); //1
 };
 void World::genPlatforms(Parameters* rules) {
     this->plataformas = static_cast<Model **>(malloc(sizeof(Model *) * this->nPlataformas));
     this->plataformas[0] = new Model(const_cast<char *>("mesh/platform.obj"));
     this->plataformas[0]->setColor(0.753f, 0.753f, 0.753f);
     this->plataformas[0]->model2shader(shader_programme);
-    this->platPos = btVector3(0, 0, 0);
-    platformWorld->newFallBody(btVector3(this->plataformas[0]->LX / 2, this->plataformas[0]->LY * 2, this->plataformas[0]->LZ / 2), platPos, 10000, btVector3(this->platformVelocity, 0, 0), PLATFORMS_START_INDEX);
+    this->platPos = btVector3(1.0, 0.0, 0.0);
+    
+    platformWorld->newFallBody(btVector3(this->plataformas[0]->LX / 2, this->plataformas[0]->LY * 3, this->plataformas[0]->LZ / 2), this->platPos, 10000, btVector3(0, 0, 0), PLATFORMS_START_INDEX);
     
     for (int i = 1; i < this->nPlataformas; i+=1) {
         this->platPos = rules->getNextPlatformPos(this->platPos.getZ(), this->platPos.getY(), i * this->plataformas[0]->LX);
-        this->plataformas[i] = new Model(const_cast<char *>("mesh/platform.obj"), glm::vec3(this->platPos.getX(), this->platPos.getY(), this->platPos.getZ()));
+        this->plataformas[i] = new Model(const_cast<char *>("mesh/platform.obj"));
         this->plataformas[i]->setColor(0.753f, 0.753f, 0.753f);
         this->plataformas[i]->model2shader(shader_programme);
-        platformWorld->newFallBody(btVector3(this->plataformas[0]->LX / 2 + 0.1, this->plataformas[0]->LY * 2, this->plataformas[0]->LZ / 2), this->platPos, 10000, btVector3(this->platformVelocity, 0, 0), i + PLATFORMS_START_INDEX);
+        platformWorld->newFallBody(btVector3(this->plataformas[0]->LX / 2, this->plataformas[0]->LY * 3, this->plataformas[0]->LZ / 2), this->platPos, 10000, btVector3(0, 0, 0), i + PLATFORMS_START_INDEX);
     }
     
 };
