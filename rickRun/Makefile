@@ -24,6 +24,13 @@ all:
 	#     TYPE "make clear" TO CLEAR TEMP FILES
 	#
 	#
+	#		PLAY WITH "I, J, K, L" TO MOVE
+	#		AND PRESS "SPACE" TO JUMP
+	#
+	#
+	#
+	#
+
 makeandrun:
 	make && make run
 run:

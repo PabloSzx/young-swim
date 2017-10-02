@@ -199,23 +199,30 @@ void Bullet::checkCollision(bool* allowJump) {
         int a = obA->getUserIndex();
         int b = obB->getUserIndex();
         
+        
         if (a == -1) {
+            bool touched = false;
             int numContacts = contactManifold->getNumContacts();
             for (int j = 0; j < numContacts; j++)
             {
                 btManifoldPoint &pt = contactManifold->getContactPoint(j);
                 if (pt.getDistance() < 0.f)
                 {
-                    if (b >= 2 && *allowJump == false) {
+                    if (b >= 2) {
                         this->setVelocity(1, btVector3(0.0, this->getVelocity(1).getY(), 0.0));
                         if (pt.getPositionWorldOnB().getY() - pt.getPositionWorldOnA().getY() >= 0) {
-                            *allowJump = true;
+                            touched = true;
                         }
                     } else if (b == 0) {
                         restart = true;
                     }
                     
                 }
+            }
+            if (touched) {
+                *allowJump = true;
+            } else {
+                *allowJump = false;
             }
         }
     }
