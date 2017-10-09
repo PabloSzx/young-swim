@@ -365,7 +365,5 @@ bool Model::load_texture(const char *file_name)
   // set the maximum!
   glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAX_ANISOTROPY_EXT, max_aniso);
 
-  // GLuint tex_location = glGetUniformLocation(shader_programme, "basic_texture");
-  // glUniform1i(tex_location, 0); 
   return true;
 }

@@ -7,6 +7,7 @@ void input_setCallbacks()
     glfwSetFramebufferSizeCallback(g_window, input_framebuffer_size_callback);
     glfwSetCursorPosCallback(g_window, input_mouse_callback);
     glfwSetScrollCallback(g_window, input_scroll_callback);
+    glfwSetMouseButtonCallback(g_window, input_mouse_button_callback);
 }
 
 void camera_resetPerspective() {
@@ -15,6 +16,43 @@ void camera_resetPerspective() {
     yaw = 0; // yaw is initialized to -90.0 degrees since a yaw of 0.0 results in a direction vector pointing to the right so we initially rotate a bit to the left.
     
     pitch = -20.0f;
+}
+
+void input_mouse_button_callback(GLFWwindow *window, int button, int action, int mods)
+{
+    if (button == GLFW_MOUSE_BUTTON_RIGHT && action == GLFW_PRESS) {
+        platformWorld->applyImpulse(1, btVector3(0.0, jumpVerticalDownForce * 8, 0.0f));
+        // double x;
+        // double y;
+        // glfwGetCursorPos(g_window, &x, &y);
+
+        // glfwSetCursorPos(g_window, g_gl_width / 2, y);
+    }
+
+    if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS)
+    {
+        if (allowJump)
+        {
+            allowJump = false;
+            cout << "z es: " << cameraFront.z << endl;
+            platformWorld->applyImpulse(1, btVector3(0.0, jumpVerticalUpForce * 8, cameraFront.z * jumpHorizontalForce));
+            // double x;
+            // double y;
+            // glfwGetCursorPos(g_window, &x, &y);
+
+            // glfwSetCursorPos(g_window, g_gl_width / 2, y);
+
+            // glm::vec3 front;
+            // front.z = 0;
+            // front.y = cameraFront.y;
+            // front.x = 100;
+            // // cout << "x: " << front.x;
+            // // cout << "  y: " << front.y;
+            // // cout << "  z: " << front.z << endl;
+            // cameraFront = glm::normalize(front);
+            // glfwSetCursorPos(g_window, g_gl_width / 2, y);
+        }
+    }
 }
 
 void input_mouse_callback(GLFWwindow *window, double xpos, double ypos)
@@ -74,12 +112,11 @@ void input_mouse_callback(GLFWwindow *window, double xpos, double ypos)
     int xmid = g_gl_width / 2;
     int ymid = g_gl_height / 2;
     
-    glm::vec3 front;
     // front.x = cos(glm::radians(yaw)) * cos(glm::radians(pitch));
     // front.y = sin(glm::radians(pitch));
     // front.z = sin(glm::radians(yaw)) * cos(glm::radians(pitch));
     // cout << "xpos: " << xpos << "  ypos: " << ypos << endl;
-    
+    glm::vec3 front;
     front.z = (glm::radians(xpos - xmid));
     front.y = (glm::radians(-ypos + ymid));
     front.x = 100;

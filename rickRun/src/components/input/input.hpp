@@ -44,5 +44,6 @@ void input_framebuffer_size_callback(GLFWwindow *window, int width, int height);
 void input_mouse_callback(GLFWwindow *window, double xpos, double ypos);
 void input_scroll_callback(GLFWwindow *window, double xoffset, double yoffset);
 void input_processInput(GLFWwindow *window);
+void input_mouse_button_callback(GLFWwindow *window, int button, int action, int mods);
 
 #endif

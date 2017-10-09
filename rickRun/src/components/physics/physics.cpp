@@ -210,7 +210,7 @@ void Bullet::checkCollision(bool* allowJump) {
                 if (pt.getDistance() < 0.f)
                 {
                     if (b >= 2) {
-                        this->setVelocity(1, btVector3(0.0, this->getVelocity(1).getY(), 0.0));
+                        this->setVelocity(1, btVector3(0.0, this->getVelocity(1).getY(), 0));
                         if (pt.getPositionWorldOnB().getY() - pt.getPositionWorldOnA().getY() >= 0) {
                             touched = true;
                         }

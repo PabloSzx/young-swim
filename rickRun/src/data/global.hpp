@@ -13,8 +13,10 @@ GLFWwindow *g_window = NULL; //main
 // glm::vec3 cameraPos = glm::vec3(0.0f, 0.0f, 0.0f);
 // glm::vec3 cameraFront = glm::vec3(0.0f, 0.0f, -1.0f);
 // glm::vec3 cameraUp = glm::vec3(0.0f, 1.0f, 0.0f);
-glm::vec3 cameraPos = glm::vec3(-7.4f, 2.52f, -4.3f);
-glm::vec3 cameraFront = glm::vec3(0.94f, -0.33f, -0.09f);
+glm::vec3 cameraPos = glm::vec3(-15.4f, 2.52f, -4.3f);
+// glm::vec3 cameraFront = glm::vec3(0.94f, -0.33f, -0.09f);
+glm::vec3 cameraFront = glm::vec3(1.0f, 0.0f, 0.0f);
+
 glm::vec3 cameraUp = glm::vec3(0.0f, 1.0f, 0.0f);
 
 bool allowJump = true;

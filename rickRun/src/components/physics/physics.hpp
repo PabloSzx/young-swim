@@ -6,11 +6,14 @@
 #else
 #include <btBulletDynamicsCommon.h>
 #endif
-
+#include <GLFW/glfw3.h>
 #include "iostream"
 
 extern bool restart;
 extern int lastPlatformCollision;
+extern GLFWwindow *g_window;
+extern int g_gl_width;
+extern int g_gl_height;
 
 class Bullet {
 private:

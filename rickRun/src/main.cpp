@@ -68,7 +68,7 @@ int main() {
   int maxX = 3;
   int minZ = -3;
   int maxZ = 7;
-  double forceHorizontalJump = 0.2;
+  double forceHorizontalJump = 30.2;
   double forceVerticalUpJump = 8.0;
   double forceVerticalDownJump = -0.2;
   double forceBackwardJump = -0.2;
@@ -119,12 +119,21 @@ int main() {
         core->genParallaxHouses(rules);
       
         core->genParallaxProps(rules);
-      
+
+        cameraFront = glm::vec3(1.0f, 0.0f, 0.0f);
+        // double x;
+        // double y;
+        // glfwGetCursorPos(g_window, &x, &y);
+
+        glfwSetCursorPos(g_window, g_gl_width / 2, g_gl_height / 2);
+
         restart = false;
         timer->restart();
       }
       window_update_fps_counter (g_window);
-      
+
+      // platformWorld->applyImpulse(1, btVector3(0, 0, cameraFront.z * 20));
+
       timer->updateNow();
       
       core->dynamicPlatforms(rules);
