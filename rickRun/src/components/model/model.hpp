@@ -28,11 +28,11 @@ private:
     GLfloat green;
     GLfloat blue;
     GLfloat* texcoords;
+    GLuint tex;
     
 public:
-    Model(char *filename, glm::vec3 pos, glm::vec3 scale);
-    Model(char *filename, glm::vec3 pos);
     Model(char *filename);
+    Model(char *filename, char *texname);
     GLfloat LX; //LX ES EL LARGO EN EL EJE X DEL OBJETO
     GLfloat LY; //LY ES EL LARGO EN EL EJE Y DEL OBJETO
     GLfloat LZ; //LZ ES EL LARGO EN EL EJE Z DEL OBJETO
@@ -55,6 +55,7 @@ public:
     void model2shader(GLuint shaderprog);
     void draw();
     bool load_mesh (const char* file_name);
+    bool load_texture(const char *file_name); 
     void printMax();
     bool colisiona (Model* compar);
     void setColor(GLfloat red, GLfloat green, GLfloat blue);

@@ -5,8 +5,8 @@
 #include <glm/glm.hpp>
 #include "../components/physics/physics.hpp"
 
-int g_gl_width = 1280;       //constants
-int g_gl_height = 720;       //constants
+int g_gl_width = 640;       //constants
+int g_gl_height = 400;       //constants
 GLFWwindow *g_window = NULL; //main
 
 // camera

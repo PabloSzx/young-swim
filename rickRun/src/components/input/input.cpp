@@ -13,7 +13,7 @@ void camera_resetPerspective() {
     cameraFront = glm::vec3(0.94f, -0.33f, -0.09f);
     cameraUp = glm::vec3(0.0f, 1.0f, 0.0f);
     yaw = 0; // yaw is initialized to -90.0 degrees since a yaw of 0.0 results in a direction vector pointing to the right so we initially rotate a bit to the left.
-
+    
     pitch = -20.0f;
 }
 
@@ -28,13 +28,14 @@ void input_mouse_callback(GLFWwindow *window, double xpos, double ypos)
     
     float xoffset = xpos - lastX;
     float yoffset = lastY - ypos;
-
+    
     // cout << "xoffset: " << xoffset << "   -   " << "yoffset: " << yoffset << endl;
     // cout << "xpos: " << xpos << "   -   " << "ypos: " << ypos << endl;
-
+    
     int jumpSensitivity = 5;
     if (xoffset > jumpSensitivity && yoffset > jumpSensitivity)
     {
+        
         // platformWorld->applyImpulse(1, btVector3(0,1.0,1.0));
         // camera_resetPerspective();
     }
@@ -53,11 +54,11 @@ void input_mouse_callback(GLFWwindow *window, double xpos, double ypos)
         // platformWorld->applyImpulse(1, btVector3(0, -1.0, -1.0));
         // camera_resetPerspective();
     }
-
-    lastX = g_gl_width / 2.0;
-    lastY = g_gl_height / 2.0;
-    glfwSetCursorPos(g_window, lastX, lastY);
-
+    
+    // lastX = g_gl_width / 2.0;
+    // lastY = g_gl_height / 2.0;
+    // glfwSetCursorPos(g_window, lastX, lastY);
+    
     float sensitivity = 0.01f;
     xoffset *= sensitivity;
     yoffset *= sensitivity;
@@ -70,10 +71,21 @@ void input_mouse_callback(GLFWwindow *window, double xpos, double ypos)
     if (pitch < -89.0f)
     pitch = -89.0f;
     
+    int xmid = g_gl_width / 2;
+    int ymid = g_gl_height / 2;
+    
     glm::vec3 front;
-    front.x = cos(glm::radians(yaw)) * cos(glm::radians(pitch));
-    front.y = sin(glm::radians(pitch));
-    front.z = sin(glm::radians(yaw)) * cos(glm::radians(pitch));
+    // front.x = cos(glm::radians(yaw)) * cos(glm::radians(pitch));
+    // front.y = sin(glm::radians(pitch));
+    // front.z = sin(glm::radians(yaw)) * cos(glm::radians(pitch));
+    // cout << "xpos: " << xpos << "  ypos: " << ypos << endl;
+    
+    front.z = (glm::radians(xpos - xmid));
+    front.y = (glm::radians(-ypos + ymid));
+    front.x = 100;
+    cout << "x: " << front.x;
+    cout << "  y: " << front.y;
+    cout << "  z: " << front.z << endl;
     cameraFront = glm::normalize(front);
 }
 
@@ -101,9 +113,9 @@ void input_processInput(GLFWwindow *window)
     cameraPos -= glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed;
     if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
     cameraPos += glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed;
-
+    
     // btVector3 totalForceOnRick = platformWorld->getVelocity(1);
-
+    
     // cout << fps << "     - ";
     // cout << "forceX: " << totalForceOnRick.getX() 
     // << "  forceY: " << totalForceOnRick.getY() 

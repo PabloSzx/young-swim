@@ -10,6 +10,7 @@
 #include "iostream"
 
 extern bool restart;
+extern int lastPlatformCollision;
 
 class Bullet {
 private:
@@ -50,5 +51,8 @@ public:
   int getLastPlatform();
   int getNMax();
 };
+
+extern Bullet* platformWorld;
+
 
 #endif

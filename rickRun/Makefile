@@ -1,5 +1,5 @@
 CC=g++ -std=c++11
-SRC=src/main.cpp src/components/camera/camera.cpp src/components/model/model.cpp src/components/physics/physics.cpp src/util/shader/shader.cpp src/util/log/log.cpp src/util/window/window.cpp src/components/input/input.cpp src/components/parameters/parameters.cpp src/containers/world/world.cpp src/components/time/time.cpp
+SRC=src/main.cpp src/components/camera/camera.cpp src/components/model/model.cpp src/components/physics/physics.cpp src/util/stb/stb_image.cpp src/util/shader/shader.cpp src/util/log/log.cpp src/util/window/window.cpp src/components/input/input.cpp src/components/parameters/parameters.cpp src/containers/world/world.cpp src/components/time/time.cpp
 EXEC=bin/prog
 OS := $(shell uname)
 INCLUDE=
@@ -30,6 +30,15 @@ all:
 	#
 	#
 	#
+	#		EL JUEGO ESTA PROBADO Y FUNCIONANDO CON LA LIBRERIA BULLET
+	#		Y CON 60 FPS
+	#
+	#
+	#
+	#
+	#
+	#
+
 
 makeandrun:
 	make && make run

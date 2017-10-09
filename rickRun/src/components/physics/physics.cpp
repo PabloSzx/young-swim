@@ -15,6 +15,7 @@ Bullet::Bullet(int nmax, btVector3 gravity, int resetEdit) {
     
     this->n = 0;
     this->nmax = nmax;
+    
     this->lastPlatform = resetEdit;
     this->resetEdit = resetEdit;
     
@@ -221,7 +222,7 @@ void Bullet::checkCollision(bool* allowJump) {
             }
             if (touched) {
                 *allowJump = true;
-            } else {
+            } else {               
                 *allowJump = false;
             }
         }

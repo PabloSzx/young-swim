@@ -30,18 +30,20 @@ void World::genRick() {
 };
 void World::genPlatforms(Parameters* rules) {
     this->plataformas = static_cast<Model **>(malloc(sizeof(Model *) * this->nPlataformas));
-    this->plataformas[0] = new Model(const_cast<char *>("mesh/platform.obj"));
+    this->plataformas[0] = new Model(const_cast<char *>("mesh/platform.obj"), const_cast<char *>("mesh/steel.jpg"));
     this->plataformas[0]->setColor(0.753f, 0.753f, 0.753f);
     this->plataformas[0]->model2shader(shader_programme);
+    // this->plataformas[0]->load_texture(const_cast<char *>("mesh/steel.jpg"));
     this->platPos = btVector3(1.0, 0.0, 0.0);
     
     platformWorld->newFallBody(btVector3(this->plataformas[0]->LX / 2, this->plataformas[0]->LY * 3, this->plataformas[0]->LZ / 2), this->platPos, 1000, btVector3(0, 0, 0), PLATFORMS_START_INDEX);
     
     for (int i = 1; i < this->nPlataformas; i+=1) {
         this->platPos = rules->getNextPlatformPos(this->platPos.getZ(), this->platPos.getY(), i * this->plataformas[0]->LX);
-        this->plataformas[i] = new Model(const_cast<char *>("mesh/platform.obj"));
+        this->plataformas[i] = new Model(const_cast<char *>("mesh/platform.obj"), const_cast<char *>("mesh/steel.jpg"));
         this->plataformas[i]->setColor(0.753f, 0.753f, 0.753f);
         this->plataformas[i]->model2shader(shader_programme);
+        // this->plataformas[i]->load_texture(const_cast<char *>("mesh/steel.jpg"));
         platformWorld->newFallBody(btVector3(this->plataformas[0]->LX / 2, this->plataformas[0]->LY * 3, this->plataformas[0]->LZ / 2), this->platPos, 10000, btVector3(0, 0, 0), i + PLATFORMS_START_INDEX);
     }
     
@@ -69,7 +71,7 @@ void World::genParallaxHouses(Parameters* rules) {
     for (int i = 1; i < this->nHouses; i += 1)
     {
         this->casaPos = rules->getNextHousePos(this->casaPos.getX(), this->casaPos.getY(), this->casaPos.getZ());
-        this->casas[i] = new Model(const_cast<char *>("mesh/casa.obj"), glm::vec3(this->casaPos.getX(), this->casaPos.getY(), this->casaPos.getZ()));
+        this->casas[i] = new Model(const_cast<char *>("mesh/casa.obj"));
         this->casas[i]->setColor(0.545f, 0.271f, 0.075f);
         this->casas[i]->scale(glm::vec3(5.0f,5.0f,1.0f));
         this->casas[i]->model2shader(shader_programme);
@@ -90,7 +92,7 @@ void World::genParallaxProps(Parameters* rules) {
     for (int i = 1; i < this->nProps; i += 1)
     {
         this->propPos = rules->getNextPropPos(this->propPos.getX(), this->propPos.getY(), this->propPos.getZ());
-        this->props[i] = new Model(const_cast<char *>(this->getRandomProp()), glm::vec3(this->propPos.getX(), this->propPos.getY(), this->propPos.getZ()));
+        this->props[i] = new Model(const_cast<char *>(this->getRandomProp()));
         this->props[i]->setColor(0.196f, 0.804f, 0.196f);
         this->props[i]->model2shader(shader_programme);
         parallaxProps->newFallBody(btVector3(this->props[i]->LX / 2 + 0.1, this->props[i]->LY / 2 + 0.1, this->props[i]->LZ / 2), this->propPos, 1, btVector3(this->platformVelocity, 0, 0), i + PARALLAX_START_INDEX);
@@ -202,7 +204,6 @@ void World::dynamicProps(Parameters *rules) {
 };
 void World::getPhysicsPos() {
     this->rickPos = platformWorld->getTransformOrigin(1);
-    
 }
 void World::drawRick() {
     this->rick->setpos(glm::vec3(this->rickPos.getX(), this->rickPos.getY(), this->rickPos.getZ()));
