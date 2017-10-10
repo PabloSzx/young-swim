@@ -1,32 +1,48 @@
 #include "world.hpp"
 
-const char* World::getRandomProp() {
-    int n = rand() % 4;
-    switch (n) {
+std::vector<std::string> World::getRandomProp(int i) {
+    std::vector<std::string> arr(2);
+    // int n = rand() % 4;
+    switch (i) {
         case 0:
-        return "mesh/arbol.obj";
-        case 1:
-        return "mesh/pasto.obj";
-        case 2 : 
-        return "mesh/planta1.obj";
+        arr[0] = "mesh/arbol.obj"; 
+        arr[1] = "mesh/arbol.png";
+        break;
+        // return {"mesh/arbol.obj", "mesh/arbol.png"};
+        case 1 :
+        arr[0] = "mesh/pasto.obj";
+        arr[1] = "mesh/pasto.png";
+        break;
+        // return {"mesh/pasto.obj", "mesh/black.png"};
+        case 2 :
+        arr[0] = "mesh/planta1.obj";
+        arr[1] = "mesh/planta1.png";
+        break;
+        // return {"mesh/planta1.obj", "mesh/black.png"};
         case 3:
-        return "mesh/planta2.obj";
+        arr[0] = "mesh/planta2.obj";
+        arr[1] = "mesh/planta2.png";
+        break;
+        // return {"mesh/planta2.obj", "mesh/black.png"};
     }
-    return "";
+    
+    return arr;
+    // return {"",""};
 }
 
 World::World(int nPlataformas, int nHouses, int nProps, double platformInitialVelocity) {
     this->nPlataformas = nPlataformas;
     this->nHouses = nHouses;
     this->nProps = nProps;
+    this->propTypes.reserve(nProps);
     this->platformVelocity = platformInitialVelocity;
 }
 void World::genRick() {
-    this->rick = new Model(const_cast<char *>("mesh/rick.obj"));
-    this->rick->scale(glm::vec3(0.6f));
+    this->rick = new Model(const_cast<char *>("mesh/littlerick.obj"), const_cast<char *>("mesh/littlerick.png"));
+    this->rick->scale(glm::vec3(0.3f));
     this->rick->setColor(1.0f, 0.894f, 0.882f);
     this->rick->model2shader(shader_programme);
-    platformWorld->newFallBody(btVector3(rick->LX / 2, rick->LY / 4, rick->LZ / 2), btVector3(0.0, 10.0, 0.0), 1.0, btVector3(0, 0, 0), -1); //1
+    platformWorld->newFallBody(btVector3(rick->LX / 2, 0, rick->LZ / 2), btVector3(0.0, 10.0, 0.0), 1.0, btVector3(0, 0, 0), -1); //1
 };
 void World::genPlatforms(Parameters* rules) {
     this->plataformas = static_cast<Model **>(malloc(sizeof(Model *) * this->nPlataformas));
@@ -40,9 +56,9 @@ void World::genPlatforms(Parameters* rules) {
     
     for (int i = 1; i < this->nPlataformas; i+=1) {
         this->platPos = rules->getNextPlatformPos(this->platPos.getZ(), this->platPos.getY(), i * this->plataformas[0]->LX);
-        this->plataformas[i] = new Model(const_cast<char *>("mesh/platform.obj"), const_cast<char *>("mesh/steel.jpg"));
-        this->plataformas[i]->setColor(0.753f, 0.753f, 0.753f);
-        this->plataformas[i]->model2shader(shader_programme);
+        // this->plataformas[i] = new Model(const_cast<char *>("mesh/platform.obj"), const_cast<char *>("mesh/steel.jpg"));
+        // this->plataformas[i]->setColor(0.753f, 0.753f, 0.753f);
+        // this->plataformas[i]->model2shader(shader_programme);
         // this->plataformas[i]->load_texture(const_cast<char *>("mesh/steel.jpg"));
         platformWorld->newFallBody(btVector3(this->plataformas[0]->LX / 2, this->plataformas[0]->LY * 3, this->plataformas[0]->LZ / 2), this->platPos, 10000, btVector3(0, 0, 0), i + PLATFORMS_START_INDEX);
     }
@@ -51,7 +67,7 @@ void World::genPlatforms(Parameters* rules) {
 void World::genPhysics() {
     platformWorld = new Bullet(this->nPlataformas + 2, btVector3(0, 0, 0), PLATFORMS_START_INDEX);
     platformWorld->newPlane(btVector3(0, 1, 0), -3.7, 0); //0
-    this->plano = new Model(const_cast<char *>("mesh/plano.obj"));
+    this->plano = new Model(const_cast<char *>("mesh/plano.obj"), const_cast<char *>("mesh/plano.jpg"));
     this->plano->setColor(0.8f, 0.0f, 0.0f);
     this->plano->model2shader(shader_programme);
 };
@@ -59,8 +75,8 @@ void World::genParallaxHouses(Parameters* rules) {
     parallaxHouses = new Bullet(nHouses, btVector3(0, 0, 0), 0);
     
     this->casas = static_cast<Model **>(malloc(sizeof(Model *) * nHouses));
-    
-    this->casas[0] = new Model(const_cast<char *>("mesh/casa.obj"));
+
+    this->casas[0] = new Model(const_cast<char *>("mesh/casa.obj"), const_cast<char *>("mesh/casa.png"));
     this->casas[0]->setColor(0.545f, 0.271f, 0.075f);
     this->casas[0]->scale(glm::vec3(5.0f,5.0f,1.0f));
     this->casas[0]->model2shader(shader_programme);
@@ -71,31 +87,38 @@ void World::genParallaxHouses(Parameters* rules) {
     for (int i = 1; i < this->nHouses; i += 1)
     {
         this->casaPos = rules->getNextHousePos(this->casaPos.getX(), this->casaPos.getY(), this->casaPos.getZ());
-        this->casas[i] = new Model(const_cast<char *>("mesh/casa.obj"));
-        this->casas[i]->setColor(0.545f, 0.271f, 0.075f);
-        this->casas[i]->scale(glm::vec3(5.0f,5.0f,1.0f));
-        this->casas[i]->model2shader(shader_programme);
-        parallaxHouses->newFallBody(btVector3(this->casas[i]->LX / 2, this->casas[i]->LY / 2 + 0.1, this->casas[i]->LZ / 2), this->casaPos, 1, btVector3(this->platformVelocity * 0.5, 0, 0), i);
+        // this->casas[i] = new Model(const_cast<char *>("mesh/casa.obj"), const_cast<char *>("mesh/casa.png"));
+        // this->casas[i]->setColor(0.545f, 0.271f, 0.075f);
+        // this->casas[i]->scale(glm::vec3(5.0f,5.0f,1.0f));
+        // this->casas[i]->model2shader(shader_programme);
+        parallaxHouses->newFallBody(btVector3(this->casas[0]->LX / 2, this->casas[0]->LY / 2 + 0.1, this->casas[0]->LZ / 2), this->casaPos, 1, btVector3(this->platformVelocity * 0.5, 0, 0), i);
     }
     
 };
 void World::genParallaxProps(Parameters* rules) {
     parallaxProps = new Bullet(nProps, btVector3(0, 0, 0), 0);
     this->props = static_cast<Model **>(malloc(sizeof(Model *) * nProps));
-    
-    this->props[0] = new Model(const_cast<char *>(this->getRandomProp()));
-    this->props[0]->setColor(0.196f, 0.804f, 0.196f);
-    this->props[0]->model2shader(shader_programme);
+    // const char** ran = this->getRandomProp();
+    std::vector<std::string> ran;
+    for (int i = 0; i < 4; i += 1)
+    {
+        ran = this->getRandomProp(i);
+        this->props[i] = new Model(const_cast<char *>(ran[0].c_str()), const_cast<char *>(ran[1].c_str()));
+        this->props[i]->model2shader(shader_programme);
+    }
+    // this->props[0] = new Model(const_cast<char *>(ran[0].c_str()), const_cast<char *>(ran[1].c_str()));
+    // this->props[0]->setColor(0.196f, 0.804f, 0.196f);
+    // this->props[0]->model2shader(shader_programme);
     this->propPos = btVector3(0, 0, 7);
     parallaxProps->newFallBody(btVector3(this->props[0]->LX / 2, this->props[0]->LY / 2 + 0.1, this->props[0]->LZ / 2), propPos, 1, btVector3(this->platformVelocity, 0, 0), PARALLAX_START_INDEX);
     
+    for (int i = 0; i < this->nProps; i += 1) {
+        this->propTypes[i] = rand() % 4;
+    }
     for (int i = 1; i < this->nProps; i += 1)
     {
         this->propPos = rules->getNextPropPos(this->propPos.getX(), this->propPos.getY(), this->propPos.getZ());
-        this->props[i] = new Model(const_cast<char *>(this->getRandomProp()));
-        this->props[i]->setColor(0.196f, 0.804f, 0.196f);
-        this->props[i]->model2shader(shader_programme);
-        parallaxProps->newFallBody(btVector3(this->props[i]->LX / 2 + 0.1, this->props[i]->LY / 2 + 0.1, this->props[i]->LZ / 2), this->propPos, 1, btVector3(this->platformVelocity, 0, 0), i + PARALLAX_START_INDEX);
+        parallaxProps->newFallBody(btVector3(this->props[0]->LX / 2 + 0.1, this->props[0]->LY / 2 + 0.1, this->props[0]->LZ / 2), this->propPos, 1, btVector3(this->platformVelocity, 0, 0), i + PARALLAX_START_INDEX);
     }
     
 };
@@ -215,14 +238,14 @@ void World::drawPlatforms() {
     for (int i = 0; i < nPlataformas; i += 1)
     {
         plataformaPos = platformWorld->getTransformOrigin(i + PLATFORMS_START_INDEX);
-        this->plataformas[i]->setpos(glm::vec3(plataformaPos.getX(), plataformaPos.getY(), plataformaPos.getZ()));
-        this->plataformas[i]->draw();
+        this->plataformas[0]->setpos(glm::vec3(plataformaPos.getX(), plataformaPos.getY(), plataformaPos.getZ()));
+        this->plataformas[0]->draw();
     }
     
 };
 void World::drawPlane() {
-    for (float i = -20; i <= 20; i += 1.1) {
-        for (float j = -20; j <= 20; j += 1.1)
+    for (float i = -20; i <= 20; i += 1.0) {
+        for (float j = -20; j <= 20; j += 1.0)
         {
             this->plano->setpos(glm::vec3(this->rickPos.getX() + i, -5, this->rickPos.getZ() + j));
             this->plano->draw();
@@ -234,32 +257,33 @@ void World::drawHouses(Parameters* rules) {
     for (int i = 0; i < this->nHouses; i += 1)
     {
         this->casaPos = parallaxHouses->getTransformOrigin(i);
-        this->casas[i]->setpos(glm::vec3(this->casaPos.getX(), this->casaPos.getY(), 8 + rules->getDistanciaEntreCapas()));
-        this->casas[i]->draw();
+        this->casas[0]->setpos(glm::vec3(this->casaPos.getX(), this->casaPos.getY(), 8 + rules->getDistanciaEntreCapas()));
+        this->casas[0]->draw();
     }
     
     for (int i = 0; i < this->nHouses; i += 1)
     {
         this->casaPos = parallaxHouses->getTransformOrigin(i);
-        this->casas[i]->setpos(glm::vec3(this->casaPos.getX(), this->casaPos.getY(), -4 - rules->getDistanciaEntreCapas()));
-        this->casas[i]->draw();
+        this->casas[0]->setpos(glm::vec3(this->casaPos.getX(), this->casaPos.getY(), -4 - rules->getDistanciaEntreCapas()));
+        this->casas[0]->draw();
     }
     
     
 };
 void World::drawProps() {
+    // std::vector<int> propTypes(this->nProps);
     for (int i = 0; i < this->nProps; i += 1)
     {
         this->propPos = parallaxProps->getTransformOrigin(i);
-        this->props[i]->setpos(glm::vec3(this->propPos.getX(), this->propPos.getY(), 8));
-        this->props[i]->draw();
+        this->props[propTypes[i]]->setpos(glm::vec3(this->propPos.getX(), this->propPos.getY(), 8));
+        this->props[propTypes[i]]->draw();
     }
     
     for (int i = 0; i < this->nProps; i += 1)
     {
         this->propPos = parallaxProps->getTransformOrigin(i);
-        this->props[i]->setpos(glm::vec3(this->propPos.getX(), this->propPos.getY(), -4));
-        this->props[i]->draw();
+        this->props[propTypes[i]]->setpos(glm::vec3(this->propPos.getX(), this->propPos.getY(), -4));
+        this->props[propTypes[i]]->draw();
     }
     
 };

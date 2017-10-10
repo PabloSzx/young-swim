@@ -32,7 +32,8 @@ Model::Model(char *filename)
 
   this->setpos(glm::vec3(0.0f, 0.0f, 0.0f));
   this->scale(glm::vec3(1.0f));
-  this->load_texture(const_cast<char *>("mesh/white.jpg"));
+  // this->load_texture(const_cast<char *>("mesh/white.jpg"));
+  this->load_texture(const_cast<char *>("mesh/black.png"));
 }
 
 Model::Model(char *filename, char *texname)
