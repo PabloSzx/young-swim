@@ -75,7 +75,6 @@ int main() {
   double forceForwardJump = 0.2;
   
   double frame_start = 0.0;
-  glfwSwapInterval(0);
   
   Parameters *rules = new Parameters(
     minXVel, maxXVel, maxYVel, maxZVel,
