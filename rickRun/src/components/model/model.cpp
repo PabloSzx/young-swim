@@ -169,6 +169,7 @@ bool Model::load_mesh (const char* file_name) {
   /* get first mesh in file only */
   const aiMesh* mesh = scene->mMeshes[0];
   printf ("    %i vertices in mesh[0]\n", mesh->mNumVertices);
+  printf("  %i BONES\n", mesh->mNumBones);
 
   /* pass back number of vertex points in mesh */
   this->numvertices = mesh->mNumVertices;

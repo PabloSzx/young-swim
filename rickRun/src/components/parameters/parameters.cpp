@@ -115,11 +115,11 @@ int Parameters::getN(int previousPos) {
         second = 0;
         third = 3;
     }
-    int nrandom = rand() % 10;
+    int nrandom = rand() % 20;
     if (nrandom < 2)
     {
         return previousPos;
-    } else if (nrandom < 6) {
+    } else if (nrandom < 10) {
         return second;
     } 
     return third;

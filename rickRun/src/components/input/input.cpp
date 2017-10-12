@@ -125,7 +125,8 @@ void input_processInput(GLFWwindow *window)
     }
     if (glfwGetKey(window, GLFW_KEY_K) == GLFW_PRESS)
     {
-        platformWorld->applyImpulse(1, btVector3(jumpBackwardForce, jumpVerticalDownForce, 0.0));
+        platformWorld->setVelocity(1, btVector3(0, 0, 0));
+        platformWorld->applyImpulse(1, btVector3(jumpBackwardForce, jumpVerticalDownForce * 100, 0.0));
     }
     if (glfwGetKey(window, GLFW_KEY_J) == GLFW_PRESS)
     {

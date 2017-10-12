@@ -165,6 +165,7 @@ void World::morePropsVelocity() {
 
 };
 void World::gravityRick() {
+    // double force = 0.016*pow(platformVelocity, 2) + 0.36*abs(platformVelocity) + 9.8;
     platformWorld->applyForce(1, btVector3(0, -9.8, 0));
 };
 void World::dynamicPlatforms(Parameters* rules) {
@@ -178,7 +179,10 @@ void World::dynamicPlatforms(Parameters* rules) {
         } else {
             previousPlatform = platformWorld->getLastPlatform() - 1;
         }
-        this->platPos = rules->getNextPlatformPos(this->platPos.getZ(), this->platPos.getY(), platformWorld->getTransformOrigin(previousPlatform).getX() + this->plataformas[0]->LX);
+        double k = this->plataformas[0]->LX;
+        double distancia = 0.04 * k * abs(platformVelocity) + 1 * k; 
+        cout << "distancia es: " << distancia << endl;
+        this->platPos = rules->getNextPlatformPos(this->platPos.getZ(), this->platPos.getY(), platformWorld->getTransformOrigin(previousPlatform).getX() + distancia);
         platformWorld->editLastPlatform(this->platPos, 10000, btVector3(this->platformVelocity, 0, 0), platformWorld->getLastPlatform());
     }
 
