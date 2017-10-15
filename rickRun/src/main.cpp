@@ -41,6 +41,7 @@ int main() {
   restart = false;
   fullscreen = false;
   srand (time(NULL));
+
   
   log_restart_gl_log ();
   
@@ -55,7 +56,7 @@ int main() {
   
   camera_viewMatrixLocation();
   camera_projMatrixLocation();
-  
+
   int distanciaEntreProps = 20;
   int distanciaEntreHouses = 50;
   int distanciaEntreCapas = 5;
@@ -102,10 +103,11 @@ int main() {
     crosshair->model2shader(shader_programme);
     
     Time *timer = new Time();
-    
+
     while (!glfwWindowShouldClose(g_window))
     {
-      
+      // mouseIn = false;
+
       if (restart) {
         core = new World(40, 20, 20, 0.0);
         
@@ -163,7 +165,23 @@ int main() {
       window_clear();
       
       /* CAMERA */
-      
+      double xpos, ypos;
+      glfwGetCursorPos(g_window, &xpos, &ypos);
+
+      glfwSetCursorPos(g_window, xpos + 0.01 * ((g_gl_width / 2.0) - xpos), ypos + 0.01 * ((g_gl_height / 2.0 + 1800.0) - ypos));
+
+      glfwGetCursorPos(g_window, &xpos, &ypos);
+
+      int xmid = g_gl_width / 2;
+      int ymid = g_gl_height / 2;
+
+      glm::vec3 front;
+
+      front.z = (glm::radians(xpos - xmid));
+      front.y = (glm::radians(-ypos + ymid));
+      front.x = 100;
+      cameraFront = glm::normalize(front);
+
       camera_projectionMatrixPerspective();
       camera_viewMatrixPerspective(glm::vec3(core->getRickPos().getX(), core->getRickPos().getY() + 2.0, core->getRickPos().getZ() + 4.5));
       
@@ -179,6 +197,8 @@ int main() {
       
       core->drawHouses(rules);
       core->drawProps();
+
+      // cout << fps << endl;
       
       /* SWAP BUFFER */
       

@@ -54,11 +54,7 @@ void input_mouse_callback(GLFWwindow *window, double xpos, double ypos)
         // platformWorld->applyImpulse(1, btVector3(0, -1.0, -1.0));
         // camera_resetPerspective();
     }
-    
-    // lastX = g_gl_width / 2.0;
-    // lastY = g_gl_height / 2.0;
-    // glfwSetCursorPos(g_window, lastX, lastY);
-    
+
     float sensitivity = 0.01f;
     xoffset *= sensitivity;
     yoffset *= sensitivity;
@@ -71,22 +67,19 @@ void input_mouse_callback(GLFWwindow *window, double xpos, double ypos)
     if (pitch < -89.0f)
     pitch = -89.0f;
     
-    int xmid = g_gl_width / 2;
-    int ymid = g_gl_height / 2;
+    // int xmid = g_gl_width / 2;
+    // int ymid = g_gl_height / 2;
     
-    glm::vec3 front;
-    // front.x = cos(glm::radians(yaw)) * cos(glm::radians(pitch));
-    // front.y = sin(glm::radians(pitch));
-    // front.z = sin(glm::radians(yaw)) * cos(glm::radians(pitch));
-    // cout << "xpos: " << xpos << "  ypos: " << ypos << endl;
+    // glm::vec3 front;
     
-    front.z = (glm::radians(xpos - xmid));
-    front.y = (glm::radians(-ypos + ymid));
-    front.x = 100;
-    cout << "x: " << front.x;
-    cout << "  y: " << front.y;
-    cout << "  z: " << front.z << endl;
-    cameraFront = glm::normalize(front);
+    // front.z = (glm::radians(xpos - xmid));
+    // front.y = (glm::radians(-ypos + ymid));
+    // front.x = 100;
+    // cameraFront = glm::normalize(front);
+
+    // lastX = g_gl_width / 2.0;
+    // lastY = g_gl_height / 2.0;
+    // glfwSetCursorPos(g_window, lastX, lastY);
 }
 
 void input_scroll_callback(GLFWwindow *window, double xoffset, double yoffset)

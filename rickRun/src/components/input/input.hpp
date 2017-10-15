@@ -19,6 +19,7 @@ extern glm::vec3 cameraPos;
 extern glm::vec3 cameraFront;
 extern glm::vec3 cameraUp;
 extern bool firstMouse;
+extern bool mouseIn;
 extern float yaw;
 extern float pitch;
 extern float lastX;
