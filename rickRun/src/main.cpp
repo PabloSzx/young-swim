@@ -14,6 +14,8 @@
 #include <glm/gtc/type_ptr.hpp>
 #include <iostream>
 
+#include "sound.h"
+
 
 #include "./util/shader/shader.hpp"
 #include "./util/window/window.hpp"
@@ -25,7 +27,6 @@
 #include "./components/physics/physics.hpp"
 #include "./containers/world/world.hpp"
 #include "./components/time/time.hpp"
-
 #ifdef APPLE
 #include <BulletDynamics/btBulletDynamicsCommon.h>
 #else
@@ -35,6 +36,8 @@
 #include "./data/constants.hpp"
 #include "./data/global.hpp"
 
+
+
 using namespace std;
 
 int main() {
@@ -42,25 +45,25 @@ int main() {
   fullscreen = false;
   srand (time(NULL));
 
-  
+
   log_restart_gl_log ();
-  
+
   window_start_gl();
-  
+
   window_flags();
-  
+
   input_setCallbacks();
-  
+
   shader_programme = shader_create_programme_from_files ();
   color = glGetUniformLocation(shader_programme, "color");
-  
+
   camera_viewMatrixLocation();
   camera_projMatrixLocation();
 
   int distanciaEntreProps = 20;
   int distanciaEntreHouses = 50;
   int distanciaEntreCapas = 5;
-  
+
   int minXVel = -2;
   int maxXVel = 2;
   int maxYVel = 12;
@@ -74,9 +77,9 @@ int main() {
   double forceVerticalDownJump = -0.2;
   double forceBackwardJump = -0.2;
   double forceForwardJump = 0.2;
-  
+
   double frame_start = 0.0;
-  
+
   Parameters *rules = new Parameters(
     minXVel, maxXVel, maxYVel, maxZVel,
     minX, maxX, minZ, maxZ,
@@ -84,25 +87,27 @@ int main() {
     forceForwardJump, forceBackwardJump,
     distanciaEntreHouses, distanciaEntreProps,
     distanciaEntreCapas);
-    
+
     World *core = new World(40, 20, 20, 0.0);
-    
+
     core->genPhysics();
-    
+
     core->genRick();
-    
+
     core->genPlatforms(rules);
-    
+
     core->genParallaxHouses(rules);
-    
+
     core->genParallaxProps(rules);
-    
+
     Model *crosshair = new Model(const_cast<char *>("mesh/crosshair.obj"));
     crosshair->setColor(0.0f, 0.0f, 0.0f);
     crosshair->scale(glm::vec3(0.05f));
     crosshair->model2shader(shader_programme);
-    
+
     Time *timer = new Time();
+
+
 
     while (!glfwWindowShouldClose(g_window))
     {
@@ -110,60 +115,60 @@ int main() {
 
       if (restart) {
         core = new World(40, 20, 20, 0.0);
-        
+
         core->genPhysics();
-        
+
         core->genRick();
-        
+
         core->genPlatforms(rules);
-        
+
         core->genParallaxHouses(rules);
-        
+
         core->genParallaxProps(rules);
-        
+
         restart = false;
         timer->restart();
       }
       window_update_fps_counter (g_window);
-      
+
       timer->updateNow();
-      
+
       core->dynamicPlatforms(rules);
-      
+
       core->dynamicHouses(rules);
-      
+
       core->dynamicProps(rules);
-      
+
       if (timer->checkFirstTime(5.0)) {
         core->startPlatformVelocity();
       } else if (timer->every(15.0)) {
         cout << "Mas velocidad" << endl;
         core->morePlatformVelocity();
       }
-      
-      
+
+
       rules->checkRickPos(platformWorld);
       rules->checkRickVel(platformWorld);
-      
+
       core->getPhysicsPos();
-      
+
       core->gravityRick();
-      
+
       window_frameCounter();
-      
+
       /* PHYSICS */
       platformWorld->checkCollision(&allowJump);
       platformWorld->stepSimulation(fps);
-      
+
       parallaxHouses->stepSimulation(fps);
       parallaxProps->stepSimulation(fps);
-      
+
       /* INPUT */
       input_processInput(g_window);
-      
+
       /* CLEAR */
       window_clear();
-      
+
       /* CAMERA */
       double xpos, ypos;
       glfwGetCursorPos(g_window, &xpos, &ypos);
@@ -184,29 +189,30 @@ int main() {
 
       camera_projectionMatrixPerspective();
       camera_viewMatrixPerspective(glm::vec3(core->getRickPos().getX(), core->getRickPos().getY() + 2.0, core->getRickPos().getZ() + 4.5));
-      
+
       /* MODEL DRAW */
       glm::vec3 crosshairPos = cameraPos + glm::vec3(core->getRickPos().getX(), core->getRickPos().getY() + 2.0, core->getRickPos().getZ() + 4.5)  + cameraFront;
       crosshair->setpos(crosshairPos);
       crosshair->draw();
       core->drawRick();
-      
+
       core->drawPlatforms();
-      
+
       core->drawPlane();
-      
+
       core->drawHouses(rules);
       core->drawProps();
 
+
+//}
       // cout << fps << endl;
-      
+
       /* SWAP BUFFER */
-      
+
       window_swap();
-      
+
     }
-    
+
     glfwTerminate();
     return 0;
   }
-  

@@ -9,6 +9,10 @@ int g_gl_width = 640;       //constants
 int g_gl_height = 400;       //constants
 GLFWwindow *g_window = NULL; //main
 
+
+// Sounds
+sound *snd_01 = new sound((const char*)"audio/RICK_RUN2.wav");
+sound *snd_02 = new sound((const char*)"audio/RICK_RUN1.wav");
 // camera
 // glm::vec3 cameraPos = glm::vec3(0.0f, 0.0f, 0.0f);
 // glm::vec3 cameraFront = glm::vec3(0.0f, 0.0f, -1.0f);

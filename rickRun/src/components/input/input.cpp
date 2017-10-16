@@ -1,4 +1,5 @@
 #include "input.hpp"
+#include "../../sound.h"
 // #include "../camera/camera.h"
 
 using namespace std;
@@ -13,7 +14,7 @@ void camera_resetPerspective() {
     cameraFront = glm::vec3(0.94f, -0.33f, -0.09f);
     cameraUp = glm::vec3(0.0f, 1.0f, 0.0f);
     yaw = 0; // yaw is initialized to -90.0 degrees since a yaw of 0.0 results in a direction vector pointing to the right so we initially rotate a bit to the left.
-    
+
     pitch = -20.0f;
 }
 
@@ -25,17 +26,17 @@ void input_mouse_callback(GLFWwindow *window, double xpos, double ypos)
         lastY = ypos;
         firstMouse = false;
     }
-    
+
     float xoffset = xpos - lastX;
     float yoffset = lastY - ypos;
-    
+
     // cout << "xoffset: " << xoffset << "   -   " << "yoffset: " << yoffset << endl;
     // cout << "xpos: " << xpos << "   -   " << "ypos: " << ypos << endl;
-    
+
     int jumpSensitivity = 5;
     if (xoffset > jumpSensitivity && yoffset > jumpSensitivity)
     {
-        
+
         // platformWorld->applyImpulse(1, btVector3(0,1.0,1.0));
         // camera_resetPerspective();
     }
@@ -58,20 +59,20 @@ void input_mouse_callback(GLFWwindow *window, double xpos, double ypos)
     float sensitivity = 0.01f;
     xoffset *= sensitivity;
     yoffset *= sensitivity;
-    
+
     yaw += xoffset;
     pitch += yoffset;
-    
+
     if (pitch > 89.0f)
     pitch = 89.0f;
     if (pitch < -89.0f)
     pitch = -89.0f;
-    
+
     // int xmid = g_gl_width / 2;
     // int ymid = g_gl_height / 2;
-    
+
     // glm::vec3 front;
-    
+
     // front.z = (glm::radians(xpos - xmid));
     // front.y = (glm::radians(-ypos + ymid));
     // front.x = 100;
@@ -96,7 +97,7 @@ void input_processInput(GLFWwindow *window)
 {
     if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
     glfwSetWindowShouldClose(window, true);
-    
+
     float cameraSpeed = 2.5 * deltaTime;
     if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
     cameraPos += cameraSpeed * cameraFront;
@@ -106,12 +107,12 @@ void input_processInput(GLFWwindow *window)
     cameraPos -= glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed;
     if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
     cameraPos += glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed;
-    
+
     // btVector3 totalForceOnRick = platformWorld->getVelocity(1);
-    
+
     // cout << fps << "     - ";
-    // cout << "forceX: " << totalForceOnRick.getX() 
-    // << "  forceY: " << totalForceOnRick.getY() 
+    // cout << "forceX: " << totalForceOnRick.getX()
+    // << "  forceY: " << totalForceOnRick.getY()
     // << "   forceZ: " << totalForceOnRick.getZ() << endl;
     if (glfwGetKey(window, GLFW_KEY_I) == GLFW_PRESS) {
         platformWorld->applyImpulse(1, btVector3(jumpForwardForce, 0.0, 0.0));
@@ -150,6 +151,20 @@ void input_processInput(GLFWwindow *window)
         cout << "yaw " << yaw << endl;
         cout << "pitch " << pitch << endl;
     }
+    if (glfwGetKey(window, GLFW_KEY_1) == GLFW_PRESS)
+    {
+      if(snd_01->get_source_state() != AL_PLAYING)  {
+        snd_01->play();
+      }
+    }
+    if (glfwGetKey(window, GLFW_KEY_2) == GLFW_PRESS)
+    {
+      if(snd_02->get_source_state() != AL_PLAYING)  {
+        snd_02->play();
+      }
+    }
+
+
 }
 
 void input_framebuffer_size_callback(GLFWwindow *window, int width, int height)
