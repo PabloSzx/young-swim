@@ -81,6 +81,23 @@ void sound::check() {
     cout << "sound01 va en el segundo " << s << " de " << durationInSeconds << endl;
 }
 
+ALfloat sound::timeToEnd() {
+	ALint bufferID, bufferSize, frequency, bitsPerSample, channels;
+    alGetSourcei(this->source, AL_BUFFER, &bufferID);
+    alGetBufferi(bufferID, AL_SIZE, &bufferSize);
+    alGetBufferi(bufferID, AL_FREQUENCY, &frequency);
+    alGetBufferi(bufferID, AL_CHANNELS, &channels);    
+    alGetBufferi(bufferID, AL_BITS, &bitsPerSample);    
+
+	ALfloat durationInSeconds = ((ALfloat)bufferSize)/(frequency*channels*(bitsPerSample/8));
+	
+    ALfloat s;
+	alGetSourcef(this->source, AL_SEC_OFFSET, &s);
+	
+	return durationInSeconds - s;
+    cout << "background va en el segundo " << s << " de " << durationInSeconds << endl;
+}
+
 
 ALint sound::get_source_state(){
 	alGetSourcei(this->source, AL_SOURCE_STATE, &this->source_state);

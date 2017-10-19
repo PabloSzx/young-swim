@@ -11,8 +11,12 @@ GLFWwindow *g_window = NULL; //main
 
 
 // Sounds
-sound *snd_01 = new sound((const char*)"audio/RICK_RUN2.wav");
-sound *snd_02 = new sound((const char*)"audio/RICK_RUN1.wav");
+// sound *snd_01 = new sound((const char*)"audio/RICK_RUN2.wav");
+// sound *snd_02 = new sound((const char*)"audio/RICK_RUN1.wav");
+
+sound **background = static_cast<sound **>(malloc(sizeof(sound *) * 2));;;
+
+World *core;
 // camera
 // glm::vec3 cameraPos = glm::vec3(0.0f, 0.0f, 0.0f);
 // glm::vec3 cameraFront = glm::vec3(0.0f, 0.0f, -1.0f);

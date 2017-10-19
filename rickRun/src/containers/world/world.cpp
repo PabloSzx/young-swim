@@ -295,3 +295,29 @@ void World::drawProps() {
 btVector3 World::getRickPos() {
     return this->rickPos;
 }
+
+void World::initBackgroundMusic() {
+    background[0] = new sound(const_cast<char *>("audio/RICK_RUN1.wav"));
+    background[1] = new sound(const_cast<char *>("audio/RICK_RUN2.wav"));
+
+
+
+    background[1]->play();
+    this->backgroundMusicNow = 1;
+}
+
+void World::backgroundMusic() {
+    cout << "background now" << this->backgroundMusicNow << endl;
+
+    if (background[this->backgroundMusicNow]->timeToEnd() <= 5) {
+        if (this->backgroundMusicNow = 0) {
+            cout << "if" << endl;
+            background[1]->play();
+            this->backgroundMusicNow = 1;
+        } else {
+            cout << "else" << endl;
+            background[0]->play();
+            this->backgroundMusicNow = 0;
+        }
+    }
+}

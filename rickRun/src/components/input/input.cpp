@@ -153,21 +153,24 @@ void input_processInput(GLFWwindow *window)
     }
     if (glfwGetKey(window, GLFW_KEY_1) == GLFW_PRESS)
     {
-      if(snd_01->get_source_state() != AL_PLAYING)  {
-        snd_01->play();
-      }
+    //   if(snd_01->get_source_state() != AL_PLAYING)  {
+    //     snd_01->play();
+    //   }
+    background[0]->play();
     }
     if (glfwGetKey(window, GLFW_KEY_2) == GLFW_PRESS)
     {
-      if(snd_02->get_source_state() != AL_PLAYING)  {
-        snd_02->play();
-      }
+    //   if(snd_02->get_source_state() != AL_PLAYING)  {
+    //     snd_02->play();
+    //   }
+    background[1]->play();
     }
     if (glfwGetKey(window, GLFW_KEY_3) == GLFW_PRESS)
     {
-
-    snd_01->check();
-
+        cout << "3 presionado" << endl;
+        // background[0]->play();
+        // background[1]->play();
+        // core->initBackgroundMusic();
     }
 
 

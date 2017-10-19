@@ -13,9 +13,14 @@
 #include <glm/glm.hpp>
 #include <iostream>
 #include "../physics/physics.hpp"
+#include "../../containers/world/world.hpp"
 
 extern sound *snd_01;
 extern sound *snd_02;
+
+extern sound **background;
+
+extern World *core;
 
 extern int g_gl_width;
 extern int g_gl_height;

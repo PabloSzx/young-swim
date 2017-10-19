@@ -45,7 +45,6 @@ int main() {
   fullscreen = false;
   srand (time(NULL));
 
-
   log_restart_gl_log ();
 
   window_start_gl();
@@ -88,7 +87,8 @@ int main() {
     distanciaEntreHouses, distanciaEntreProps,
     distanciaEntreCapas);
 
-    World *core = new World(40, 20, 20, 0.0);
+
+    core = new World(40, 20, 20, 0.0);
 
     core->genPhysics();
 
@@ -100,6 +100,8 @@ int main() {
 
     core->genParallaxProps(rules);
 
+    core->initBackgroundMusic();
+
     Model *crosshair = new Model(const_cast<char *>("mesh/crosshair.obj"));
     crosshair->setColor(0.0f, 0.0f, 0.0f);
     crosshair->scale(glm::vec3(0.05f));
@@ -107,15 +109,16 @@ int main() {
 
     Time *timer = new Time();
 
-
+    
 
     while (!glfwWindowShouldClose(g_window))
     {
       // mouseIn = false;
-
+      
       if (restart) {
+        int idBackgroundMusic = core->backgroundMusicNow;
         core = new World(40, 20, 20, 0.0);
-
+        core->backgroundMusicNow = idBackgroundMusic;
         core->genPhysics();
 
         core->genRick();
@@ -129,6 +132,7 @@ int main() {
         restart = false;
         timer->restart();
       }
+      core->backgroundMusic();
       window_update_fps_counter (g_window);
 
       timer->updateNow();

@@ -4,6 +4,7 @@
 #include "../../components/model/model.hpp"
 #include "../../components/physics/physics.hpp"
 #include "../../components/parameters/parameters.hpp"
+#include "../../components/sound/sound.hpp"
 #include <string>
 #include <vector>
 
@@ -12,6 +13,8 @@
 extern Bullet *platformWorld;
 extern Bullet *parallaxHouses;
 extern Bullet *parallaxProps;
+
+extern sound **background;
 
 class World {
 private:
@@ -29,12 +32,15 @@ private:
   btVector3 platPos;
   btVector3 casaPos;
   btVector3 propPos;
+
+  
   
   std::vector<int> propTypes;
   
   std::vector<std::string> getRandomProp(int i);
   
 public:
+  int backgroundMusicNow;
   World(int nPlataformas, int nHouses, int nProps, double platformInitialVelocity);//listo
   void genRick();//listo
   void genPlatforms(Parameters* rules);//listo
@@ -58,6 +64,10 @@ public:
   void drawPlane();//listo
   void drawHouses(Parameters* rules);
   void drawProps();
+  
+
+  void initBackgroundMusic();
+  void backgroundMusic();
   
   
   btVector3 getRickPos();

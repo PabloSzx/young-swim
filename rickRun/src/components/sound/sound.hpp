@@ -27,6 +27,7 @@ class sound{
         void play();
         void stop();
         void check();
+        ALfloat timeToEnd();
         void limpia_contexto_recursos();
         void set_listener(const glm::vec3& o);
         void definir_fuente(const glm::vec3& f, ALboolean l);
