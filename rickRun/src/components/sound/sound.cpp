@@ -11,7 +11,7 @@
 
 #include <AL/al.h>
 #include <AL/alc.h>
-#include "sound.h"
+#include "sound.hpp"
 #include "AL/alut.h"
 
 #include <iostream>
@@ -63,6 +63,22 @@ void sound::stop()
 
 	alSourcei(this->source, AL_BUFFER, this->buffer);
 	alSourceStop(this->source);
+}
+
+void sound::check() {
+
+	ALint bufferID, bufferSize, frequency, bitsPerSample, channels;
+    alGetSourcei(this->source, AL_BUFFER, &bufferID);
+    alGetBufferi(bufferID, AL_SIZE, &bufferSize);
+    alGetBufferi(bufferID, AL_FREQUENCY, &frequency);
+    alGetBufferi(bufferID, AL_CHANNELS, &channels);    
+    alGetBufferi(bufferID, AL_BITS, &bitsPerSample);    
+
+	ALfloat durationInSeconds = ((ALfloat)bufferSize)/(frequency*channels*(bitsPerSample/8));
+	
+    ALfloat s;
+    alGetSourcef(this->source, AL_SEC_OFFSET, &s);
+    cout << "sound01 va en el segundo " << s << " de " << durationInSeconds << endl;
 }
 
 

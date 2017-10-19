@@ -26,6 +26,7 @@ class sound{
         bool TEST_ERROR (const char* message);
         void play();
         void stop();
+        void check();
         void limpia_contexto_recursos();
         void set_listener(const glm::vec3& o);
         void definir_fuente(const glm::vec3& f, ALboolean l);

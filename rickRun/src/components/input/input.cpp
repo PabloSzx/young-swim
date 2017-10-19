@@ -1,5 +1,5 @@
 #include "input.hpp"
-#include "../../sound.h"
+#include "../sound/sound.hpp"
 // #include "../camera/camera.h"
 
 using namespace std;
@@ -162,6 +162,12 @@ void input_processInput(GLFWwindow *window)
       if(snd_02->get_source_state() != AL_PLAYING)  {
         snd_02->play();
       }
+    }
+    if (glfwGetKey(window, GLFW_KEY_3) == GLFW_PRESS)
+    {
+
+    snd_01->check();
+
     }
 
 

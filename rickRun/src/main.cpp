@@ -14,7 +14,7 @@
 #include <glm/gtc/type_ptr.hpp>
 #include <iostream>
 
-#include "sound.h"
+#include "./components/sound/sound.hpp"
 
 
 #include "./util/shader/shader.hpp"
