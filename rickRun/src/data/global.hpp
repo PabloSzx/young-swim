@@ -5,11 +5,11 @@
 #include <glm/glm.hpp>
 #include "../components/physics/physics.hpp"
 
-int g_gl_width = 640;       //constants
-int g_gl_height = 400;       //constants
+int g_gl_width = 1280;       //constants
+int g_gl_height = 720;       //constants
 GLFWwindow *g_window = NULL; //main
 
-glm::vec3 sun = glm::vec3(0.0f, 10.0f, 0.0f);
+glm::vec3 sun = glm::vec3(0.0f, 1.0f, 0.0f);
 // Sounds
 // sound *snd_01 = new sound((const char*)"audio/RICK_RUN2.wav");
 // sound *snd_02 = new sound((const char*)"audio/RICK_RUN1.wav");

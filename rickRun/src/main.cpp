@@ -137,7 +137,7 @@ int main() {
       core->backgroundMusic();
       window_update_fps_counter (g_window);
 
-      // timer->updateNow();
+      timer->updateNow();
 
       core->dynamicPlatforms(rules);
 

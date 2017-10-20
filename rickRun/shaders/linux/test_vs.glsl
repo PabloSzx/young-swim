@@ -17,10 +17,12 @@ out vec3 normal;
 out vec2 st;
 
 void main() {
-	light = (vec4(sun.x, sun.y, sun.z, 0.0f)).xyz;
+	vec3 lp = vec3(sun.x, sun.y, sun.z);
+	light = normalize(matrix*vec4(vertex_position, 1.0f) - vec4(lp, 1.0f)).xyz;
+	//light = (vec4(sun.x, sun.y, sun.z, 0.0f)).xyz;
 
 	st = texture_coord;
 	//normal = vertex_normal;
-	normal = (view * matrix * vec4(vertex_normal, 0.0)).xyz;
+	normal = (vec4(vertex_normal, 0.0)).xyz;
 	gl_Position = proj * view * matrix * vec4 (vertex_position, 1.0);
 }
