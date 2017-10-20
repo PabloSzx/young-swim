@@ -37,6 +37,7 @@ World::World(int nPlataformas, int nHouses, int nProps, int nBackgroundMusic, do
     this->nBackgroundMusic = nBackgroundMusic;
     this->propTypes.reserve(nProps);
     this->platformVelocity = platformInitialVelocity;
+    this->preDistance = false;
 }
 void World::reset(Parameters* rules) {
     this->platformVelocity = 0.0;
@@ -210,8 +211,33 @@ void World::gravityRick() {
 void World::dynamicPlatforms(Parameters* rules) {
     int previousPlatform;
 
+    double lastPlatformDistance = platformWorld->getTransformOrigin(platformWorld->getLastPlatform()).getX();
+
+    // cout << "distance: " << lastPlatformDistance << endl;
+    if (!this->preDistance) {
+        distanceP = lastPlatformDistance;
+    } else {
+        if (platformWorld->getLastPlatform() == PLATFORMS_START_INDEX)
+        {
+            previousPlatform = platformWorld->getNMax() - 1;
+        }
+        else
+        {
+            previousPlatform = platformWorld->getLastPlatform() - 1;
+        }
+        cout << endl << endl;
+        cout << -platformWorld->getTransformOrigin(previousPlatform).getX() - lastPlatformDistance << endl;
+        
+        // cout << "last " << lastPlatformDistance << endl;
+        // cout << "previous " << platformWorld->getTransformOrigin(previousPlatform).getX() << endl; 
+        distanceP += (lastPlatformDistance + platformWorld->getTransformOrigin(previousPlatform).getX());
+    }
+
     if (abs(platformWorld->getTransformOrigin(platformWorld->getLastPlatform()).getX() - platformWorld->getTransformOrigin(1).getX()) > (20 * this->plataformas[0]->LX))
     {
+        if (!this->preDistance) {
+            this->preDistance = true;
+        }
         // cout << "last platform modified" << platformWorld->getLastPlatform() << endl;
         if (platformWorld->getLastPlatform() == PLATFORMS_START_INDEX) {
             previousPlatform = platformWorld->getNMax() - 1;

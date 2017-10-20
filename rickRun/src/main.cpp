@@ -78,6 +78,7 @@ int main() {
   double forceBackwardJump = -0.2;
   double forceForwardJump = 0.2;
 
+
   double frame_start = 0.0;
 
   Parameters *rules = new Parameters(
@@ -114,21 +115,10 @@ int main() {
 
     while (!glfwWindowShouldClose(g_window))
     {
+      cout << distanceP << endl;
       // mouseIn = false;
       
       if (restart) {
-        // int idBackgroundMusic = core->backgroundMusicNow;
-        // core = new World(40, 20, 20, 0.0);
-        // core->backgroundMusicNow = idBackgroundMusic;
-        // core->genPhysics();
-
-        // core->genRick();
-
-        // core->genPlatforms(rules);
-
-        // core->genParallaxHouses(rules);
-
-        // core->genParallaxProps(rules);
         core->reset(rules);
 
         restart = false;
@@ -147,7 +137,7 @@ int main() {
 
       if (timer->checkFirstTime(5.0)) {
         core->startPlatformVelocity();
-      } else if (timer->every(15.0)) {
+      } else if (timer->every(6.0)) {
         cout << "Mas velocidad" << endl;
         core->morePlatformVelocity();
       }
@@ -198,9 +188,9 @@ int main() {
       camera_viewMatrixPerspective(glm::vec3(core->getRickPos().getX(), core->getRickPos().getY() + 2.0, core->getRickPos().getZ() + 4.5));
 
       /* MODEL DRAW */
-      glm::vec3 crosshairPos = cameraPos + glm::vec3(core->getRickPos().getX(), core->getRickPos().getY() + 2.0, core->getRickPos().getZ() + 4.5)  + cameraFront;
-      crosshair->setpos(crosshairPos);
-      crosshair->draw();
+      // glm::vec3 crosshairPos = cameraPos + glm::vec3(core->getRickPos().getX(), core->getRickPos().getY() + 2.0, core->getRickPos().getZ() + 4.5)  + cameraFront;
+      // crosshair->setpos(crosshairPos);
+      // crosshair->draw();
       core->drawRick();
 
       core->drawPlatforms();
@@ -210,8 +200,6 @@ int main() {
       core->drawHouses(rules);
       core->drawProps();
 
-
-//}
       // cout << fps << endl;
 
       /* SWAP BUFFER */

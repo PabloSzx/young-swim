@@ -16,6 +16,8 @@ extern Bullet *parallaxProps;
 
 extern sound **background;
 
+extern double distanceP;
+
 class World {
 private:
   int nPlataformas;
@@ -23,6 +25,7 @@ private:
   int nProps;
   int nBackgroundMusic;
   double platformVelocity;
+  bool preDistance;
   Model* rick;
   Model **plataformas;
   Model *plano;
@@ -33,6 +36,7 @@ private:
   btVector3 platPos;
   btVector3 casaPos;
   btVector3 propPos;
+  
 
   int backgroundMusicNow;
 
