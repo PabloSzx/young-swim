@@ -55,6 +55,7 @@ int main() {
 
   shader_programme = shader_create_programme_from_files ();
   color = glGetUniformLocation(shader_programme, "color");
+  sunLocation = glGetUniformLocation(shader_programme, "sun");
 
   camera_viewMatrixLocation();
   camera_projMatrixLocation();
@@ -136,7 +137,7 @@ int main() {
       core->backgroundMusic();
       window_update_fps_counter (g_window);
 
-      timer->updateNow();
+      // timer->updateNow();
 
       core->dynamicPlatforms(rules);
 
@@ -170,6 +171,7 @@ int main() {
 
       /* INPUT */
       input_processInput(g_window);
+      glUniform3f(sunLocation, sun.x, sun.y, sun.z);
 
       /* CLEAR */
       window_clear();

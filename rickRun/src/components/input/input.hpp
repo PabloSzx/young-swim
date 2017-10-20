@@ -18,6 +18,8 @@
 extern sound *snd_01;
 extern sound *snd_02;
 
+extern glm::vec3 sun;
+
 extern sound **background;
 
 extern World *core;

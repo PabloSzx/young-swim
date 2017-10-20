@@ -10,11 +10,17 @@ in vec2 texture_coord;
 
 uniform mat4 view, proj, matrix;
 
+uniform vec3 sun;
+
+out vec3 light;
 out vec3 normal;
 out vec2 st;
 
 void main() {
+	light = (vec4(sun.x, sun.y, sun.z, 0.0f)).xyz;
+
 	st = texture_coord;
-	normal = vertex_normal;
+	//normal = vertex_normal;
+	normal = (view * matrix * vec4(vertex_normal, 0.0)).xyz;
 	gl_Position = proj * view * matrix * vec4 (vertex_position, 1.0);
 }
