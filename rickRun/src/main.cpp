@@ -83,12 +83,12 @@ int main() {
     minXVel, maxXVel, maxYVel, maxZVel,
     minX, maxX, minZ, maxZ,
     forceHorizontalJump, forceVerticalUpJump, forceVerticalDownJump,
-    forceForwardJump, forceBackwardJump,
+    forceForwardJump, forceBackwardJump,  
     distanciaEntreHouses, distanciaEntreProps,
     distanciaEntreCapas);
 
 
-    core = new World(40, 20, 20, 0.0);
+    core = new World(40, 20, 20, 6, 0.0);
 
     core->genPhysics();
 
@@ -116,18 +116,19 @@ int main() {
       // mouseIn = false;
       
       if (restart) {
-        int idBackgroundMusic = core->backgroundMusicNow;
-        core = new World(40, 20, 20, 0.0);
-        core->backgroundMusicNow = idBackgroundMusic;
-        core->genPhysics();
+        // int idBackgroundMusic = core->backgroundMusicNow;
+        // core = new World(40, 20, 20, 0.0);
+        // core->backgroundMusicNow = idBackgroundMusic;
+        // core->genPhysics();
 
-        core->genRick();
+        // core->genRick();
 
-        core->genPlatforms(rules);
+        // core->genPlatforms(rules);
 
-        core->genParallaxHouses(rules);
+        // core->genParallaxHouses(rules);
 
-        core->genParallaxProps(rules);
+        // core->genParallaxProps(rules);
+        core->reset(rules);
 
         restart = false;
         timer->restart();

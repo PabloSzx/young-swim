@@ -30,12 +30,51 @@ std::vector<std::string> World::getRandomProp(int i) {
     // return {"",""};
 }
 
-World::World(int nPlataformas, int nHouses, int nProps, double platformInitialVelocity) {
+World::World(int nPlataformas, int nHouses, int nProps, int nBackgroundMusic, double platformInitialVelocity) {
     this->nPlataformas = nPlataformas;
     this->nHouses = nHouses;
     this->nProps = nProps;
+    this->nBackgroundMusic = nBackgroundMusic;
     this->propTypes.reserve(nProps);
     this->platformVelocity = platformInitialVelocity;
+}
+void World::reset(Parameters* rules) {
+    this->platformVelocity = 0.0;
+
+    // this->genPhysics();
+    platformWorld = new Bullet(this->nPlataformas + 2, btVector3(0, 0, 0), PLATFORMS_START_INDEX);
+    platformWorld->newPlane(btVector3(0, 1, 0), -3.7, 0); //0
+
+    platformWorld->newFallBody(btVector3(rick->LX / 2, 0, rick->LZ / 2), btVector3(0.0, 10.0, 0.0), 1.0, btVector3(0, 0, 0), -1); //1
+
+    this->platPos = btVector3(1.0, 0.0, 0.0);
+    platformWorld->newFallBody(btVector3(this->plataformas[0]->LX / 2, this->plataformas[0]->LY * 3, this->plataformas[0]->LZ / 2), this->platPos, 1000, btVector3(0, 0, 0), PLATFORMS_START_INDEX);
+    for (int i = 1; i < this->nPlataformas; i += 1) {
+        this->platPos = rules->getNextPlatformPos(this->platPos.getZ(), this->platPos.getY(), i * this->plataformas[0]->LX);
+
+        platformWorld->newFallBody(btVector3(this->plataformas[0]->LX / 2, this->plataformas[0]->LY * 3, this->plataformas[0]->LZ / 2), this->platPos, 10000, btVector3(0, 0, 0), i + PLATFORMS_START_INDEX);
+    }
+
+    parallaxHouses = new Bullet(this->nHouses, btVector3(0, 0, 0), 0);
+
+    this->casaPos = btVector3(0, 0, 12);
+    parallaxHouses->newFallBody(btVector3(this->casas[0]->LX / 2, this->casas[0]->LY / 2 + 0.1, this->casas[0]->LZ / 2), this->casaPos, 1, btVector3(0.0, 0, 0), PARALLAX_START_INDEX);
+    for (int i = 1; i < this->nHouses; i += 1)
+    {
+        this->casaPos = rules->getNextHousePos(this->casaPos.getX(), this->casaPos.getY(), this->casaPos.getZ());
+        parallaxHouses->newFallBody(btVector3(this->casas[0]->LX / 2, this->casas[0]->LY / 2 + 0.1, this->casas[0]->LZ / 2), this->casaPos, 1, btVector3(0.0, 0, 0), i);
+    }
+
+    parallaxProps = new Bullet(this->nProps, btVector3(0, 0, 0), 0);
+    
+    this->propPos = btVector3(0, 0, 7);
+    parallaxProps->newFallBody(btVector3(this->props[0]->LX / 2, this->props[0]->LY / 2 + 0.1, this->props[0]->LZ / 2), propPos, 1, btVector3(0.0, 0, 0), PARALLAX_START_INDEX);
+
+    for (int i = 1; i < this->nProps; i += 1)
+    {
+        this->propPos = rules->getNextPropPos(this->propPos.getX(), this->propPos.getY(), this->propPos.getZ());
+        parallaxProps->newFallBody(btVector3(this->props[0]->LX / 2 + 0.1, this->props[0]->LY / 2 + 0.1, this->props[0]->LZ / 2), this->propPos, 1, btVector3(0.0, 0, 0), i + PARALLAX_START_INDEX);
+    }
 }
 void World::genRick() {
     this->rick = new Model(const_cast<char *>("mesh/littlerick.obj"), const_cast<char *>("mesh/littlerick.png"));
@@ -50,7 +89,7 @@ void World::genPlatforms(Parameters* rules) {
     this->plataformas[0]->setColor(0.753f, 0.753f, 0.753f);
     this->plataformas[0]->model2shader(shader_programme);
     // this->plataformas[0]->load_texture(const_cast<char *>("mesh/steel.jpg"));
-    this->platPos = btVector3(1.0, 0.0, 0.0);
+    
 
     platformWorld->newFallBody(btVector3(this->plataformas[0]->LX / 2, this->plataformas[0]->LY * 3, this->plataformas[0]->LZ / 2), this->platPos, 1000, btVector3(0, 0, 0), PLATFORMS_START_INDEX);
 
@@ -181,7 +220,6 @@ void World::dynamicPlatforms(Parameters* rules) {
         }
         double k = this->plataformas[0]->LX;
         double distancia = 0.04 * k * abs(platformVelocity) + 1 * k; 
-        cout << "distancia es: " << distancia << endl;
         this->platPos = rules->getNextPlatformPos(this->platPos.getZ(), this->platPos.getY(), platformWorld->getTransformOrigin(previousPlatform).getX() + distancia);
         platformWorld->editLastPlatform(this->platPos, 10000, btVector3(this->platformVelocity, 0, 0), platformWorld->getLastPlatform());
     }
@@ -299,25 +337,34 @@ btVector3 World::getRickPos() {
 void World::initBackgroundMusic() {
     background[0] = new sound(const_cast<char *>("audio/RICK_RUN1.wav"));
     background[1] = new sound(const_cast<char *>("audio/RICK_RUN2.wav"));
+    background[2] = new sound(const_cast<char *>("audio/RICK_RUN3.wav"));
+    background[3] = new sound(const_cast<char *>("audio/RICK_RUN4.wav"));
+    background[4] = new sound(const_cast<char *>("audio/RICK_RUN5.wav"));
+    background[5] = new sound(const_cast<char *>("audio/RICK_RUN6.wav"));
 
-
-
-    background[1]->play();
-    this->backgroundMusicNow = 1;
+    int nrand = rand() % this->nBackgroundMusic;
+    this->backgroundMusicNow = nrand;
+    background[nrand]->play();
 }
 
 void World::backgroundMusic() {
-    cout << "background now" << this->backgroundMusicNow << endl;
-
     if (background[this->backgroundMusicNow]->timeToEnd() <= 5) {
-        if (this->backgroundMusicNow = 0) {
-            cout << "if" << endl;
-            background[1]->play();
-            this->backgroundMusicNow = 1;
-        } else {
-            cout << "else" << endl;
-            background[0]->play();
-            this->backgroundMusicNow = 0;
+        cout << "NUEVA MUSICA DE FONDO" << endl;
+        while (true) {
+            int nrand = rand() % this->nBackgroundMusic;
+            if (nrand != this->backgroundMusicNow) {
+                background[nrand]->play();
+                this->backgroundMusicNow = nrand;
+                break;
+            }
         }
+
+        // if (this->backgroundMusicNow == 0) {
+        //     background[1]->play();
+        //     this->backgroundMusicNow = 1;
+        // } else {
+        //     background[0]->play();
+        //     this->backgroundMusicNow = 0;
+        // }
     }
 }

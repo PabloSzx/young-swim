@@ -21,6 +21,7 @@ private:
   int nPlataformas;
   int nHouses;
   int nProps;
+  int nBackgroundMusic;
   double platformVelocity;
   Model* rick;
   Model **plataformas;
@@ -33,15 +34,16 @@ private:
   btVector3 casaPos;
   btVector3 propPos;
 
-  
-  
+  int backgroundMusicNow;
+
   std::vector<int> propTypes;
   
   std::vector<std::string> getRandomProp(int i);
   
 public:
-  int backgroundMusicNow;
-  World(int nPlataformas, int nHouses, int nProps, double platformInitialVelocity);//listo
+  
+  World(int nPlataformas, int nHouses, int nProps, int nBackgroundMusic, double platformInitialVelocity);//listo
+  void reset(Parameters* rules);
   void genRick();//listo
   void genPlatforms(Parameters* rules);//listo
   void genPhysics();//listo

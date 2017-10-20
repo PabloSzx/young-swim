@@ -83,10 +83,8 @@ void Bullet::newFallBody(btVector3 extents, btVector3 pos, btScalar mass, btVect
     
     this->dynamicsWorld->addRigidBody(this->rigidBodys[this->n]);
     
-    if ((this->n + 1) == this->nmax)
+    if (!((this->n + 1) == this->nmax))
     {
-        cout << "No more bodys slots available" << endl;
-    } else {
         this->n += 1;
     }
 }
