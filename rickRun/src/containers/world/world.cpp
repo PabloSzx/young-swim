@@ -48,7 +48,7 @@ void World::reset(Parameters* rules) {
     platformWorld->newFallBody(btVector3(rick->LX / 2, 0, rick->LZ / 2), btVector3(0.0, 10.0, 0.0), 1.0, btVector3(0, 0, 0), -1); //1
 
     this->platPos = btVector3(1.0, 0.0, 0.0);
-    platformWorld->newFallBody(btVector3(this->plataformas[0]->LX / 2, this->plataformas[0]->LY * 3, this->plataformas[0]->LZ / 2), this->platPos, 1000, btVector3(0, 0, 0), PLATFORMS_START_INDEX);
+    platformWorld->newFallBody(btVector3(this->plataformas[0]->LX / 2, this->plataformas[0]->LY * 3, this->plataformas[0]->LZ / 2), this->platPos, 10000, btVector3(0, 0, 0), PLATFORMS_START_INDEX);
     for (int i = 1; i < this->nPlataformas; i += 1) {
         this->platPos = rules->getNextPlatformPos(this->platPos.getZ(), this->platPos.getY(), i * this->plataformas[0]->LX);
 
@@ -91,7 +91,7 @@ void World::genPlatforms(Parameters* rules) {
     // this->plataformas[0]->load_texture(const_cast<char *>("mesh/steel.jpg"));
     
 
-    platformWorld->newFallBody(btVector3(this->plataformas[0]->LX / 2, this->plataformas[0]->LY * 3, this->plataformas[0]->LZ / 2), this->platPos, 1000, btVector3(0, 0, 0), PLATFORMS_START_INDEX);
+    platformWorld->newFallBody(btVector3(this->plataformas[0]->LX / 2, this->plataformas[0]->LY * 3, this->plataformas[0]->LZ / 2), this->platPos, 10000, btVector3(0, 0, 0), PLATFORMS_START_INDEX);
 
     for (int i = 1; i < this->nPlataformas; i+=1) {
         this->platPos = rules->getNextPlatformPos(this->platPos.getZ(), this->platPos.getY(), i * this->plataformas[0]->LX);
