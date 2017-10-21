@@ -146,4 +146,8 @@ double Parameters::getDistanciaEntreCapas() {
     return this->distanciaEntreCapas;
 }
 
+double Parameters::getDistance(Bullet* distanceScore) {
+    return abs((int)distanceScore->getTransformOrigin(0).getX());
+}
+
 

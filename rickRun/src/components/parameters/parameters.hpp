@@ -50,6 +50,7 @@ public:
   void setForceVerticalDownJump(double force);
   void setForceForwardJump(double force);
   void setForceBackwardJump(double force);
+  double getDistance(Bullet* distanceScore);
 
   /* GENERACION DE PLATAFORMAS SEMI ALEATORIA Y PARALLAX OBJECTS */
   btVector3 getNextHousePos(int previousXHouse, int x, int z);

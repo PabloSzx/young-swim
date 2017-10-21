@@ -34,7 +34,6 @@ double jumpVerticalUpForce;
 double jumpVerticalDownForce;
 double jumpForwardForce;
 double jumpBackwardForce;
-double distanceP = 0.0;
 
 bool restart;
 bool fullscreen = true;
@@ -78,5 +77,5 @@ glm::mat4 projection;
 Bullet *platformWorld; //MUNDO DE RICK Y SUS PLATAFORMAS... AQUI RICK RECIBE GRAVEDAD Y LAS PLATAFORMAS SE MUEVEN XD
 Bullet *parallaxHouses;
 Bullet *parallaxProps;
-
+Bullet *distanceScore;
 #endif

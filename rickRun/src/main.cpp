@@ -89,6 +89,7 @@ int main() {
     distanciaEntreHouses, distanciaEntreProps,
     distanciaEntreCapas);
 
+    glfwSwapInterval(1);
 
     core = new World(40, 20, 20, 6, 0.0);
 
@@ -115,8 +116,7 @@ int main() {
 
     while (!glfwWindowShouldClose(g_window))
     {
-      cout << distanceP << endl;
-      // mouseIn = false;
+      cout << "distance score: " << rules->getDistance(distanceScore) << endl;
       
       if (restart) {
         core->reset(rules);
@@ -158,6 +158,8 @@ int main() {
 
       parallaxHouses->stepSimulation(fps);
       parallaxProps->stepSimulation(fps);
+
+      distanceScore->stepSimulation(fps);
 
       /* INPUT */
       input_processInput(g_window);

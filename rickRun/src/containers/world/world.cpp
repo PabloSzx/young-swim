@@ -37,7 +37,6 @@ World::World(int nPlataformas, int nHouses, int nProps, int nBackgroundMusic, do
     this->nBackgroundMusic = nBackgroundMusic;
     this->propTypes.reserve(nProps);
     this->platformVelocity = platformInitialVelocity;
-    this->preDistance = false;
 }
 void World::reset(Parameters* rules) {
     this->platformVelocity = 0.0;
@@ -47,6 +46,9 @@ void World::reset(Parameters* rules) {
     platformWorld->newPlane(btVector3(0, 1, 0), -3.7, 0); //0
 
     platformWorld->newFallBody(btVector3(rick->LX / 2, 0, rick->LZ / 2), btVector3(0.0, 10.0, 0.0), 1.0, btVector3(0, 0, 0), -1); //1
+
+    distanceScore = new Bullet(1, btVector3(0, 0, 0), 0);
+    distanceScore->newFallBody(btVector3(0, 0, 0), btVector3(0, 0, 0), 1.0, btVector3(0, 0, 0), 1);
 
     this->platPos = btVector3(1.0, 0.0, 0.0);
     platformWorld->newFallBody(btVector3(this->plataformas[0]->LX / 2, this->plataformas[0]->LY * 3, this->plataformas[0]->LZ / 2), this->platPos, 10000, btVector3(0, 0, 0), PLATFORMS_START_INDEX);
@@ -83,23 +85,19 @@ void World::genRick() {
     this->rick->setColor(1.0f, 0.894f, 0.882f);
     this->rick->model2shader(shader_programme);
     platformWorld->newFallBody(btVector3(rick->LX / 2, 0, rick->LZ / 2), btVector3(0.0, 10.0, 0.0), 1.0, btVector3(0, 0, 0), -1); //1
+    
+    distanceScore = new Bullet(1, btVector3(0.0, 0.0, 0.0), 1);
+    distanceScore->newFallBody(btVector3(0, 0, 0), btVector3(0, 0, 0), 1.0, btVector3(0, 0, 0), 0);
 };
 void World::genPlatforms(Parameters* rules) {
     this->plataformas = static_cast<Model **>(malloc(sizeof(Model *) * this->nPlataformas));
     this->plataformas[0] = new Model(const_cast<char *>("mesh/platform.obj"), const_cast<char *>("mesh/steel.jpg"));
-    this->plataformas[0]->setColor(0.753f, 0.753f, 0.753f);
-    this->plataformas[0]->model2shader(shader_programme);
-    // this->plataformas[0]->load_texture(const_cast<char *>("mesh/steel.jpg"));
-    
+    this->plataformas[0]->model2shader(shader_programme);    
 
-    platformWorld->newFallBody(btVector3(this->plataformas[0]->LX / 2, this->plataformas[0]->LY * 3, this->plataformas[0]->LZ / 2), this->platPos, 10000, btVector3(0, 0, 0), PLATFORMS_START_INDEX);
+    platformWorld->newFallBody(btVector3(this->plataformas[0]->LX / 2, this->plataformas[0]->LY * 3, this->plataformas[0]->LZ / 2), this->platPos, 100000, btVector3(0, 0, 0), PLATFORMS_START_INDEX);
 
     for (int i = 1; i < this->nPlataformas; i+=1) {
         this->platPos = rules->getNextPlatformPos(this->platPos.getZ(), this->platPos.getY(), i * this->plataformas[0]->LX);
-        // this->plataformas[i] = new Model(const_cast<char *>("mesh/platform.obj"), const_cast<char *>("mesh/steel.jpg"));
-        // this->plataformas[i]->setColor(0.753f, 0.753f, 0.753f);
-        // this->plataformas[i]->model2shader(shader_programme);
-        // this->plataformas[i]->load_texture(const_cast<char *>("mesh/steel.jpg"));
         platformWorld->newFallBody(btVector3(this->plataformas[0]->LX / 2, this->plataformas[0]->LY * 3, this->plataformas[0]->LZ / 2), this->platPos, 10000, btVector3(0, 0, 0), i + PLATFORMS_START_INDEX);
     }
 
@@ -127,10 +125,6 @@ void World::genParallaxHouses(Parameters* rules) {
     for (int i = 1; i < this->nHouses; i += 1)
     {
         this->casaPos = rules->getNextHousePos(this->casaPos.getX(), this->casaPos.getY(), this->casaPos.getZ());
-        // this->casas[i] = new Model(const_cast<char *>("mesh/casa.obj"), const_cast<char *>("mesh/casa.png"));
-        // this->casas[i]->setColor(0.545f, 0.271f, 0.075f);
-        // this->casas[i]->scale(glm::vec3(5.0f,5.0f,1.0f));
-        // this->casas[i]->model2shader(shader_programme);
         parallaxHouses->newFallBody(btVector3(this->casas[0]->LX / 2, this->casas[0]->LY / 2 + 0.1, this->casas[0]->LZ / 2), this->casaPos, 1, btVector3(this->platformVelocity * 0.5, 0, 0), i);
     }
 
@@ -146,9 +140,6 @@ void World::genParallaxProps(Parameters* rules) {
         this->props[i] = new Model(const_cast<char *>(ran[0].c_str()), const_cast<char *>(ran[1].c_str()));
         this->props[i]->model2shader(shader_programme);
     }
-    // this->props[0] = new Model(const_cast<char *>(ran[0].c_str()), const_cast<char *>(ran[1].c_str()));
-    // this->props[0]->setColor(0.196f, 0.804f, 0.196f);
-    // this->props[0]->model2shader(shader_programme);
     this->propPos = btVector3(0, 0, 7);
     parallaxProps->newFallBody(btVector3(this->props[0]->LX / 2, this->props[0]->LY / 2 + 0.1, this->props[0]->LZ / 2), propPos, 1, btVector3(this->platformVelocity, 0, 0), PARALLAX_START_INDEX);
 
@@ -168,6 +159,9 @@ void World::startPlatformVelocity() {
     {
         platformWorld->setVelocity(i, btVector3(this->platformVelocity, 0, 0));
     }
+
+    distanceScore->setVelocity(0, btVector3(this->platformVelocity, 0, 0));
+
     this->startHousesVelocity();
     this->startPropsVelocity();
 };
@@ -182,10 +176,12 @@ void World::startPropsVelocity() {
     }
 };
 void World::morePlatformVelocity() {
-    platformVelocity -= 5.0;
+    this->platformVelocity -= 5.0;
     for (int i = 0; i < nPlataformas; i += 1) {
         platformWorld->setVelocity(i + PLATFORMS_START_INDEX, btVector3(platformVelocity, 0, 0));
     }
+
+    distanceScore->setVelocity(0, btVector3(this->platformVelocity, 0, 0));
 
     this->moreHousesVelocity();
     this->morePropsVelocity();
@@ -210,40 +206,17 @@ void World::gravityRick() {
 };
 void World::dynamicPlatforms(Parameters* rules) {
     int previousPlatform;
-
-    double lastPlatformDistance = platformWorld->getTransformOrigin(platformWorld->getLastPlatform()).getX();
-
-    // cout << "distance: " << lastPlatformDistance << endl;
-    if (!this->preDistance) {
-        distanceP = lastPlatformDistance;
-    } else {
-        if (platformWorld->getLastPlatform() == PLATFORMS_START_INDEX)
-        {
-            previousPlatform = platformWorld->getNMax() - 1;
-        }
-        else
-        {
-            previousPlatform = platformWorld->getLastPlatform() - 1;
-        }
-        cout << endl << endl;
-        cout << -platformWorld->getTransformOrigin(previousPlatform).getX() - lastPlatformDistance << endl;
-        
-        // cout << "last " << lastPlatformDistance << endl;
-        // cout << "previous " << platformWorld->getTransformOrigin(previousPlatform).getX() << endl; 
-        distanceP += (lastPlatformDistance + platformWorld->getTransformOrigin(previousPlatform).getX());
-    }
-
+    // cout << "lastPlatform " << platformWorld->getLastPlatform(); 
     if (abs(platformWorld->getTransformOrigin(platformWorld->getLastPlatform()).getX() - platformWorld->getTransformOrigin(1).getX()) > (20 * this->plataformas[0]->LX))
     {
-        if (!this->preDistance) {
-            this->preDistance = true;
-        }
-        // cout << "last platform modified" << platformWorld->getLastPlatform() << endl;
+        // cout << "dynamic" << endl;
         if (platformWorld->getLastPlatform() == PLATFORMS_START_INDEX) {
             previousPlatform = platformWorld->getNMax() - 1;
         } else {
             previousPlatform = platformWorld->getLastPlatform() - 1;
         }
+        // cout << "previousPlatform " << platformWorld->getLastPlatform();
+
         double k = this->plataformas[0]->LX;
         double distancia = 0.04 * k * abs(platformVelocity) + 1 * k; 
         this->platPos = rules->getNextPlatformPos(this->platPos.getZ(), this->platPos.getY(), platformWorld->getTransformOrigin(previousPlatform).getX() + distancia);
