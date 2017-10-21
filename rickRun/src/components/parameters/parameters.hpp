@@ -1,11 +1,8 @@
 #ifndef ParametersS_H
 #define ParametersS_H
 
-#ifdef APPLE
-#include <BulletDynamics/btBulletDynamicsCommon.h>
-#else
 #include <btBulletDynamicsCommon.h>
-#endif
+
 
 #include "../../components/physics/physics.hpp"
 

@@ -27,11 +27,8 @@
 #include "./components/physics/physics.hpp"
 #include "./containers/world/world.hpp"
 #include "./components/time/time.hpp"
-#ifdef APPLE
-#include <BulletDynamics/btBulletDynamicsCommon.h>
-#else
+
 #include <btBulletDynamicsCommon.h>
-#endif
 
 #include "./data/constants.hpp"
 #include "./data/global.hpp"

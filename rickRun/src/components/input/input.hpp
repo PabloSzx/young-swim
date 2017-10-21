@@ -1,11 +1,7 @@
 #ifndef INPUT_H
 #define INPUT_H
 
-#ifdef APPLE
-#include <BulletDynamics/btBulletDynamicsCommon.h>
-#else
 #include <btBulletDynamicsCommon.h>
-#endif
 
 
 #include "../sound/sound.hpp"

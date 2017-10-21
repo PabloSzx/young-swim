@@ -1,11 +1,7 @@
 #ifndef PHYSICS_H
 #define PHYSICS_H
 
-#ifdef APPLE
-#include <BulletDynamics/btBulletDynamicsCommon.h>
-#else
 #include <btBulletDynamicsCommon.h>
-#endif
 
 #include "iostream"
 
