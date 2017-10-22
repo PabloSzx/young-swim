@@ -105,7 +105,7 @@ void World::genPlatforms(Parameters* rules) {
 void World::genPhysics() {
     platformWorld = new Bullet(this->nPlataformas + 2, btVector3(0, 0, 0), PLATFORMS_START_INDEX);
     platformWorld->newPlane(btVector3(0, 1, 0), -3.7, 0); //0
-    this->plano = new Model(const_cast<char *>("mesh/plano.obj"), const_cast<char *>("mesh/plano.jpg"));
+    this->plano = new Model(const_cast<char *>("mesh/plano.obj"), const_cast<char *>("mesh/plano.png"));
     this->plano->setColor(0.8f, 0.0f, 0.0f);
     this->plano->model2shader(shader_programme);
 };
@@ -285,14 +285,12 @@ void World::drawPlatforms() {
 
 };
 void World::drawPlane() {
-    for (float i = -20; i <= 20; i += 1.0) {
-        for (float j = -20; j <= 20; j += 1.0)
+    for (float i = -20; i <= 200; i += 2.2) {
         {
-            this->plano->setpos(glm::vec3(this->rickPos.getX() + i, -5, this->rickPos.getZ() + j));
+            this->plano->setpos(glm::vec3(this->rickPos.getX() + i, -5, this->rickPos.getZ() ));
             this->plano->draw();
         }
     }
-
 };
 void World::drawHouses(Parameters* rules) {
     for (int i = 0; i < this->nHouses; i += 1)
