@@ -1,7 +1,7 @@
 all:
 	cd rickRun && make
-makeandrun:
-	cd rickRun && make makeandrun
+make:
+	cd rickRun && make make
 run:
 	cd rickRun && make run
 

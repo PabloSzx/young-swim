@@ -28,7 +28,7 @@ all:
 	#
 
 
-makeandrun:
+make:
 	make && make run
 run:
 	./bin/prog

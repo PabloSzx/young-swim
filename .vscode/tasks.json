@@ -16,7 +16,7 @@
         {
             "taskName": "make and run",
             "type": "shell",
-            "command": "cd rickRun && make makeandrun",
+            "command": "cd rickRun && make make",
             "group": {
                 "kind": "build",
                 "isDefault": true

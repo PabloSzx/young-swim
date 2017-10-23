@@ -69,7 +69,7 @@ void World::reset(Parameters* rules) {
     }
 
     parallaxProps = new Bullet(this->nProps, btVector3(0, 0, 0), 0);
-    
+
     this->propPos = btVector3(0, 0, 7);
     parallaxProps->newFallBody(btVector3(this->props[0]->LX / 2, this->props[0]->LY / 2 + 0.1, this->props[0]->LZ / 2), propPos, 1, btVector3(0.0, 0, 0), PARALLAX_START_INDEX);
 
@@ -85,14 +85,14 @@ void World::genRick() {
     this->rick->setColor(1.0f, 0.894f, 0.882f);
     this->rick->model2shader(shader_programme);
     platformWorld->newFallBody(btVector3(rick->LX / 2, 0, rick->LZ / 2), btVector3(0.0, 10.0, 0.0), 1.0, btVector3(0, 0, 0), -1); //1
-    
+
     distanceScore = new Bullet(1, btVector3(0.0, 0.0, 0.0), 1);
     distanceScore->newFallBody(btVector3(0, 0, 0), btVector3(0, 0, 0), 1.0, btVector3(0, 0, 0), 0);
 };
 void World::genPlatforms(Parameters* rules) {
     this->plataformas = static_cast<Model **>(malloc(sizeof(Model *) * this->nPlataformas));
     this->plataformas[0] = new Model(const_cast<char *>("mesh/platform.obj"), const_cast<char *>("mesh/steel.jpg"));
-    this->plataformas[0]->model2shader(shader_programme);    
+    this->plataformas[0]->model2shader(shader_programme);
 
     platformWorld->newFallBody(btVector3(this->plataformas[0]->LX / 2, this->plataformas[0]->LY * 3, this->plataformas[0]->LZ / 2), this->platPos, 100000, btVector3(0, 0, 0), PLATFORMS_START_INDEX);
 
@@ -105,7 +105,7 @@ void World::genPlatforms(Parameters* rules) {
 void World::genPhysics() {
     platformWorld = new Bullet(this->nPlataformas + 2, btVector3(0, 0, 0), PLATFORMS_START_INDEX);
     platformWorld->newPlane(btVector3(0, 1, 0), -3.7, 0); //0
-    this->plano = new Model(const_cast<char *>("mesh/plano.obj"), const_cast<char *>("mesh/plano.png"));
+    this->plano = new Model(const_cast<char *>("mesh/prueba.obj"), const_cast<char *>("mesh/piso.png"));
     this->plano->setColor(0.8f, 0.0f, 0.0f);
     this->plano->model2shader(shader_programme);
 };
@@ -206,7 +206,7 @@ void World::gravityRick() {
 };
 void World::dynamicPlatforms(Parameters* rules) {
     int previousPlatform;
-    // cout << "lastPlatform " << platformWorld->getLastPlatform(); 
+    // cout << "lastPlatform " << platformWorld->getLastPlatform();
     if (abs(platformWorld->getTransformOrigin(platformWorld->getLastPlatform()).getX() - platformWorld->getTransformOrigin(1).getX()) > (20 * this->plataformas[0]->LX))
     {
         // cout << "dynamic" << endl;
@@ -218,7 +218,7 @@ void World::dynamicPlatforms(Parameters* rules) {
         // cout << "previousPlatform " << platformWorld->getLastPlatform();
 
         double k = this->plataformas[0]->LX;
-        double distancia = 0.04 * k * abs(platformVelocity) + 1 * k; 
+        double distancia = 0.04 * k * abs(platformVelocity) + 1 * k;
         this->platPos = rules->getNextPlatformPos(this->platPos.getZ(), this->platPos.getY(), platformWorld->getTransformOrigin(previousPlatform).getX() + distancia);
         platformWorld->editLastPlatform(this->platPos, 10000, btVector3(this->platformVelocity, 0, 0), platformWorld->getLastPlatform());
     }
@@ -285,7 +285,7 @@ void World::drawPlatforms() {
 
 };
 void World::drawPlane() {
-    for (float i = -20; i <= 200; i += 2.2) {
+    for (float i = -20; i <= 200; i += 30) {
         {
             this->plano->setpos(glm::vec3(this->rickPos.getX() + i, -5, this->rickPos.getZ() ));
             this->plano->draw();
