@@ -285,7 +285,7 @@ void World::drawPlatforms() {
 
 };
 void World::drawPlane() {
-    for (float i = -20; i <= 200; i += 30) {
+    for (float i = -20; i <= 200; i += 23.7) {
         {
             this->plano->setpos(glm::vec3(this->rickPos.getX() + i, -5, this->rickPos.getZ() ));
             this->plano->draw();
