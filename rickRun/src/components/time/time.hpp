@@ -15,6 +15,7 @@ public:
     Time();
     void updateNow();
     double getUpdateNow();
+    double getNow();
     double getLast();
     void lastIsNow();
     void setGlobalTime(double t);

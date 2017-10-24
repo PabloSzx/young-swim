@@ -17,6 +17,9 @@ double Time::getUpdateNow()
     this->now = glfwGetTime();
     return this->now;
 }
+double Time::getNow() {
+    return this->now;
+}
 double Time::getLast() {
     return this->last;
 }

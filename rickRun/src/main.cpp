@@ -110,10 +110,6 @@ int main() {
 
     Time *timer = new Time();
 
-    Time *elapsedTime = new Time();
-
-
-
     while (!glfwWindowShouldClose(g_window))
     {
 
@@ -125,8 +121,6 @@ int main() {
       //const char* name = glfwGetJoystickName(GLFW_JOYSTICK_1);
       //cout << "name: " << name << endl;
       // cout << "distance score: " << rules->getDistance(distanceScore) << endl;
-      double deltaTime = elapsedTime->getUpdateNow() - elapsedTime->getLast(); 
-      elapsedTime->lastIsNow();
 
       if (restart) {
         core->reset(rules);
@@ -137,15 +131,15 @@ int main() {
       core->backgroundMusic();
       window_update_fps_counter (g_window);
 
-      timer->updateNow();
-
       core->dynamicPlatforms(rules);
 
       core->dynamicHouses(rules);
 
       core->dynamicProps(rules);
 
-      if (timer->checkFirstTime(5.0)) {
+      if (timer->getUpdateNow() < 5.0) {
+        platformWorld->setVelocity(2, btVector3(0, 0, 0));
+      } else if (timer->checkFirstTime(5.0)) {
         core->startPlatformVelocity();
       } else if (timer->every(6.0)) {
         cout << "Mas velocidad" << endl;
