@@ -39,6 +39,7 @@ extern double vx;
 extern double vy;
 extern double vz;
 extern bool allowJump;
+extern bool allowDownJump;
 extern double jumpHorizontalForce;
 extern double jumpVerticalUpForce;
 extern double jumpVerticalDownForce;
@@ -47,6 +48,7 @@ extern double jumpBackwardForce;
 extern double fps;
 
 extern Bullet* platformWorld;
+
 
 void input_setCallbacks();
 void input_framebuffer_size_callback(GLFWwindow *window, int width, int height);

@@ -145,25 +145,29 @@ void input_processInput(GLFWwindow *window)
     // << "  forceY: " << totalForceOnRick.getY()
     // << "   forceZ: " << totalForceOnRick.getZ() << endl;
     if (glfwGetKey(window, GLFW_KEY_I) == GLFW_PRESS) {
-        platformWorld->applyImpulse(1, btVector3(jumpForwardForce, 0.0, 0.0));
+        platformWorld->applyImpulse(1, btVector3(jumpForwardForce * deltaTime, 0.0, 0.0));
     }
-    if (glfwGetKey(window, GLFW_KEY_K) == GLFW_PRESS)
+    else if (glfwGetKey(window, GLFW_KEY_K) == GLFW_PRESS)
     {
-        platformWorld->setVelocity(1, btVector3(0, 0, 0));
-        platformWorld->applyImpulse(1, btVector3(jumpBackwardForce, jumpVerticalDownForce * 100, 0.0));
+        if (!allowJump && allowDownJump) {
+            allowDownJump = false;
+            platformWorld->setVelocity(1, btVector3(0, 0, 0));
+            platformWorld->applyImpulse(1, btVector3(jumpBackwardForce, jumpVerticalDownForce * 100, 0.0));
+        }
     }
-    if (glfwGetKey(window, GLFW_KEY_J) == GLFW_PRESS)
+    else if (glfwGetKey(window, GLFW_KEY_J) == GLFW_PRESS)
     {
-        platformWorld->applyImpulse(1, btVector3(0.0, 0.0, -jumpHorizontalForce));
+        platformWorld->applyImpulse(1, btVector3(0.0, 0.0, -jumpHorizontalForce * deltaTime));
     }
-    if (glfwGetKey(window, GLFW_KEY_L) == GLFW_PRESS)
+    else if (glfwGetKey(window, GLFW_KEY_L) == GLFW_PRESS)
     {
-        platformWorld->applyImpulse(1, btVector3(0.0, 0.0, jumpHorizontalForce));
+        platformWorld->applyImpulse(1, btVector3(0.0, 0.0, jumpHorizontalForce * deltaTime));
     }
     if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS)
     {
         if (allowJump) {
             allowJump = false;
+            allowDownJump = true;
             platformWorld->applyImpulse(1, btVector3(0.0, jumpVerticalUpForce, 0.0f));
         }
     }

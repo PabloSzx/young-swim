@@ -69,11 +69,11 @@ int main() {
   int maxX = 3;
   int minZ = -3;
   int maxZ = 7;
-  double forceHorizontalJump = 0.2;
+  double forceHorizontalJump = 8.2;
   double forceVerticalUpJump = 8.0;
   double forceVerticalDownJump = -0.2;
-  double forceBackwardJump = -0.2;
-  double forceForwardJump = 0.2;
+  double forceBackwardJump = -8.2;
+  double forceForwardJump = 8.2;
 
 
   double frame_start = 0.0;
@@ -87,6 +87,7 @@ int main() {
     distanciaEntreCapas);
 
     glfwSwapInterval(1);
+    glfwSetInputMode(g_window, GLFW_STICKY_KEYS, 1);
 
     core = new World(40, 20, 20, 6, 0.0);
 
@@ -109,6 +110,8 @@ int main() {
 
     Time *timer = new Time();
 
+    Time *elapsedTime = new Time();
+
 
 
     while (!glfwWindowShouldClose(g_window))
@@ -121,7 +124,9 @@ int main() {
       // cout << "axes: " << axes << endl;
       //const char* name = glfwGetJoystickName(GLFW_JOYSTICK_1);
       //cout << "name: " << name << endl;
-      cout << "distance score: " << rules->getDistance(distanceScore) << endl;
+      // cout << "distance score: " << rules->getDistance(distanceScore) << endl;
+      double deltaTime = elapsedTime->getUpdateNow() - elapsedTime->getLast(); 
+      elapsedTime->lastIsNow();
 
       if (restart) {
         core->reset(rules);

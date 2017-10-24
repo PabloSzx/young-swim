@@ -12,6 +12,14 @@ void Time::lastIsNow() {
 void Time::updateNow() {
     this->now = glfwGetTime();
 }
+double Time::getUpdateNow()
+{
+    this->now = glfwGetTime();
+    return this->now;
+}
+double Time::getLast() {
+    return this->last;
+}
 bool Time::checkFirstTime(double t) {
     if ((this->now >= t) && (this->first)) {
         this->first = false;

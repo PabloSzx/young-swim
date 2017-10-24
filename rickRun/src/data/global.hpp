@@ -4,6 +4,7 @@
 #include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
 #include "../components/physics/physics.hpp"
+#include "../containers/world/world.hpp"
 
 int g_gl_width = 1280;       //constants
 int g_gl_height = 720;       //constants
@@ -29,6 +30,7 @@ glm::vec3 cameraUp = glm::vec3(0.0f, 1.0f, 0.0f);
 bool mouseIn = false;
 
 bool allowJump = true;
+bool allowDownJump = true;
 double jumpHorizontalForce;
 double jumpVerticalUpForce;
 double jumpVerticalDownForce;

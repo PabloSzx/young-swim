@@ -59,11 +59,11 @@ void Parameters::checkRickPos(Bullet* world) {
     btVector3 rickPos = world->getTransformOrigin(1);
     if (rickPos.getZ() < this->minZ)
     {
-        world->applyImpulse(1, btVector3(0, 0, (this->minZ - rickPos.getZ())));
+        world->applyImpulse(1, btVector3(0, 0, 0.45));
     }
     else if (rickPos.getZ() > this->maxZ)
     {
-        world->applyImpulse(1, btVector3(0, 0, (this->maxZ - rickPos.getZ())));
+        world->applyImpulse(1, btVector3(0, 0, -0.45));
     }
     if (rickPos.getX() > this->maxX)
     {

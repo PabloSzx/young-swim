@@ -14,6 +14,8 @@ private:
 public:
     Time();
     void updateNow();
+    double getUpdateNow();
+    double getLast();
     void lastIsNow();
     void setGlobalTime(double t);
     bool checkFirstTime(double t);
