@@ -137,9 +137,9 @@ int main() {
 
       core->dynamicProps(rules);
 
-      if (timer->getUpdateNow() < 5.0) {
+      if (timer->getUpdateNow() < 3.0) {
         platformWorld->setVelocity(2, btVector3(0, 0, 0));
-      } else if (timer->checkFirstTime(5.0)) {
+      } else if (timer->checkFirstTime(3.0)) {
         core->startPlatformVelocity();
       } else if (timer->every(6.0)) {
         cout << "Mas velocidad" << endl;
@@ -176,7 +176,7 @@ int main() {
       double xpos, ypos;
       glfwGetCursorPos(g_window, &xpos, &ypos);
 
-      glfwSetCursorPos(g_window, xpos + 0.01 * ((g_gl_width / 2.0) - xpos), ypos + 0.01 * ((g_gl_height / 2.0 + 1800.0) - ypos));
+      glfwSetCursorPos(g_window, xpos + 0.0005 * ((g_gl_width / 2.0) - xpos), ypos + 0.0005 * ((g_gl_height / 2.0 + 1800.0) - ypos));
 
       glfwGetCursorPos(g_window, &xpos, &ypos);
 
