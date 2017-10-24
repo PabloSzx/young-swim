@@ -95,6 +95,10 @@ void input_scroll_callback(GLFWwindow *window, double xoffset, double yoffset)
 
 void input_processInput(GLFWwindow *window)
 {
+    // int count;
+    // const float* axes = glfwGetJoystickAxes(GLFW_JOYSTICK_1, &count);
+    //
+    // cout << axes[0] << endl;
     if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
     glfwSetWindowShouldClose(window, true);
 

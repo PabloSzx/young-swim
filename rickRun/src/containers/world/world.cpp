@@ -285,12 +285,14 @@ void World::drawPlatforms() {
 
 };
 void World::drawPlane() {
-    for (float i = -20; i <= 200; i += 23.7) {
-        {
-            this->plano->setpos(glm::vec3(this->rickPos.getX() + i, -5, this->rickPos.getZ() ));
-            this->plano->draw();
-        }
-    }
+    this->plano->setpos(glm::vec3(25.0, -5.0, 2.6));
+    this->plano->draw();
+    //for (float i = -20; i <= 100; i += 23.7) {
+    //    {
+    //        this->plano->setpos(glm::vec3(this->rickPos.getX() + i, -5, this->rickPos.getZ() ));
+    //        this->plano->draw();
+    //    }
+    //}
 };
 void World::drawHouses(Parameters* rules) {
     for (int i = 0; i < this->nHouses; i += 1)

@@ -82,7 +82,7 @@ int main() {
     minXVel, maxXVel, maxYVel, maxZVel,
     minX, maxX, minZ, maxZ,
     forceHorizontalJump, forceVerticalUpJump, forceVerticalDownJump,
-    forceForwardJump, forceBackwardJump,  
+    forceForwardJump, forceBackwardJump,
     distanciaEntreHouses, distanciaEntreProps,
     distanciaEntreCapas);
 
@@ -109,12 +109,20 @@ int main() {
 
     Time *timer = new Time();
 
-    
+
 
     while (!glfwWindowShouldClose(g_window))
     {
+
+      // int count;
+      // const float* axes = glfwGetJoystickAxes(GLFW_JOYSTICK_1, &count);
+
+      // cout << "count: " << count << endl;
+      // cout << "axes: " << axes << endl;
+      //const char* name = glfwGetJoystickName(GLFW_JOYSTICK_1);
+      //cout << "name: " << name << endl;
       cout << "distance score: " << rules->getDistance(distanceScore) << endl;
-      
+
       if (restart) {
         core->reset(rules);
 
