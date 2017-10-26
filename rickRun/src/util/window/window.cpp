@@ -66,7 +66,7 @@ void window_flags() {
     glCullFace(GL_BACK);                  // cull back face
     glFrontFace(GL_CCW);                  // set counter-clock-wise vertex order to mean the front
     glClearColor(0.8f, 0.5f, 0.5f, 1.0f); // grey background to help spot mistakes
-    // glViewport (0, 0, g_gl_width, g_gl_height);
+    glViewport (0, 0, g_gl_width, g_gl_height);
     
     glfwSetInputMode(g_window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 }
@@ -111,7 +111,7 @@ void window_frameCounter()
 }
 
 void window_clear() {
-    glClearColor(0.00f, 0.749f, 1.00f, 1.0f);
+    glClearColor(0.710f, 0.882f, 0.917f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 

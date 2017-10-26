@@ -60,13 +60,13 @@ void input_mouse_callback(GLFWwindow *window, double xpos, double ypos)
     xoffset *= sensitivity;
     yoffset *= sensitivity;
 
-    yaw += xoffset;
-    pitch += yoffset;
+    // yaw += xoffset;
+    // pitch += yoffset;
 
-    if (pitch > 89.0f)
-    pitch = 89.0f;
-    if (pitch < -89.0f)
-    pitch = -89.0f;
+    // if (pitch > 89.0f)
+    // pitch = 89.0f;
+    // if (pitch < -89.0f)
+    // pitch = -89.0f;
 
     // int xmid = g_gl_width / 2;
     // int ymid = g_gl_height / 2;
@@ -104,30 +104,30 @@ void input_processInput(GLFWwindow *window)
 
     float cameraSpeed = 2.5 * deltaTime;
     if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS) {
-        sun.x = sun.x + 0.1f;
-        // cameraPos += cameraSpeed * cameraFront;
+        // sun.x = sun.x + 0.1f;
+        cameraPos += cameraSpeed * cameraFront;
     }
     if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS) {
-        // cameraPos -= cameraSpeed * cameraFront;
-        sun.x = sun.x - 0.1f;
+        cameraPos -= cameraSpeed * cameraFront;
+        // sun.x = sun.x - 0.1f;
     }
     if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS) {
-        sun.z = sun.z + 0.1f;
-        // cameraPos -= glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed;
+        // sun.z = sun.z + 0.1f;
+        cameraPos -= glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed;
     }
     if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS) {
-        sun.z = sun.z - 0.1f;
-        // cameraPos += glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed;
+        // sun.z = sun.z - 0.1f;
+        cameraPos += glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed;
     }
     if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS)
     {
-        sun.y = sun.y + 0.1f;
-        // cameraPos -= glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed;
+        // sun.y = sun.y + 0.1f;
+        cameraPos -= glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed;
     }
     if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS)
     {
-        sun.y = sun.y - 0.1f;
-        // cameraPos += glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed;
+        // sun.y = sun.y - 0.1f;
+        cameraPos += glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed;
     }
 
     if (glfwGetKey(window, GLFW_KEY_1) == GLFW_PRESS)

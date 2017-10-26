@@ -21,6 +21,7 @@
 #include "./util/window/window.hpp"
 #include "./components/model/model.hpp"
 #include "./util/log/log.hpp"
+#include "./util/cube_map/cube_map.hpp"
 #include "./components/parameters/parameters.hpp"
 #include "./components/input/input.hpp"
 #include "./components/camera/camera.hpp"
@@ -56,6 +57,9 @@ int main() {
 
   camera_viewMatrixLocation();
   camera_projMatrixLocation();
+
+
+  initializeCube();
 
   int distanciaEntreProps = 20;
   int distanciaEntreHouses = 50;
@@ -107,6 +111,10 @@ int main() {
     crosshair->setColor(0.0f, 0.0f, 0.0f);
     crosshair->scale(glm::vec3(0.05f));
     crosshair->model2shader(shader_programme);
+
+    Model *cubo = new Model(const_cast<char *>("mesh/cubo.obj"), const_cast<char *>("assets/texture_cube2k.png"));
+    cubo->scale(glm::vec3(3.5f));
+    cubo->model2shader(shader_programme);
 
     Time *timer = new Time();
 
@@ -192,11 +200,16 @@ int main() {
 
       camera_projectionMatrixPerspective();
       camera_viewMatrixPerspective(glm::vec3(core->getRickPos().getX(), core->getRickPos().getY() + 2.0, core->getRickPos().getZ() + 4.5));
+      // cameraCube();
 
       /* MODEL DRAW */
       // glm::vec3 crosshairPos = cameraPos + glm::vec3(core->getRickPos().getX(), core->getRickPos().getY() + 2.0, core->getRickPos().getZ() + 4.5)  + cameraFront;
       // crosshair->setpos(crosshairPos);
       // crosshair->draw();
+      cubo->setpos(cameraPos);
+      cubo->draw();
+
+      // drawCube();
       core->drawRick();
 
       core->drawPlatforms();

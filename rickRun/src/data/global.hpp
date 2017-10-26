@@ -80,4 +80,12 @@ Bullet *platformWorld; //MUNDO DE RICK Y SUS PLATAFORMAS... AQUI RICK RECIBE GRA
 Bullet *parallaxHouses;
 Bullet *parallaxProps;
 Bullet *distanceScore;
+
+int cube_V_location;
+int cube_P_location;
+
+GLuint cube_sp;
+GLuint cube_vao;
+GLuint cube_map_texture;
+
 #endif
