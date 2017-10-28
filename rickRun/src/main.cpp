@@ -118,13 +118,6 @@ int main()
 
   while (!glfwWindowShouldClose(g_window))
   {
-    // int count;
-    // const float* axes = glfwGetJoystickAxes(GLFW_JOYSTICK_1, &count);
-
-    // cout << "count: " << count << endl;
-    // cout << "axes: " << axes << endl;
-    //const char* name = glfwGetJoystickName(GLFW_JOYSTICK_1);
-    //cout << "name: " << name << endl;
     // cout << "distance score: " << rules->getDistance(distanceScore) << endl;
     if (restart)
     {
@@ -229,7 +222,7 @@ int main()
     // cout << fps << endl;
     window_calculateFps();
     if (fpsTimer->every(1.0)) {
-      cout << 1 / _fps << endl;
+      // cout << 1 / _fps << endl;
       char tmp[128];
       sprintf(tmp, "%.2f", 1 / _fps);
 
