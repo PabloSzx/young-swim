@@ -114,6 +114,7 @@ int main()
   cubo->model2shader(shader_programme);
 
   Time *timer = new Time();
+  Time *fpsTimer = new Time();
 
   while (!glfwWindowShouldClose(g_window))
   {
@@ -144,15 +145,15 @@ int main()
 
     core->dynamicProps(rules);
 
-    if (timer->getUpdateNow() < 3.0)
+    if (timer->getUpdateNow() < 9.0)
     {
       platformWorld->setVelocity(2, btVector3(0, 0, 0));
     }
-    else if (timer->checkFirstTime(3.0))
+    else if (timer->checkFirstTime(9.0))
     {
       core->startPlatformVelocity();
     }
-    else if (timer->every(6.0))
+    else if (timer->every(12.0))
     {
       cout << "Mas velocidad" << endl;
       core->morePlatformVelocity();
@@ -209,7 +210,7 @@ int main()
     // glm::vec3 crosshairPos = cameraPos + glm::vec3(core->getRickPos().getX(), core->getRickPos().getY() + 2.0, core->getRickPos().getZ() + 4.5)  + cameraFront;
     // crosshair->setpos(crosshairPos);
     // crosshair->draw();
-    cubo->setpos(cameraPos);
+    cubo->setpos(glm::vec3(core->getRickPos().getX(), core->getRickPos().getY(), core->getRickPos().getZ()));
     cubo->draw();
 
     // drawCube();
@@ -222,25 +223,34 @@ int main()
     core->drawHouses(rules);
     core->drawProps();
 
+    fpsTimer->updateNow();
+
     // cout << fps << endl;
     window_calculateFps();
-    static int frameCounter = 0;
-    frameCounter++;
-    if (frameCounter == 10) {
-      cout << 1/_fps << endl;
+    if (fpsTimer->every(1.0)) {
+      cout << 1 / _fps << endl;
       char tmp[128];
-      sprintf(tmp,"%.2f", 1/_fps);
+      sprintf(tmp, "%.2f", 1 / _fps);
 
       glfwSetWindowTitle(g_window, tmp);
-      frameCounter = 0;
     }
+    // static int frameCounter = 0;
+    // frameCounter++;
+    // if (frameCounter == 100) {
+    //   cout << 1/_fps << endl;
+    //   char tmp[128];
+    //   sprintf(tmp,"%.2f", 1/_fps);
+
+    //   glfwSetWindowTitle(g_window, tmp);
+    //   frameCounter = 0;
+    // }
     /* SWAP BUFFER */
-    float frameTicks = glfwGetTime() - startTicks;
+    // float frameTicks = glfwGetTime() - startTicks;
     // cout << "frameTicks: " << frameTicks << endl;
     // cout << "maxFps: " << _maxFps << endl;
-    if (_maxFps > frameTicks) {
-      usleep((_maxFps - frameTicks) * 1000);
-    }
+    // if (_maxFps > frameTicks) {
+    //   usleep((_maxFps - frameTicks) * 1000);
+    // }
 
     window_swap();
   }
