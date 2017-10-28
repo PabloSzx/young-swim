@@ -129,10 +129,13 @@ void window_swap() {
 void window_calculateFps() {
     static const int NUM_SAMPLES = 10;
     static float frameTimes[NUM_SAMPLES];
-    static int currentFrame = 0;;
+    static int currentFrame = 0;
 
     static float prevTicks = glfwGetTime();
     float currentTicks = glfwGetTime();
+    // cout << "prev: " << prevTicks;
+    // cout << "  current: " << currentTicks << endl;
+
     
     _frameTime = currentTicks - prevTicks;
     frameTimes[currentFrame % NUM_SAMPLES] = _frameTime;

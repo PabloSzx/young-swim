@@ -51,7 +51,7 @@ void World::reset(Parameters* rules) {
     distanceScore->newFallBody(btVector3(0, 0, 0), btVector3(0, 0, 0), 1.0, btVector3(0, 0, 0), 1);
 
     this->platPos = btVector3(1.0, 0.0, 0.0);
-    platformWorld->newFallBody(btVector3(this->plataformas[0]->LX / 2, this->plataformas[0]->LY * 2, this->plataformas[0]->LZ / 2), this->platPos, 10000, btVector3(0, 0, 0), PLATFORMS_START_INDEX);
+    platformWorld->newFallBody(btVector3(this->plataformas[0]->LX / 2, this->plataformas[0]->LY * 4, this->plataformas[0]->LZ / 2), this->platPos, 10000, btVector3(0, 0, 0), PLATFORMS_START_INDEX);
     for (int i = 1; i < this->nPlataformas; i += 1) {
         this->platPos = rules->getNextPlatformPos(this->platPos.getZ(), this->platPos.getY(), i * this->plataformas[0]->LX);
 
@@ -96,7 +96,7 @@ void World::genPlatforms(Parameters* rules) {
 
     this->platPos = btVector3(0.0, 0.0, 0.0);
 
-    platformWorld->newFallBody(btVector3(this->plataformas[0]->LX, this->plataformas[0]->LY * 2, this->plataformas[0]->LZ / 2), this->platPos, 10000, btVector3(0, 0, 0), PLATFORMS_START_INDEX);
+    platformWorld->newFallBody(btVector3(this->plataformas[0]->LX, this->plataformas[0]->LY * 4, this->plataformas[0]->LZ / 2), this->platPos, 10000, btVector3(0, 0, 0), PLATFORMS_START_INDEX);
     for (int i = 1; i < this->nPlataformas; i+=1) {
         this->platPos = rules->getNextPlatformPos(this->platPos.getZ(), this->platPos.getY(), i * this->plataformas[0]->LX);
         platformWorld->newFallBody(btVector3(this->plataformas[0]->LX / 2, this->plataformas[0]->LY * 4, this->plataformas[0]->LZ / 2), this->platPos, 10000, btVector3(0, 0, 0), i + PLATFORMS_START_INDEX);
@@ -285,7 +285,7 @@ void World::drawPlatforms() {
 
 };
 void World::drawPlane() {
-    this->plano->setpos(glm::vec3(25.0, -5.0, 2.6));
+    this->plano->setpos(glm::vec3(this->rickPos.getX() + 25.0, -5.0, 2.6));
     this->plano->draw();
     //for (float i = -20; i <= 100; i += 23.7) {
     //    {

@@ -118,7 +118,6 @@ int main()
 
   while (!glfwWindowShouldClose(g_window))
   {
-    float startTicks = glfwGetTime();
     // int count;
     // const float* axes = glfwGetJoystickAxes(GLFW_JOYSTICK_1, &count);
 
@@ -136,6 +135,8 @@ int main()
       timer->restart();
     }
 
+    float startTicks = glfwGetTime();
+
     core->backgroundMusic();
     // window_update_fps_counter(g_window);
 
@@ -145,11 +146,11 @@ int main()
 
     core->dynamicProps(rules);
 
-    if (timer->getUpdateNow() < 9.0)
+    if (timer->getUpdateNow() < 4.0)
     {
       platformWorld->setVelocity(2, btVector3(0, 0, 0));
     }
-    else if (timer->checkFirstTime(9.0))
+    else if (timer->checkFirstTime(4.0))
     {
       core->startPlatformVelocity();
     }
@@ -210,8 +211,8 @@ int main()
     // glm::vec3 crosshairPos = cameraPos + glm::vec3(core->getRickPos().getX(), core->getRickPos().getY() + 2.0, core->getRickPos().getZ() + 4.5)  + cameraFront;
     // crosshair->setpos(crosshairPos);
     // crosshair->draw();
-    cubo->setpos(glm::vec3(core->getRickPos().getX(), core->getRickPos().getY(), core->getRickPos().getZ()));
-    cubo->draw();
+    // cubo->setpos(glm::vec3(core->getRickPos().getX(), core->getRickPos().getY(), core->getRickPos().getZ()));
+    // cubo->draw();
 
     // drawCube();
     core->drawRick();
