@@ -57,7 +57,10 @@ double vx = 0.0;
 double vy = 0.0;
 double vz = 0.0;
 
-double fps = 60.0;
+double fps = 1500.0;
+float _fps;
+float _maxFps = 15.0f;
+float _frameTime;
 
 // timing
 float deltaTime = 0.0f; // time between current frame and last frame

@@ -73,9 +73,12 @@ void window_flags() {
 
 void window_update_fps_counter(GLFWwindow *window)
 {
+    cout << "--";
     static double previous_seconds = glfwGetTime();
+    cout << "previous: " << previous_seconds;
     static int frame_count;
     double current_seconds = glfwGetTime();
+    cout << "  current: " << current_seconds << "  --" << endl;
     double elapsed_seconds = current_seconds - previous_seconds;
     if (elapsed_seconds > 0.25)
     {
@@ -86,6 +89,8 @@ void window_update_fps_counter(GLFWwindow *window)
         glfwSetWindowTitle(window, tmp);
         frame_count = 0;
     }
+
+    // cout << "elapsed: " << elapsed_seconds << endl;
     frame_count++;
 }
 
@@ -105,6 +110,7 @@ void window_glfw_window_size_callback(GLFWwindow *window, int width, int height)
 
 void window_frameCounter()
 {
+    // cout << "frameCounter" << endl;
     float currentFrame = glfwGetTime();
     deltaTime = currentFrame - lastFrame;
     lastFrame = currentFrame;
@@ -118,4 +124,40 @@ void window_clear() {
 void window_swap() {
     glfwSwapBuffers(g_window);
     glfwPollEvents();
+}
+
+void window_calculateFps() {
+    static const int NUM_SAMPLES = 10;
+    static float frameTimes[NUM_SAMPLES];
+    static int currentFrame = 0;;
+
+    static float prevTicks = glfwGetTime();
+    float currentTicks = glfwGetTime();
+    
+    _frameTime = currentTicks - prevTicks;
+    frameTimes[currentFrame % NUM_SAMPLES] = _frameTime;
+
+    prevTicks = currentTicks;
+    int count;
+    currentFrame++;
+
+    if (currentFrame < NUM_SAMPLES) {
+        count = currentFrame;
+    } else {
+        count = NUM_SAMPLES;
+    }
+
+    float frameTimeAverage = 0;
+    for (int i = 0; i < count; i++) {
+        frameTimeAverage += frameTimes[i];
+    }
+    frameTimeAverage /= count;
+
+    if (frameTimeAverage > 0) {
+        _fps = frameTimeAverage;
+    } else {
+        _fps = 1/60.0f;
+    }
+
+
 }

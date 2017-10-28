@@ -8,6 +8,8 @@
 extern bool restart;
 extern int lastPlatformCollision;
 
+extern float deltaTime;
+
 class Bullet {
 private:
   btBroadphaseInterface *broadphase;

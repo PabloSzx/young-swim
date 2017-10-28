@@ -11,6 +11,8 @@ extern float deltaTime;
 extern float lastFrame;
 extern double fps;
 extern bool fullscreen;
+extern float _fps;
+extern float _frameTime;
 
 bool window_start_gl();
 void window_flags();
@@ -20,4 +22,5 @@ void window_glfw_window_size_callback(GLFWwindow *window, int width, int height)
 void window_frameCounter();
 void window_clear();
 void window_swap();
+void window_calculateFps();
 #endif
