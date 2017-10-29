@@ -71,7 +71,7 @@ int main()
   int maxX = 3;
   int minZ = -3;
   int maxZ = 7;
-  double forceHorizontalJump = 8.2;
+  double forceHorizontalJump = 14.2;
   double forceVerticalUpJump = 8.0;
   double forceVerticalDownJump = -0.2;
   double forceBackwardJump = -8.2;
@@ -204,8 +204,8 @@ int main()
     // glm::vec3 crosshairPos = cameraPos + glm::vec3(core->getRickPos().getX(), core->getRickPos().getY() + 2.0, core->getRickPos().getZ() + 4.5)  + cameraFront;
     // crosshair->setpos(crosshairPos);
     // crosshair->draw();
-    // cubo->setpos(glm::vec3(core->getRickPos().getX(), core->getRickPos().getY(), core->getRickPos().getZ()));
-    // cubo->draw();
+    cubo->setpos(glm::vec3(core->getRickPos().getX(), core->getRickPos().getY(), core->getRickPos().getZ()));
+    cubo->draw();
 
     // drawCube();
     core->drawRick();

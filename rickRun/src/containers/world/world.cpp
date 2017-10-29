@@ -70,7 +70,7 @@ void World::reset(Parameters* rules) {
 
     parallaxProps = new Bullet(this->nProps, btVector3(0, 0, 0), 0);
 
-    this->propPos = btVector3(0, 0, 7);
+    this->propPos = btVector3(0, -5, 7);
     parallaxProps->newFallBody(btVector3(this->props[0]->LX / 2, this->props[0]->LY / 2 + 0.1, this->props[0]->LZ / 2), propPos, 1, btVector3(0.0, 0, 0), PARALLAX_START_INDEX);
 
     for (int i = 1; i < this->nProps; i += 1)
@@ -140,7 +140,7 @@ void World::genParallaxProps(Parameters* rules) {
         this->props[i] = new Model(const_cast<char *>(ran[0].c_str()), const_cast<char *>(ran[1].c_str()));
         this->props[i]->model2shader(shader_programme);
     }
-    this->propPos = btVector3(0, 0, 7);
+    this->propPos = btVector3(0, -5, 7);
     parallaxProps->newFallBody(btVector3(this->props[0]->LX / 2, this->props[0]->LY / 2 + 0.1, this->props[0]->LZ / 2), propPos, 1, btVector3(this->platformVelocity, 0, 0), PARALLAX_START_INDEX);
 
     for (int i = 0; i < this->nProps; i += 1) {
