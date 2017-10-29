@@ -31,6 +31,9 @@ extern glm::mat4 projection;
 
 void camera_viewMatrixLocation();
 void camera_projMatrixLocation();
+void camera_viewMatrixLocation(GLuint shaderprog);
+void camera_projMatrixLocation(GLuint shaderprog);
+
 void camera_viewMatrixPerspective(glm::vec3 charPos);
 void camera_projectionMatrixPerspective();
 // void camera_resetPerspective();

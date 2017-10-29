@@ -8,11 +8,27 @@ void camera_viewMatrixLocation()
     glUniformMatrix4fv(view_mat_location, 1, GL_FALSE, &view[0][0]);
 }
 
+void camera_viewMatrixLocation(GLuint shaderprog)
+{
+    view = glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
+    view_mat_location = glGetUniformLocation(shaderprog, "view");
+    glUseProgram(shaderprog);
+    glUniformMatrix4fv(view_mat_location, 1, GL_FALSE, &view[0][0]);
+}
+
 void camera_projMatrixLocation()
 {
     projection = glm::perspective(glm::radians(fov), (float)g_gl_width / (float)g_gl_height, 0.1f, 100.0f);
     proj_mat_location = glGetUniformLocation(shader_programme, "proj");
     glUseProgram(shader_programme);
+    glUniformMatrix4fv(proj_mat_location, 1, GL_FALSE, &projection[0][0]);
+}
+
+void camera_projMatrixLocation(GLuint shaderprog)
+{
+    projection = glm::perspective(glm::radians(fov), (float)g_gl_width / (float)g_gl_height, 0.1f, 100.0f);
+    proj_mat_location = glGetUniformLocation(shaderprog, "proj");
+    glUseProgram(shaderprog);
     glUniformMatrix4fv(proj_mat_location, 1, GL_FALSE, &projection[0][0]);
 }
 

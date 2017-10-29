@@ -54,7 +54,8 @@ public:
     void setmatloc(GLuint shader, const char* mat);
     void model2shader(GLuint shaderprog);
     void draw();
-    bool load_mesh (const char* file_name);
+    void draw(GLuint shaderprog);
+    bool load_mesh(const char *file_name);
     bool load_texture(const char *file_name); 
     void printMax();
     bool colisiona (Model* compar);

@@ -70,6 +70,7 @@ float lastFrame = 0.0f;
 int maxrand = 10;
 
 GLuint shader_programme;
+GLuint shader_programme_cube;
 
 GLuint color;
 GLuint sunLocation;

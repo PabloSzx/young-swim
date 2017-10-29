@@ -53,11 +53,10 @@ int main()
   input_setCallbacks();
 
   shader_programme = shader_create_programme_from_files();
+  shader_programme_cube = shader_create_programme_from_files(VERTEX_SHADER_FILE_CUBE, FRAGMENT_SHADER_FILE_CUBE);
+
   color = glGetUniformLocation(shader_programme, "color");
   sunLocation = glGetUniformLocation(shader_programme, "sun");
-
-  camera_viewMatrixLocation();
-  camera_projMatrixLocation();
 
   int distanciaEntreProps = 20;
   int distanciaEntreHouses = 50;
@@ -111,7 +110,8 @@ int main()
 
   Model *cubo = new Model(const_cast<char *>("mesh/cubo.obj"), const_cast<char *>("assets/texture_cube2k.png"));
   cubo->scale(glm::vec3(3.5f));
-  cubo->model2shader(shader_programme);
+  cubo->setmatloc(shader_programme_cube, "matrix");
+  cubo->model2shader(shader_programme_cube);
 
   Time *timer = new Time();
   Time *fpsTimer = new Time();
@@ -196,16 +196,24 @@ int main()
     front.x = 100;
     cameraFront = glm::normalize(front);
 
+    camera_viewMatrixLocation();
+    camera_projMatrixLocation();
     camera_projectionMatrixPerspective();
     camera_viewMatrixPerspective(glm::vec3(core->getRickPos().getX(), core->getRickPos().getY() + 2.0, core->getRickPos().getZ() + 4.5));
+
+    camera_viewMatrixLocation(shader_programme_cube);
+    camera_projMatrixLocation(shader_programme_cube);
+    camera_projectionMatrixPerspective();
+    camera_viewMatrixPerspective(glm::vec3(core->getRickPos().getX(), core->getRickPos().getY() + 2.0, core->getRickPos().getZ() + 4.5));
+
     // cameraCube();
 
     /* MODEL DRAW */
     // glm::vec3 crosshairPos = cameraPos + glm::vec3(core->getRickPos().getX(), core->getRickPos().getY() + 2.0, core->getRickPos().getZ() + 4.5)  + cameraFront;
     // crosshair->setpos(crosshairPos);
     // crosshair->draw();
-    cubo->setpos(glm::vec3(core->getRickPos().getX(), core->getRickPos().getY(), core->getRickPos().getZ()));
-    cubo->draw();
+    cubo->setpos(glm::vec3(core->getRickPos().getX(), core->getRickPos().getY() + 2.0, core->getRickPos().getZ() + 4.5));
+    cubo->draw(shader_programme_cube);
 
     // drawCube();
     core->drawRick();

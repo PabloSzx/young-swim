@@ -3,6 +3,8 @@
 
 #define VERTEX_SHADER_FILE "shaders/linux/test_vs.glsl"
 #define FRAGMENT_SHADER_FILE "shaders/linux/test_fs.glsl"
+#define VERTEX_SHADER_FILE_CUBE "shaders/linux/cubo_vs.glsl"
+#define FRAGMENT_SHADER_FILE_CUBE "shaders/linux/cubo_fs.glsl"
 
 #define CUBE_VERT_FILE "shaders/linux/cube_vs.glsl"
 #define CUBE_FRAG_FILE "shaders/linux/cube_fs.glsl"

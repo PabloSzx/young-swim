@@ -14,5 +14,6 @@ bool shader_create_shader(const char *file_name, GLuint *shader, GLenum type);
 bool shader_is_programme_valid(GLuint sp);
 bool shader_create_programme(GLuint vert, GLuint frag, GLuint *programme);
 GLuint shader_create_programme_from_files();
+GLuint shader_create_programme_from_files(const char* vs, const char* fs);
 
 #endif

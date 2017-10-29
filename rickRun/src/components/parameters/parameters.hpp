@@ -12,6 +12,7 @@ extern double jumpVerticalDownForce;
 extern double jumpForwardForce;
 extern double jumpBackwardForce;
 
+extern float deltaTime;
 class Parameters{
 private:
   int maxYVelocity;

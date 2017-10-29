@@ -119,3 +119,12 @@ GLuint shader_create_programme_from_files()
 	assert (shader_create_programme (vert, frag, &programme));
 	return programme;
 }
+
+GLuint shader_create_programme_from_files(const char* vs, const char* fs)
+{
+	GLuint vert, frag, programme;
+	assert(shader_create_shader(vs, &vert, GL_VERTEX_SHADER));
+	assert(shader_create_shader(fs, &frag, GL_FRAGMENT_SHADER));
+	assert(shader_create_programme(vert, frag, &programme));
+	return programme;
+}

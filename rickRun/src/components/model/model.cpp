@@ -104,7 +104,7 @@ void Model::setmatloc(GLuint shaderprog, const char* matrix) {
 }
 
 void Model::model2shader(GLuint shaderprog) {
-  this->setmatloc(shader_programme, "matrix");
+  this->setmatloc(shaderprog, "matrix");
   // glUniform3f(color, this->red, this->green, this->blue);
   GLuint tex_location = glGetUniformLocation(shaderprog, "basic_texture");
   glActiveTexture(GL_TEXTURE0);
@@ -117,6 +117,13 @@ void Model::model2shader(GLuint shaderprog) {
 
 void Model::draw() {
   this->model2shader(shader_programme);
+  glBindVertexArray(this->getvao());
+  glDrawArrays(GL_TRIANGLES, 0, this->getnumvertices());
+}
+
+void Model::draw(GLuint shaderprog)
+{
+  this->model2shader(shaderprog);
   glBindVertexArray(this->getvao());
   glDrawArrays(GL_TRIANGLES, 0, this->getnumvertices());
 }
