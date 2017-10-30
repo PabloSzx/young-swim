@@ -73,8 +73,8 @@ int main()
   double forceHorizontalJump = 14.2;
   double forceVerticalUpJump = 8.0;
   double forceVerticalDownJump = -0.2;
-  double forceBackwardJump = -8.2;
-  double forceForwardJump = 8.2;
+  double forceBackwardJump = -12.2;
+  double forceForwardJump = 12.2;
 
   double frame_start = 0.0;
 
@@ -182,7 +182,7 @@ int main()
     double xpos, ypos;
     glfwGetCursorPos(g_window, &xpos, &ypos);
 
-    glfwSetCursorPos(g_window, xpos + 0.0005 * ((g_gl_width / 2.0) - xpos), ypos + 0.0005 * ((g_gl_height / 2.0 + 1800.0) - ypos));
+    glfwSetCursorPos(g_window, xpos + deltaTime * 0.5 * ((g_gl_width / 2.0) - xpos), ypos + deltaTime* 0.5 * ((g_gl_height / 2.0 + 1800.0) - ypos));
 
     glfwGetCursorPos(g_window, &xpos, &ypos);
 
