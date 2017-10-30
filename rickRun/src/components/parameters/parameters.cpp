@@ -81,8 +81,7 @@ void Parameters::checkRickVel(Bullet *world)
     if (rickVelocity.getY() > this->maxYVelocity)
     {
         world->setVelocity(1, btVector3(rickVelocity.getX(), this->maxYVelocity, rickVelocity.getZ()));
-    }
-    
+    }    
     if (rickVelocity.getZ() > this->maxZVelocity)
     {
         world->setVelocity(1, btVector3(rickVelocity.getX(), rickVelocity.getY(), this->maxZVelocity));
@@ -90,8 +89,7 @@ void Parameters::checkRickVel(Bullet *world)
     else if (rickVelocity.getZ() < - this->maxZVelocity) 
     {
         world->setVelocity(1, btVector3(rickVelocity.getX(), rickVelocity.getY(), - this->maxZVelocity));
-    }
-    
+    }    
     if (rickVelocity.getX() > this->maxXVelocity)
     {
         world->setVelocity(1, btVector3(this->maxXVelocity, rickVelocity.getY(), rickVelocity.getZ()));
@@ -149,5 +147,4 @@ double Parameters::getDistanciaEntreCapas() {
 double Parameters::getDistance(Bullet* distanceScore) {
     return abs((int)distanceScore->getTransformOrigin(0).getX());
 }
-
 

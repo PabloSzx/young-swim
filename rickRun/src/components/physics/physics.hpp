@@ -2,11 +2,12 @@
 #define PHYSICS_H
 
 #include <btBulletDynamicsCommon.h>
-
+#include "../sound/sound.hpp"
 #include "iostream"
 
 extern bool restart;
 extern int lastPlatformCollision;
+extern sound **background;
 
 extern float deltaTime;
 

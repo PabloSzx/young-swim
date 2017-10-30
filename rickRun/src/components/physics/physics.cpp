@@ -214,6 +214,8 @@ void Bullet::checkCollision(bool* allowJump) {
                             touched = true;
                         }
                     } else if (b == 0) {
+                        background[8]->stop();
+                        background[8]->play();
                         restart = true;
                     }
                     

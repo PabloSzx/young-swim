@@ -122,24 +122,26 @@ void input_processInput(GLFWwindow *window)
             }
         }
 
-        if (axes[1] < 0)
+        if (axes[1] < -0.2)
         {
             platformWorld->applyImpulse(1, btVector3(jumpForwardForce * deltaTime, 0.0, 0.0));
         }
-        else if (axes[1] > 0.5)
+        else if (axes[1] > 0.8)
         {
             if (!allowJump && allowDownJump)
             {
                 allowDownJump = false;
+                background[7]->stop();
+                background[7]->play();
                 platformWorld->setVelocity(1, btVector3(0, 0, 0));
                 platformWorld->applyImpulse(1, btVector3(jumpBackwardForce, jumpVerticalDownForce * 100, 0.0));
             }
         }
-        else if (axes[0] < 0)
+        else if (axes[0] < -0.2)
         {
             platformWorld->applyImpulse(1, btVector3(0.0, 0.0, -jumpHorizontalForce * deltaTime));
         }
-        else if (axes[0] > 0)
+        else if (axes[0] > 0.2)
         {
             platformWorld->applyImpulse(1, btVector3(0.0, 0.0, jumpHorizontalForce * deltaTime));
         }
@@ -150,6 +152,9 @@ void input_processInput(GLFWwindow *window)
                 {
                     allowJump = false;
                     allowDownJump = true;
+                    background[6]->stop();
+
+                    background[6]->play();
                     platformWorld->applyImpulse(1, btVector3(0.0, jumpVerticalUpForce, 0.0f));
                 }
             }

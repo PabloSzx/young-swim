@@ -109,7 +109,7 @@ int main()
   crosshair->model2shader(shader_programme);
 
   Model *cubo = new Model(const_cast<char *>("mesh/cubo.obj"), const_cast<char *>("assets/texture_cube2k.png"));
-  cubo->scale(glm::vec3(3.5f));
+  cubo->scale(glm::vec3(3.0f, 1.0f, 1.8f));
   cubo->setmatloc(shader_programme_cube, "matrix");
   cubo->model2shader(shader_programme_cube);
 
@@ -118,7 +118,13 @@ int main()
 
   while (!glfwWindowShouldClose(g_window))
   {
-    // cout << "distance score: " << rules->getDistance(distanceScore) << endl;
+
+    fpsTimer->updateNow();
+    if (fpsTimer->every(1.0))
+    {
+      cout << "distance score: " << rules->getDistance(distanceScore) << endl;
+    }
+
     if (restart)
     {
       cout << "restart" << endl;
@@ -126,6 +132,7 @@ int main()
 
       restart = false;
       timer->restart();
+      fpsTimer->restart();
     }
 
     float startTicks = glfwGetTime();
@@ -139,15 +146,15 @@ int main()
 
     core->dynamicProps(rules);
 
-    if (timer->getUpdateNow() < 4.0)
+    if (timer->getUpdateNow() < 2.0)
     {
       platformWorld->setVelocity(2, btVector3(0, 0, 0));
     }
-    else if (timer->checkFirstTime(4.0))
+    else if (timer->checkFirstTime(2.0))
     {
       core->startPlatformVelocity();
     }
-    else if (timer->every(12.0))
+    else if (timer->every(6.0))
     {
       cout << "Mas velocidad" << endl;
       core->morePlatformVelocity();
@@ -212,7 +219,7 @@ int main()
     // glm::vec3 crosshairPos = cameraPos + glm::vec3(core->getRickPos().getX(), core->getRickPos().getY() + 2.0, core->getRickPos().getZ() + 4.5)  + cameraFront;
     // crosshair->setpos(crosshairPos);
     // crosshair->draw();
-    cubo->setpos(glm::vec3(core->getRickPos().getX(), core->getRickPos().getY() + 2.0, core->getRickPos().getZ() + 4.5));
+    cubo->setpos(glm::vec3(core->getRickPos().getX() + 15.0, 11.0, 4.5));
     cubo->draw(shader_programme_cube);
 
     // drawCube();
@@ -225,7 +232,7 @@ int main()
     core->drawHouses(rules);
     core->drawProps();
 
-    fpsTimer->updateNow();
+    // fpsTimer->updateNow();
 
     // cout << fps << endl;
     window_calculateFps();

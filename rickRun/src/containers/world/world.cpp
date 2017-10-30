@@ -340,6 +340,10 @@ void World::initBackgroundMusic() {
     background[3] = new sound(const_cast<char *>("audio/RICK_RUN4.wav"));
     background[4] = new sound(const_cast<char *>("audio/RICK_RUN5.wav"));
     background[5] = new sound(const_cast<char *>("audio/RICK_RUN6.wav"));
+    background[6] = new sound(const_cast<char *>("audio/salto.wav"));
+    background[7] = new sound(const_cast<char *>("audio/potazo.wav"));
+    background[8] = new sound(const_cast<char *>("audio/muerte.wav"));
+    background[9] = new sound(const_cast<char *>("audio/caida.wav"));
 
     int nrand = rand() % this->nBackgroundMusic;
     this->backgroundMusicNow = nrand;
