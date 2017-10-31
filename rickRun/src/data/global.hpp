@@ -15,7 +15,7 @@ glm::vec3 sun = glm::vec3(0.7f, -12.2f, 2.3f);
 // sound *snd_01 = new sound((const char*)"audio/RICK_RUN2.wav");
 // sound *snd_02 = new sound((const char*)"audio/RICK_RUN1.wav");
 
-sound **background = static_cast<sound **>(malloc(sizeof(sound *) * 10));;;
+sound **background = static_cast<sound **>(malloc(sizeof(sound *) * 9));;;
 
 World *core;
 // camera
