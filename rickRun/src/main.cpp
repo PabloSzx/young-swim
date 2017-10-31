@@ -115,6 +115,7 @@ int main()
     if (fpsTimer->every(1.0))
     {
       cout << "distance score: " << rules->getDistance(distanceScore) << endl;
+      window_update_fps_counter(g_window);
     }
 
     if (restart)
@@ -129,19 +130,17 @@ int main()
 
     float startTicks = glfwGetTime();
 
-    // core->backgroundMusic();
-
     core->dynamicPlatforms(rules);
 
     core->dynamicHouses(rules);
 
     core->dynamicProps(rules);
 
-    if (timer->getUpdateNow() < 2.0)
+    if (timer->getUpdateNow() < 4.0)
     {
       platformWorld->setVelocity(2, btVector3(0, 0, 0));
     }
-    else if (timer->checkFirstTime(2.0))
+    else if (timer->checkFirstTime(4.0))
     {
       core->startPlatformVelocity();
     }
@@ -185,9 +184,8 @@ int main()
     core->drawProps();
 
     window_calculateFps();
-    if (fpsTimer->every(1.0)) {
-      window_update_fps_counter(g_window);
-    }
+
+    core->backgroundMusic();
 
     window_swap();
   }

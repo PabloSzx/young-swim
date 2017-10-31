@@ -338,14 +338,24 @@ void World::initBackgroundMusic() {
     background[7] = new sound(const_cast<char *>("audio/potazo.wav"));
     background[8] = new sound(const_cast<char *>("audio/muerte.wav"));
 
-    int nrand = rand() % this->nBackgroundMusic;
-    this->backgroundMusicNow = nrand;
-    // background[nrand]->play();
+    // int nrand = rand() % this->nBackgroundMusic;
+    this->backgroundMusicNow = 1;
+    background[1]->play();
     background[0]->play();
+    background[0]->stop();
+    background[2]->play();
+    background[2]->stop();
+    background[3]->play();
+    background[3]->stop();
+    background[4]->play();
+    background[4]->stop();
+    background[5]->play();
+    background[5]->stop();
+    // background[1]->play();
 }
 
 void World::backgroundMusic() {
-    if (background[this->backgroundMusicNow]->timeToEnd() <= 5) {
+    if (background[this->backgroundMusicNow]->timeToEnd() <= 10.0) {
         cout << "NUEVA MUSICA DE FONDO" << endl;
         while (true) {
             int nrand = rand() % this->nBackgroundMusic;
@@ -355,14 +365,6 @@ void World::backgroundMusic() {
                 break;
             }
         }
-
-        // if (this->backgroundMusicNow == 0) {
-        //     background[1]->play();
-        //     this->backgroundMusicNow = 1;
-        // } else {
-        //     background[0]->play();
-        //     this->backgroundMusicNow = 0;
-        // }
     }
 }
 

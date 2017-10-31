@@ -91,6 +91,9 @@ ALfloat sound::timeToEnd() {
     alGetBufferi(bufferID, AL_CHANNELS, &channels);    
     alGetBufferi(bufferID, AL_BITS, &bitsPerSample);    
 
+	if (channels == 0) {
+		channels = 1;
+	}
 	ALfloat durationInSeconds = ((ALfloat)bufferSize)/(frequency*channels*(bitsPerSample/8));
 	
     ALfloat s;
