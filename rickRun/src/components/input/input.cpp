@@ -169,8 +169,8 @@ void input_processInput(GLFWwindow *window)
             if (!allowJump && allowDownJump)
             {
                 allowDownJump = false;
-                background[6]->stop();
-                background[6]->play();
+                background[7]->stop();
+                background[7]->play();
                 platformWorld->setVelocity(1, btVector3(0, 0, 0));
                 platformWorld->applyImpulse(1, btVector3(jumpBackwardForce, jumpVerticalDownForce * 100, 0.0));
             }
@@ -189,8 +189,8 @@ void input_processInput(GLFWwindow *window)
             {
                 allowJump = false;
                 allowDownJump = true;
-                background[7]->stop();
-                background[7]->play();
+                background[6]->stop();
+                background[6]->play();
                 platformWorld->applyImpulse(1, btVector3(0.0, jumpVerticalUpForce, 0.0f));
             }
         }
