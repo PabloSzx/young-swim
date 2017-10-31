@@ -73,25 +73,10 @@ void window_flags() {
 
 void window_update_fps_counter(GLFWwindow *window)
 {
-    cout << "--";
-    static double previous_seconds = glfwGetTime();
-    cout << "previous: " << previous_seconds;
-    static int frame_count;
-    double current_seconds = glfwGetTime();
-    cout << "  current: " << current_seconds << "  --" << endl;
-    double elapsed_seconds = current_seconds - previous_seconds;
-    if (elapsed_seconds > 0.25)
-    {
-        previous_seconds = current_seconds;
-        fps = (double)frame_count / elapsed_seconds;
-        char tmp[128];
-        sprintf(tmp, "opengl @ fps: %.2f", fps);
-        glfwSetWindowTitle(window, tmp);
-        frame_count = 0;
-    }
+    char tmp[128];
+    sprintf(tmp, "%.2f", 1 / _fps);
 
-    // cout << "elapsed: " << elapsed_seconds << endl;
-    frame_count++;
+    glfwSetWindowTitle(g_window, tmp);
 }
 
 void window_glfw_error_callback(int error, const char *description)

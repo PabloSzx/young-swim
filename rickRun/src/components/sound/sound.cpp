@@ -44,7 +44,9 @@ void sound::definir_fuente(const glm::vec3& f, ALboolean l)
 	alSource3f(this->source, AL_VELOCITY, 5, 0, 0);
 	alSourcei(this->source, AL_LOOPING, l);
 }
-
+void sound::set_gain(float f) {
+	alSourcef(this->source, AL_GAIN, f);
+}
 void sound::play()
 {
 	alutInit(0, NULL);

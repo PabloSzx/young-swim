@@ -16,7 +16,7 @@ extern Bullet *parallaxProps;
 extern Bullet *distanceScore;
 
 extern sound **background;
-
+extern GLuint shader_programme_cube;
 class World {
 private:
   int nPlataformas;
@@ -30,7 +30,8 @@ private:
   Model *plano;
   Model **casas;
   Model **props;
-  
+  Model *cubo;
+
   btVector3 rickPos;
   btVector3 platPos;
   btVector3 casaPos;
@@ -63,12 +64,14 @@ public:
   void dynamicPlatforms(Parameters* rules);//listo
   void dynamicHouses(Parameters* rules);//listo
   void dynamicProps(Parameters* rules);//listo
-  
+  void genCube();
+
   void drawRick();//listo
   void drawPlatforms();//listo
   void drawPlane();//listo
   void drawHouses(Parameters* rules);
   void drawProps();
+  void drawCube();
   
 
   void initBackgroundMusic();

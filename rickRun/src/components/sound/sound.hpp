@@ -31,6 +31,7 @@ class sound{
         void limpia_contexto_recursos();
         void set_listener(const glm::vec3& o);
         void definir_fuente(const glm::vec3& f, ALboolean l);
+        void set_gain(float f);
 
         // gets
         ALint get_source_state();

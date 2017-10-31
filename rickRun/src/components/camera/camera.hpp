@@ -6,6 +6,7 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
+#include "../../containers/world/world.hpp"
 
 extern int g_gl_width;
 extern int g_gl_height;
@@ -21,7 +22,9 @@ extern float lastY;
 extern float fov;
 extern float deltaTime;
 extern float lastFrame;
+extern World* core;
 
+extern GLuint shader_programme_cube;
 extern GLuint shader_programme;
 
 extern int proj_mat_location;
@@ -36,6 +39,8 @@ void camera_projMatrixLocation(GLuint shaderprog);
 
 void camera_viewMatrixPerspective(glm::vec3 charPos);
 void camera_projectionMatrixPerspective();
+
+void camera_viewProjUpdate();
 // void camera_resetPerspective();
 
 #endif

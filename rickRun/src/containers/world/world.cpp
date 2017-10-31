@@ -6,28 +6,23 @@ std::vector<std::string> World::getRandomProp(int i) {
     switch (i) {
         case 0:
         arr[0] = "mesh/arbol.obj";
-        arr[1] = "mesh/arbol.png";
+        arr[1] = "assets/arbol.png";
         break;
-        // return {"mesh/arbol.obj", "mesh/arbol.png"};
         case 1 :
         arr[0] = "mesh/pasto.obj";
-        arr[1] = "mesh/pasto.png";
+        arr[1] = "assets/pasto.png";
         break;
-        // return {"mesh/pasto.obj", "mesh/black.png"};
         case 2 :
         arr[0] = "mesh/planta1.obj";
-        arr[1] = "mesh/planta1.png";
+        arr[1] = "assets/planta1.png";
         break;
-        // return {"mesh/planta1.obj", "mesh/black.png"};
         case 3:
         arr[0] = "mesh/planta2.obj";
-        arr[1] = "mesh/planta2.png";
+        arr[1] = "assets/planta2.png";
         break;
-        // return {"mesh/planta2.obj", "mesh/black.png"};
     }
 
     return arr;
-    // return {"",""};
 }
 
 World::World(int nPlataformas, int nHouses, int nProps, int nBackgroundMusic, double platformInitialVelocity) {
@@ -41,7 +36,6 @@ World::World(int nPlataformas, int nHouses, int nProps, int nBackgroundMusic, do
 void World::reset(Parameters* rules) {
     this->platformVelocity = 0.0;
 
-    // this->genPhysics();
     platformWorld = new Bullet(this->nPlataformas + 2, btVector3(0, 0, 0), PLATFORMS_START_INDEX);
     platformWorld->newPlane(btVector3(0, 1, 0), -3.7, 0); //0
 
@@ -80,7 +74,7 @@ void World::reset(Parameters* rules) {
     }
 }
 void World::genRick() {
-    this->rick = new Model(const_cast<char *>("mesh/rick.obj"), const_cast<char *>("mesh/littlerick.png"));
+    this->rick = new Model(const_cast<char *>("mesh/rick.obj"), const_cast<char *>("assets/littlerick.png"));
     this->rick->scale(glm::vec3(0.3f));
     this->rick->setColor(1.0f, 0.894f, 0.882f);
     this->rick->model2shader(shader_programme);
@@ -91,7 +85,7 @@ void World::genRick() {
 };
 void World::genPlatforms(Parameters* rules) {
     this->plataformas = static_cast<Model **>(malloc(sizeof(Model *) * this->nPlataformas));
-    this->plataformas[0] = new Model(const_cast<char *>("mesh/platform.obj"), const_cast<char *>("mesh/steel.jpg"));
+    this->plataformas[0] = new Model(const_cast<char *>("mesh/platform.obj"), const_cast<char *>("assets/steel.jpg"));
     this->plataformas[0]->model2shader(shader_programme);
 
     this->platPos = btVector3(0.0, 0.0, 0.0);
@@ -105,7 +99,7 @@ void World::genPlatforms(Parameters* rules) {
 void World::genPhysics() {
     platformWorld = new Bullet(this->nPlataformas + 2, btVector3(0, 0, 0), PLATFORMS_START_INDEX);
     platformWorld->newPlane(btVector3(0, 1, 0), -3.7, 0); //0
-    this->plano = new Model(const_cast<char *>("mesh/prueba.obj"), const_cast<char *>("mesh/piso.png"));
+    this->plano = new Model(const_cast<char *>("mesh/prueba.obj"), const_cast<char *>("assets/piso.png"));
     this->plano->setColor(0.8f, 0.0f, 0.0f);
     this->plano->model2shader(shader_programme);
 };
@@ -114,7 +108,7 @@ void World::genParallaxHouses(Parameters* rules) {
 
     this->casas = static_cast<Model **>(malloc(sizeof(Model *) * nHouses));
 
-    this->casas[0] = new Model(const_cast<char *>("mesh/casa.obj"), const_cast<char *>("mesh/casa.png"));
+    this->casas[0] = new Model(const_cast<char *>("mesh/casa.obj"), const_cast<char *>("assets/casa.png"));
     this->casas[0]->setColor(0.545f, 0.271f, 0.075f);
     this->casas[0]->scale(glm::vec3(5.0f,5.0f,1.0f));
     this->casas[0]->model2shader(shader_programme);
@@ -347,7 +341,8 @@ void World::initBackgroundMusic() {
 
     int nrand = rand() % this->nBackgroundMusic;
     this->backgroundMusicNow = nrand;
-    background[nrand]->play();
+    // background[nrand]->play();
+    background[0]->play();
 }
 
 void World::backgroundMusic() {
@@ -370,4 +365,16 @@ void World::backgroundMusic() {
         //     this->backgroundMusicNow = 0;
         // }
     }
+}
+
+void World::genCube() {
+    cubo = new Model(const_cast<char *>("mesh/cubo.obj"), const_cast<char *>("assets/texture_cube2k.png"));
+    cubo->scale(glm::vec3(3.0f, 1.0f, 1.8f));
+    cubo->setmatloc(shader_programme_cube, "matrix");
+    cubo->model2shader(shader_programme_cube);
+}
+
+void World::drawCube() {
+    cubo->setpos(glm::vec3(this->getRickPos().getX() + 15.0, 11.0, 4.5));
+    cubo->draw(shader_programme_cube);
 }

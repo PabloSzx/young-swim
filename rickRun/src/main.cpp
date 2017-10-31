@@ -13,11 +13,6 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 #include <iostream>
-// #include <ctime>
-#include <chrono>
-// #include <ctime>
-// #include <cerrno>
-#include <unistd.h>
 #include "./components/sound/sound.hpp"
 
 #include "./util/shader/shader.hpp"
@@ -54,9 +49,6 @@ int main()
 
   shader_programme = shader_create_programme_from_files();
   shader_programme_cube = shader_create_programme_from_files(VERTEX_SHADER_FILE_CUBE, FRAGMENT_SHADER_FILE_CUBE);
-
-  color = glGetUniformLocation(shader_programme, "color");
-  sunLocation = glGetUniformLocation(shader_programme, "sun");
 
   int distanciaEntreProps = 20;
   int distanciaEntreHouses = 50;
@@ -103,16 +95,16 @@ int main()
 
   core->initBackgroundMusic();
 
-  Model *crosshair = new Model(const_cast<char *>("mesh/crosshair.obj"));
-  crosshair->setColor(0.0f, 0.0f, 0.0f);
-  crosshair->scale(glm::vec3(0.05f));
-  crosshair->model2shader(shader_programme);
+  float g = 0.5f;
+  background[0]->set_gain(g);
+  background[1]->set_gain(g);
+  background[2]->set_gain(g);
+  background[3]->set_gain(g);
+  background[4]->set_gain(g);
+  background[5]->set_gain(g);
 
-  Model *cubo = new Model(const_cast<char *>("mesh/cubo.obj"), const_cast<char *>("assets/texture_cube2k.png"));
-  cubo->scale(glm::vec3(3.0f, 1.0f, 1.8f));
-  cubo->setmatloc(shader_programme_cube, "matrix");
-  cubo->model2shader(shader_programme_cube);
-
+  // background[0]->set_gain(0.9f);
+  core->genCube();
   Time *timer = new Time();
   Time *fpsTimer = new Time();
 
@@ -137,8 +129,7 @@ int main()
 
     float startTicks = glfwGetTime();
 
-    core->backgroundMusic();
-    // window_update_fps_counter(g_window);
+    // core->backgroundMusic();
 
     core->dynamicPlatforms(rules);
 
@@ -169,7 +160,6 @@ int main()
 
     window_frameCounter();
 
-    /* PHYSICS */
     platformWorld->checkCollision(&allowJump);
     platformWorld->stepSimulation(1/_fps);
 
@@ -178,51 +168,13 @@ int main()
 
     distanceScore->stepSimulation(1/_fps);
 
-    /* INPUT */
     input_processInput(g_window);
-    glUniform3f(sunLocation, sun.x, sun.y, sun.z);
 
-    /* CLEAR */
     window_clear();
 
-    /* CAMERA */
-    double xpos, ypos;
-    glfwGetCursorPos(g_window, &xpos, &ypos);
+    camera_viewProjUpdate();
 
-    glfwSetCursorPos(g_window, xpos + deltaTime * 0.5 * ((g_gl_width / 2.0) - xpos), ypos + deltaTime* 0.5 * ((g_gl_height / 2.0 + 1800.0) - ypos));
-
-    glfwGetCursorPos(g_window, &xpos, &ypos);
-
-    int xmid = g_gl_width / 2;
-    int ymid = g_gl_height / 2;
-
-    glm::vec3 front;
-
-    front.z = (glm::radians(xpos - xmid));
-    front.y = (glm::radians(-ypos + ymid));
-    front.x = 100;
-    cameraFront = glm::normalize(front);
-
-    camera_viewMatrixLocation();
-    camera_projMatrixLocation();
-    camera_projectionMatrixPerspective();
-    camera_viewMatrixPerspective(glm::vec3(core->getRickPos().getX(), core->getRickPos().getY() + 2.0, core->getRickPos().getZ() + 4.5));
-
-    camera_viewMatrixLocation(shader_programme_cube);
-    camera_projMatrixLocation(shader_programme_cube);
-    camera_projectionMatrixPerspective();
-    camera_viewMatrixPerspective(glm::vec3(core->getRickPos().getX(), core->getRickPos().getY() + 2.0, core->getRickPos().getZ() + 4.5));
-
-    // cameraCube();
-
-    /* MODEL DRAW */
-    // glm::vec3 crosshairPos = cameraPos + glm::vec3(core->getRickPos().getX(), core->getRickPos().getY() + 2.0, core->getRickPos().getZ() + 4.5)  + cameraFront;
-    // crosshair->setpos(crosshairPos);
-    // crosshair->draw();
-    cubo->setpos(glm::vec3(core->getRickPos().getX() + 15.0, 11.0, 4.5));
-    cubo->draw(shader_programme_cube);
-
-    // drawCube();
+    core->drawCube();
     core->drawRick();
 
     core->drawPlatforms();
@@ -232,34 +184,10 @@ int main()
     core->drawHouses(rules);
     core->drawProps();
 
-    // fpsTimer->updateNow();
-
-    // cout << fps << endl;
     window_calculateFps();
     if (fpsTimer->every(1.0)) {
-      // cout << 1 / _fps << endl;
-      char tmp[128];
-      sprintf(tmp, "%.2f", 1 / _fps);
-
-      glfwSetWindowTitle(g_window, tmp);
+      window_update_fps_counter(g_window);
     }
-    // static int frameCounter = 0;
-    // frameCounter++;
-    // if (frameCounter == 100) {
-    //   cout << 1/_fps << endl;
-    //   char tmp[128];
-    //   sprintf(tmp,"%.2f", 1/_fps);
-
-    //   glfwSetWindowTitle(g_window, tmp);
-    //   frameCounter = 0;
-    // }
-    /* SWAP BUFFER */
-    // float frameTicks = glfwGetTime() - startTicks;
-    // cout << "frameTicks: " << frameTicks << endl;
-    // cout << "maxFps: " << _maxFps << endl;
-    // if (_maxFps > frameTicks) {
-    //   usleep((_maxFps - frameTicks) * 1000);
-    // }
 
     window_swap();
   }
