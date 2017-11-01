@@ -82,7 +82,8 @@ void Bullet::newFallBody(btVector3 extents, btVector3 pos, btScalar mass, btVect
     
     this->rigidBodys[this->n]->setCcdMotionThreshold(1e-7);
     this->rigidBodys[this->n]->setCcdSweptSphereRadius(0.0);
-    
+    // this->rigidBodys[this->n]->setLinearFactor(btVector3(0, 1, 1));
+
     this->rigidBodys[this->n]->setFriction(0.5);
     this->rigidBodys[this->n]->setLinearVelocity(velocity);
     
@@ -119,6 +120,7 @@ void Bullet::newFallBody(btConvexHullShape* convexShape, btVector3 pos, btScalar
     this->rigidBodys[this->n]->setLinearVelocity(velocity);
 
     this->rigidBodys[this->n]->setUserIndex(index);
+    this->rigidBodys[this->n]->setAngularFactor(btVector3(0, 0, 0));
 
     this->dynamicsWorld->addRigidBody(this->rigidBodys[this->n]);
 

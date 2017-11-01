@@ -136,15 +136,15 @@ int main()
 
     core->dynamicProps(rules);
 
-    if (timer->getUpdateNow() < 4.0)
+    if (timer->getUpdateNow() < 10.0)
     {
       platformWorld->setVelocity(2, btVector3(0, 0, 0));
     }
-    else if (timer->checkFirstTime(4.0))
+    else if (timer->checkFirstTime(10.0))
     {
       core->startPlatformVelocity();
     }
-    else if (timer->every(6.0))
+    else if (timer->every(12.0))
     {
       cout << "Mas velocidad" << endl;
       core->morePlatformVelocity();
@@ -173,20 +173,20 @@ int main()
 
     camera_viewProjUpdate();
 
-    if (!debug)
-    {
-      // core->drawCube();
+    // if (!debug)
+    // {
+      core->drawCube();
       core->drawRick();
 
       core->drawPlatforms();
 
       core->drawPlane();
 
-      // core->drawHouses(rules);
-      // core->drawProps();
-      // core->drawHouses(rules);
-      // core->drawProps();
-    }
+      core->drawHouses(rules);
+      core->drawProps();
+      core->drawHouses(rules);
+      core->drawProps();
+    // }
     platformWorld->dynamicsWorld->debugDrawWorld();
 
     window_calculateFps();
