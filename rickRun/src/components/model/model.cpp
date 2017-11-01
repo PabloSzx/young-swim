@@ -201,6 +201,8 @@ bool Model::load_mesh (const char* file_name) {
     GLfloat minY;
     GLfloat minZ;
 
+    convexShape = new btConvexHullShape();
+
     for (int i = 0; i < this->numvertices; i++) {
       const aiVector3D* vp = &(mesh->mVertices[i]);
       if (i == 0) {
@@ -229,6 +231,10 @@ bool Model::load_mesh (const char* file_name) {
         if ((GLfloat)vp->z < minZ) {
           minZ = (GLfloat)vp->z;
         }
+      }
+
+      if (numvertices < 400000) {
+        convexShape->addPoint(btVector3(vp->x, vp->y, vp->z));
       }
 
       points[i * 3] = (GLfloat)vp->x;

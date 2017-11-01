@@ -220,17 +220,19 @@ void input_processInput(GLFWwindow *window)
     //     // sun.z = sun.z - 0.1f;
     //     cameraPos += glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed;
     // }
-    // if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS)
-    // {
-    //     // sun.y = sun.y + 0.1f;
-    //     cameraPos -= glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed;
-    // }
-    // if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS)
-    // {
-    //     // sun.y = sun.y - 0.1f;
-    //     cameraPos += glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed;
-    // }
-
+    if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS)
+    {
+        debug = !debug;
+        platformWorld->m_pDebugDrawer->ToggleDebugFlag(btIDebugDraw::DBG_DrawWireframe);
+        // sun.y = sun.y + 0.1f;
+        // cameraPos -= glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed;
+    }
+    if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS)
+    {
+        // sun.y = sun.y - 0.1f;
+        // cameraPos += glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed;
+        platformWorld->m_pDebugDrawer->ToggleDebugFlag(btIDebugDraw::DBG_DrawAabb);
+    }
     // if (glfwGetKey(window, GLFW_KEY_1) == GLFW_PRESS)
     // {
     //     cout << "SUN.X: " << sun.x << endl;

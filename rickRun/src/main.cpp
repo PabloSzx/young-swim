@@ -173,15 +173,21 @@ int main()
 
     camera_viewProjUpdate();
 
-    core->drawCube();
-    core->drawRick();
+    if (!debug)
+    {
+      // core->drawCube();
+      core->drawRick();
 
-    core->drawPlatforms();
+      core->drawPlatforms();
 
-    core->drawPlane();
+      core->drawPlane();
 
-    core->drawHouses(rules);
-    core->drawProps();
+      // core->drawHouses(rules);
+      // core->drawProps();
+      // core->drawHouses(rules);
+      // core->drawProps();
+    }
+    platformWorld->dynamicsWorld->debugDrawWorld();
 
     window_calculateFps();
 

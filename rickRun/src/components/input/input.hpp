@@ -39,6 +39,7 @@ extern float lastFrame;
 extern double vx;
 extern double vy;
 extern double vz;
+extern bool debug;
 extern bool allowJump;
 extern bool allowDownJump;
 extern double jumpHorizontalForce;

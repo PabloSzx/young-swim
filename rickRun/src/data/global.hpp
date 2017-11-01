@@ -6,8 +6,8 @@
 #include "../components/physics/physics.hpp"
 #include "../containers/world/world.hpp"
 
-int g_gl_width = 1280;       //constants
-int g_gl_height = 720;       //constants
+int g_gl_width = 1440;       //constants
+int g_gl_height = 900;       //constants
 GLFWwindow *g_window = NULL; //main
 
 glm::vec3 sun = glm::vec3(0.7f, -12.2f, 2.3f);
@@ -53,7 +53,7 @@ float lastY = g_gl_height / 2.0;
 // float lastY = 607.734;
 
 float fov = 45.0f;
-
+bool debug = false;
 double vx = 0.0;
 double vy = 0.0;
 double vz = 0.0;

@@ -14,7 +14,7 @@ extern Bullet *platformWorld;
 extern Bullet *parallaxHouses;
 extern Bullet *parallaxProps;
 extern Bullet *distanceScore;
-
+extern bool debug;
 extern sound **background;
 extern GLuint shader_programme_cube;
 class World {
