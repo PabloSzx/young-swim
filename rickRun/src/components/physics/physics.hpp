@@ -42,6 +42,8 @@ public:
   void newPlane(btVector3 plane, btScalar constant, int index);
   void newFallBody(btVector3 extents, btVector3 pos, btScalar mass, btVector3 velocity, int index);
   void newFallBody(btConvexHullShape *convexShape, btVector3 pos, btScalar mass, btVector3 velocity, int index);
+  void newFallBody(btScalar radius, btVector3 pos, btScalar mass, btVector3 velocity, int index);
+
   void newCharacter(btConvexHullShape *convexShape, btVector3 pos, int index); 
   void editLastPlatform(btVector3 pos, btScalar mass, btVector3 velocity, int index);
   void editBody(int i, btVector3 extents, btVector3 pos, btScalar mass, btVector3 velocity, int index);

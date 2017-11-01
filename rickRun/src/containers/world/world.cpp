@@ -41,7 +41,8 @@ void World::reset(Parameters* rules) {
 
     // platformWorld->newFallBody(btVector3(rick->LX / 2, rick->LY / 2, rick->LZ / 2), btVector3(0.0, 5.0, 0.0), 1.0, btVector3(0, 0, 0), -1); //1
 
-    platformWorld->newFallBody(rick->convexShape, btVector3(0.0, 20.0, 0.0), 1, btVector3(0, 0, 0), -1); //1
+    // platformWorld->newFallBody(rick->convexShape, 1.0, btVector3(0, 0, 0), -1); //1
+    platformWorld->newFallBody(1.5, btVector3(0.0, 20.0, 0.0), 1, btVector3(0, 0, 0), -1); //1
 
     distanceScore = new Bullet(1, btVector3(0, 0, 0), 0);
     distanceScore->newFallBody(btVector3(0, 0, 0), btVector3(0, 0, 0), 1.0, btVector3(0, 0, 0), 1);
@@ -85,7 +86,9 @@ void World::genRick() {
     this->rick->setColor(1.0f, 0.894f, 0.882f);
     this->rick->model2shader(shader_programme);
     // platformWorld->newFallBody(btVector3(rick->LX / 2, rick->LY / 2, rick->LZ / 2), btVector3(0.0, 10.0, 0.0), 1.0, btVector3(0, 0, 0), -1); //1
-    platformWorld->newFallBody(rick->convexShape, btVector3(0.0, 20.0, 0.0), 1, btVector3(0, 0, 0), -1); //1
+    // platformWorld->newFallBody(rick->convexShape, btVector3(0.0, 20.0, 0.0), 1, btVector3(0, 0, 0), -1); //1
+    platformWorld->newFallBody(1.5, btVector3(0.0, 20.0, 0.0), 1, btVector3(0, 0, 0), -1); //1
+
     // platformWorld->newCharacter(rick->convexShape, btVector3(0.0, 20.0, 0.0), -1);
     distanceScore = new Bullet(1, btVector3(0.0, 0.0, 0.0), 1);
     distanceScore->newFallBody(btVector3(0, 0, 0), btVector3(0, 0, 0), 1.0, btVector3(0, 0, 0), 0);

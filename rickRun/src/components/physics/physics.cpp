@@ -128,6 +128,36 @@ void Bullet::newFallBody(btConvexHullShape* convexShape, btVector3 pos, btScalar
     }
 }
 
+void Bullet::newFallBody(btScalar radius, btVector3 pos, btScalar mass, btVector3 velocity, int index)
+{
+    // this->shapes[this->n] = new btBoxShape(extents);
+    this->shapes[this->n] = new btSphereShape(radius);
+    this->motionStates[this->n] = new btDefaultMotionState(btTransform(btQuaternion(0, 0, 0, 1), pos));
+
+    btVector3 fallInertia(0, 0, 0);
+
+    this->shapes[this->n]->calculateLocalInertia(mass, fallInertia);
+
+    btRigidBody::btRigidBodyConstructionInfo fallRigidBodyCI(mass, this->motionStates[this->n], this->shapes[this->n], fallInertia);
+
+    this->rigidBodys[this->n] = new btRigidBody(fallRigidBodyCI);
+    this->rigidBodys[this->n]->setRestitution(0.0);
+
+    // this->rigidBodys[this->n]->setCcdMotionThreshold(1e-7);
+    // this->rigidBodys[this->n]->setCcdSweptSphereRadius(0.0);
+
+    // this->rigidBodys[this->n]->setFriction(0.5);
+    this->rigidBodys[this->n]->setLinearVelocity(velocity);
+
+    this->rigidBodys[this->n]->setUserIndex(index);
+
+    this->dynamicsWorld->addRigidBody(this->rigidBodys[this->n]);
+
+    if (!((this->n + 1) == this->nmax))
+    {
+        this->n += 1;
+    }
+}
 
 void Bullet::editLastPlatform(btVector3 pos, btScalar mass, btVector3 velocity, int index)
 {
