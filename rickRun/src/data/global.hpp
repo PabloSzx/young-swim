@@ -37,6 +37,7 @@ double jumpVerticalDownForce;
 double jumpForwardForce;
 double jumpBackwardForce;
 
+bool debug = false;
 bool restart;
 bool fullscreen = true;
 

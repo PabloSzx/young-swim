@@ -199,6 +199,16 @@ void input_processInput(GLFWwindow *window)
     if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
         glfwSetWindowShouldClose(window, true);
 
+    if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS) {
+        debug = !debug;
+        platformWorld->m_pDebugDrawer->ToggleDebugFlag(btIDebugDraw::DBG_DrawWireframe);
+    }
+
+    if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS)
+    {
+        debug = !debug;
+        platformWorld->m_pDebugDrawer->ToggleDebugFlag(btIDebugDraw::DBG_DrawAabb);
+    }
     // float cameraSpeed = 2.5 * deltaTime;
     // if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
     // {

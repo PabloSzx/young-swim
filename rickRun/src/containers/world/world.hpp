@@ -17,6 +17,8 @@ extern Bullet *distanceScore;
 
 extern sound **background;
 extern GLuint shader_programme_cube;
+
+extern bool debug;
 class World {
 private:
   int nPlataformas;

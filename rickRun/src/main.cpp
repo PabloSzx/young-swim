@@ -136,11 +136,11 @@ int main()
 
     core->dynamicProps(rules);
 
-    if (timer->getUpdateNow() < 4.0)
+    if (timer->getUpdateNow() < 2.0)
     {
       platformWorld->setVelocity(2, btVector3(0, 0, 0));
     }
-    else if (timer->checkFirstTime(4.0))
+    else if (timer->checkFirstTime(2.0))
     {
       core->startPlatformVelocity();
     }
@@ -159,7 +159,6 @@ int main()
 
     window_frameCounter();
 
-    platformWorld->checkCollision(&allowJump);
     platformWorld->stepSimulation(1/_fps);
 
     parallaxHouses->stepSimulation(1/_fps);
@@ -173,21 +172,28 @@ int main()
 
     camera_viewProjUpdate();
 
-    core->drawCube();
-    core->drawRick();
+    if (!debug) {
+      core->drawCube();
+      core->drawRick();
 
-    core->drawPlatforms();
+      core->drawPlatforms();
 
-    core->drawPlane();
+      core->drawPlane();
 
-    core->drawHouses(rules);
-    core->drawProps();
+      core->drawHouses(rules);
+      core->drawProps();
+    } else {
+    platformWorld->debugDrawWorld();
+    parallaxHouses->debugDrawWorld();
+    parallaxProps->debugDrawWorld();
+    }
 
     window_calculateFps();
 
     core->backgroundMusic();
 
     window_swap();
+    platformWorld->checkCollision(&allowJump);
   }
 
   glfwTerminate();

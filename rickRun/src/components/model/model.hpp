@@ -3,6 +3,7 @@
 
 #include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
+#include <btBulletDynamicsCommon.h>
 
 using namespace std;
 
@@ -31,6 +32,7 @@ private:
     GLuint tex;
     
 public:
+    btConvexHullShape *convexShape;
     Model(char *filename);
     Model(char *filename, char *texname);
     GLfloat LX; //LX ES EL LARGO EN EL EJE X DEL OBJETO

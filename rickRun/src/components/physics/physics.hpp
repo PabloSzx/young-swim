@@ -4,6 +4,7 @@
 #include <btBulletDynamicsCommon.h>
 #include "../sound/sound.hpp"
 #include "iostream"
+#include "../debugDrawer/DebugDrawer.h"
 
 extern bool restart;
 extern int lastPlatformCollision;
@@ -27,12 +28,14 @@ private:
   btRigidBody **rigidBodys;
   
 public:
+  DebugDrawer *m_pDebugDrawer;
   Bullet(int nmax, btVector3 gravity, int resetEdit);
   void setGravity(int i, btVector3 vect);
   void applyGravity(int i);
   void getGravity(int i);
   void newPlane(btVector3 plane, btScalar constant, int index);
   void newFallBody(btVector3 extents, btVector3 pos, btScalar mass, btVector3 velocity, int index);
+  void newFallBody(btConvexHullShape *convexShape, btVector3 pos, btScalar mass, btVector3 velocity, int index);
   void editLastPlatform(btVector3 pos, btScalar mass, btVector3 velocity, int index);
   void editBody(int i, btVector3 extents, btVector3 pos, btScalar mass, btVector3 velocity, int index);
   void setVelocity(int i, btVector3 vel);
@@ -49,6 +52,7 @@ public:
   int getUserIndex(int i);
   int getLastPlatform();
   int getNMax();
+  void debugDrawWorld();
 };
 
 extern Bullet* platformWorld;

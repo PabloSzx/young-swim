@@ -28,6 +28,7 @@ extern glm::vec3 cameraFront;
 extern glm::vec3 cameraUp;
 extern bool firstMouse;
 extern bool mouseIn;
+extern bool debug;
 extern int joystickButton;
 extern float yaw;
 extern float pitch;

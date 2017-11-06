@@ -22,6 +22,11 @@ Bullet::Bullet(int nmax, btVector3 gravity, int resetEdit) {
     this->shapes = static_cast<btCollisionShape **>(malloc(sizeof(btCollisionShape *) * nmax));
     this->motionStates = static_cast<btDefaultMotionState **>(malloc(sizeof(btDefaultMotionState *) * nmax));
     this->rigidBodys = static_cast<btRigidBody **>(malloc(sizeof(btRigidBody *) * nmax));
+
+    this->m_pDebugDrawer = new DebugDrawer();
+
+    this->m_pDebugDrawer->setDebugMode(0);
+    this->dynamicsWorld->setDebugDrawer(m_pDebugDrawer);
 }
 
 void Bullet::setGravity(int i, btVector3 vect) {
@@ -80,9 +85,43 @@ void Bullet::newFallBody(btVector3 extents, btVector3 pos, btScalar mass, btVect
     this->rigidBodys[this->n]->setLinearVelocity(velocity);
     
     this->rigidBodys[this->n]->setUserIndex(index);
-    
+    this->rigidBodys[this->n]->setAngularFactor(btVector3(0, 0, 0));
+
     this->dynamicsWorld->addRigidBody(this->rigidBodys[this->n]);
     
+    if (!((this->n + 1) == this->nmax))
+    {
+        this->n += 1;
+    }
+}
+
+void Bullet::newFallBody(btConvexHullShape *convexShape, btVector3 pos, btScalar mass, btVector3 velocity, int index)
+{
+    // this->shapes[this->n] = new btSphereShape(radius);
+    // this->shapes[this->n] = new btBoxShape(extents);
+    this->shapes[this->n] = convexShape;
+    this->motionStates[this->n] = new btDefaultMotionState(btTransform(btQuaternion(0, 0, 0, 1), pos));
+
+    btVector3 fallInertia(0, 0, 0);
+
+    this->shapes[this->n]->calculateLocalInertia(mass, fallInertia);
+
+    btRigidBody::btRigidBodyConstructionInfo fallRigidBodyCI(mass, this->motionStates[this->n], this->shapes[this->n], fallInertia);
+
+    this->rigidBodys[this->n] = new btRigidBody(fallRigidBodyCI);
+    this->rigidBodys[this->n]->setRestitution(0.0);
+
+    // this->rigidBodys[this->n]->setCcdMotionThreshold(1e-7);
+    // this->rigidBodys[this->n]->setCcdSweptSphereRadius(0.0);
+
+    // this->rigidBodys[this->n]->setFriction(0.5);
+    this->rigidBodys[this->n]->setLinearVelocity(velocity);
+
+    this->rigidBodys[this->n]->setUserIndex(index);
+    this->rigidBodys[this->n]->setAngularFactor(btVector3(0, 0, 0));
+
+    this->dynamicsWorld->addRigidBody(this->rigidBodys[this->n]);
+
     if (!((this->n + 1) == this->nmax))
     {
         this->n += 1;
@@ -199,7 +238,7 @@ void Bullet::checkCollision(bool* allowJump) {
         int b = obB->getUserIndex();
         
         
-        if (a == -1) {
+        if (a == 1) {
             bool touched = false;
             int numContacts = contactManifold->getNumContacts();
             for (int j = 0; j < numContacts; j++)
@@ -207,13 +246,16 @@ void Bullet::checkCollision(bool* allowJump) {
                 btManifoldPoint &pt = contactManifold->getContactPoint(j);
                 if (pt.getDistance() < 0.f)
                 {
+                    cout << "COLISION";
                     if (b >= 2) {
                         this->setVelocity(1, btVector3(0.0, this->getVelocity(1).getY(), this->getVelocity(1).getZ()));
                         this->applyImpulse(1, btVector3(0.0, deltaTime * -this->getVelocity(1).getY(), deltaTime * -this->getVelocity(1).getZ()));
                         if (pt.getPositionWorldOnB().getY() - pt.getPositionWorldOnA().getY() >= 0) {
                             touched = true;
                         }
+                        cout << endl;
                     } else if (b == 0) {
+                        cout << "TOQUE SUELOOOOO" << endl;
                         background[8]->stop();
                         background[8]->play();
                         restart = true;
@@ -253,3 +295,6 @@ int Bullet::getUserIndex(int i) {
     return this->rigidBodys[i]->getUserIndex();
 }
 
+void Bullet::debugDrawWorld() {
+    this->dynamicsWorld->debugDrawWorld();
+};
