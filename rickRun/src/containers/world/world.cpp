@@ -384,7 +384,7 @@ void World::backgroundMusic() {
 
 void World::genCube() {
     cubo = new Model(const_cast<char *>("mesh/cubo.obj"), const_cast<char *>("assets/texture_cube2k.png"), "assets/texture_normal.png");
-    cubo->scale(glm::vec3(3.0f, 1.0f, 1.8f));
+    cubo->scale(glm::vec3(3.0f, 2.0f, 1.8f));
     cubo->setmatloc(shader_programme_cube, "matrix");
     cubo->model2shader(shader_programme_cube);
 }
