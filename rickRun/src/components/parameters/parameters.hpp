@@ -12,6 +12,9 @@ extern double jumpVerticalDownForce;
 extern double jumpForwardForce;
 extern double jumpBackwardForce;
 
+extern bool restart;
+extern sound** background;
+
 extern float deltaTime;
 class Parameters{
 private:

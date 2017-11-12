@@ -25,6 +25,7 @@
 #include "./components/physics/physics.hpp"
 #include "./containers/world/world.hpp"
 #include "./components/time/time.hpp"
+#include "./util/gltext/gltext.hpp"
 
 #include <btBulletDynamicsCommon.h>
 
@@ -46,6 +47,8 @@ int main()
   window_flags();
 
   input_setCallbacks();
+
+  gltInit();
 
   shader_programme = shader_create_programme_from_files();
   shader_programme_cube = shader_create_programme_from_files(VERTEX_SHADER_FILE_CUBE, FRAGMENT_SHADER_FILE_CUBE);
@@ -102,6 +105,13 @@ int main()
   background[3]->set_gain(g);
   background[4]->set_gain(g);
   background[5]->set_gain(g);
+
+  
+  GLTtext *text = gltCreateText();
+  gltSetText(text, "Hola Mundo!");
+  int size = 3;
+  int x = 10;
+  int y = 10;
 
   // background[0]->set_gain(0.9f);
   core->genCube();
@@ -170,7 +180,11 @@ int main()
 
     window_clear();
 
+    gltColor(1.0f, 1.0f, 1.0f, 0.0f);
+    gltDrawText2D(text, x, y, size);
+
     camera_viewProjUpdate();
+
 
     if (!debug) {
       core->drawCube();
@@ -192,9 +206,12 @@ int main()
 
     core->backgroundMusic();
 
+
     window_swap();
     platformWorld->checkCollision(&allowJump);
   }
+
+  gltDeleteText(text);
 
   glfwTerminate();
   return 0;

@@ -72,6 +72,11 @@ void Parameters::checkRickPos(Bullet* world) {
     else if (rickPos.getX() < this->minX)
     {
         world->applyImpulse(1, btVector3(deltaTime * 100, 0, 0));
+    } 
+    if (rickPos.getX() < -10.0) {
+        background[8]->stop();
+        background[8]->play();
+        restart = true;
     }
 }
 
