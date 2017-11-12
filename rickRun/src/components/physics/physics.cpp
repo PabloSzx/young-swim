@@ -244,18 +244,17 @@ void Bullet::checkCollision(bool* allowJump) {
             for (int j = 0; j < numContacts; j++)
             {
                 btManifoldPoint &pt = contactManifold->getContactPoint(j);
-                if (pt.getDistance() < 0.f)
+                if (pt.getDistance() < 0.1f)
                 {
-                    cout << "COLISION";
                     if (b >= 2) {
                         this->setVelocity(1, btVector3(0.0, this->getVelocity(1).getY(), this->getVelocity(1).getZ()));
                         this->applyImpulse(1, btVector3(0.0, deltaTime * -this->getVelocity(1).getY(), deltaTime * -this->getVelocity(1).getZ()));
                         if (pt.getPositionWorldOnB().getY() - pt.getPositionWorldOnA().getY() >= 0) {
                             touched = true;
                         }
-                        cout << endl;
+                        // cout << endl;
                     } else if (b == 0) {
-                        cout << "TOQUE SUELOOOOO" << endl;
+                        // cout << "TOQUE SUELOOOOO" << endl;
                         background[8]->stop();
                         background[8]->play();
                         restart = true;

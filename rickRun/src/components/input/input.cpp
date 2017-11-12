@@ -108,19 +108,31 @@ void input_processInput(GLFWwindow *window)
         // cout << "name: " << name << endl;
         // cout << "x: " << axes[0] << endl;
         // cout << "y: " << axes[1] << endl;
-        if (joystickButton == -1)
+        if (jumpButton == -1)
         {
             for (int i = 0; i < count2; i++)
             {
                 if (buttons[i] == GLFW_PRESS)
                 {
-                    joystickButton = i;
+                    jumpButton = i;
                     cout << "button " << i << " is jump" << endl;
                     break;
                 }
                 // cout << "button " << i << ": " << buttons[i] << endl;
             }
+        } else if (resetButton == -1) {
+            for (int i = 0; i < count2; i++)
+            {
+                if (buttons[i] == GLFW_PRESS && i != jumpButton)
+                {
+                    resetButton = i;
+                    cout << "button " << i << " is reset" << endl;
+                    break;
+                }
+                // cout << "button " << i << ": " << buttons[i] << endl;
+            }
         }
+
 
         if (axes[1] < -0.2)
         {
@@ -145,8 +157,8 @@ void input_processInput(GLFWwindow *window)
         {
             platformWorld->applyImpulse(1, btVector3(0.0, 0.0, jumpHorizontalForce * deltaTime));
         }
-        if (joystickButton != -1) {
-            if (buttons[joystickButton] == GLFW_PRESS)
+        if (jumpButton != -1) {
+            if (buttons[jumpButton] == GLFW_PRESS)
             {
                 if (allowJump)
                 {
@@ -155,6 +167,15 @@ void input_processInput(GLFWwindow *window)
                     background[6]->stop();
                     background[6]->play();
                     platformWorld->applyImpulse(1, btVector3(0.0, jumpVerticalUpForce, 0.0f));
+                }
+            }
+            else if (resetButton != -1 && restart == false && timer->getNow() >= 3.0)
+            {
+                if (buttons[resetButton] == GLFW_PRESS)
+                {
+                    restart = true;
+                    background[8]->stop();
+                    background[8]->play();
                 }
             }
         }

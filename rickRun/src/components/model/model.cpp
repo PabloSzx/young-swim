@@ -32,10 +32,11 @@ Model::Model(char *filename)
 
   this->setpos(glm::vec3(0.0f, 0.0f, 0.0f));
   this->scale(glm::vec3(1.0f));
-  this->load_texture(const_cast<char *>("assets/black.png"));
+  this->load_texture_rgb("assets/black.png", "texasmp_rgb");
+  //this->load_texture(const_cast<char *>("assets/black.png"));
 }
 
-Model::Model(char *filename, char *texname)
+Model::Model(char *filename, char *texname, char *normalname)
 {
   this->pos = glm::vec3(0, 0, 0);
   this->model = glm::mat4();
@@ -50,7 +51,8 @@ Model::Model(char *filename, char *texname)
 
   this->setpos(glm::vec3(0.0f, 0.0f, 0.0f));
   this->scale(glm::vec3(1.0f));
-  this->load_texture(texname);
+  this->load_texture_rgb(texname, "texsamp_rgb");
+  this->load_texture_normal(normalname, "texsamp_normal");
 }
 
 GLuint Model::getvao(){
@@ -105,26 +107,41 @@ void Model::setmatloc(GLuint shaderprog, const char* matrix) {
 void Model::model2shader(GLuint shaderprog) {
   this->setmatloc(shaderprog, "matrix");
   // glUniform3f(color, this->red, this->green, this->blue);
-  GLuint tex_location = glGetUniformLocation(shaderprog, "basic_texture");
+  // GLuint tex_location = glGetUniformLocation(shaderprog, "basic_texture");
   glActiveTexture(GL_TEXTURE0);
-  glBindTexture(GL_TEXTURE_2D, tex);
-  glUniform1i(tex_location, 0);
+  glBindTexture(GL_TEXTURE_2D, tex_rgb);
+  glUniform1i(texloc_rgb, 0);
 
   glUseProgram (shaderprog);
   glUniformMatrix4fv (this->matloc, 1, GL_FALSE, &this->model[0][0]);
 }
 
 void Model::draw() {
-  this->model2shader(shader_programme);
-  glBindVertexArray(this->getvao());
-  glDrawArrays(GL_TRIANGLES, 0, this->getnumvertices());
+  // glUseProgram(shader_programme);
+  glActiveTexture(GL_TEXTURE0);
+  glBindVertexArray(this->vao);
+  glBindTexture(GL_TEXTURE_2D, tex_rgb);
+  glUniformMatrix4fv(this->matloc, 1, GL_FALSE, &this->model[0][0]);
+  glDrawElements(this->FTYPE, this->FFACTOR * this->nfaces, GL_UNSIGNED_INT, 0);
+  glBindVertexArray(0);
+
+  // this->model2shader(shader_programme);
+  // glBindVertexArray(this->getvao());
+  // glDrawArrays(GL_TRIANGLES, 0, this->getnumvertices());
 }
 
 void Model::draw(GLuint shaderprog)
 {
-  this->model2shader(shaderprog);
-  glBindVertexArray(this->getvao());
-  glDrawArrays(GL_TRIANGLES, 0, this->getnumvertices());
+  // this->model2shader(shaderprog);
+  // glBindVertexArray(this->getvao());
+  // glDrawArrays(GL_TRIANGLES, 0, this->getnumvertices());
+  // glUseProgram(shaderprog);
+  glActiveTexture(GL_TEXTURE0);
+  glBindVertexArray(this->vao);
+  glBindTexture(GL_TEXTURE_2D, tex_rgb);
+  glUniformMatrix4fv(this->matloc, 1, GL_FALSE, &this->model[0][0]);
+  glDrawElements(this->FTYPE, this->FFACTOR * this->nfaces, GL_UNSIGNED_INT, 0);
+  glBindVertexArray(0);
 }
 
 bool Model::colisiona (Model* comparacion) {
@@ -179,6 +196,9 @@ bool Model::load_mesh (const char* file_name) {
 
   /* pass back number of vertex points in mesh */
   this->numvertices = mesh->mNumVertices;
+  this->nfaces = mesh->mNumFaces;
+  this->FTYPE = GL_TRIANGLES;
+  this->FFACTOR = 0;
 
   /* generate a VAO, using the pass-by-reference parameter that we give to the
   function */
@@ -192,6 +212,9 @@ bool Model::load_mesh (const char* file_name) {
   GLfloat* points = NULL; // array of vertex points
   GLfloat* normals = NULL; // array of vertex normals
   GLfloat* texcoords = NULL; // array of texture coordinates
+  GLfloat *tangents = NULL;  // array of tangent vectors
+  GLuint *indices = NULL;
+
   if (mesh->HasPositions ()) {
     points = (GLfloat*)malloc (this->numvertices * 3 * sizeof (GLfloat));
     GLfloat maxX;
@@ -272,6 +295,54 @@ bool Model::load_mesh (const char* file_name) {
 
     this->texcoords = texcoords;
   }
+  if (mesh->HasFaces())
+  {
+    this->FFACTOR = mesh->mFaces[0].mNumIndices;
+    indices = (GLuint *)malloc(this->nfaces * this->FFACTOR * sizeof(GLuint));
+    for (int i = 0; i < this->nfaces; ++i)
+    {
+      for (int j = 0; j < this->FFACTOR; ++j)
+      {
+        indices[this->FFACTOR * i + j] = mesh->mFaces[i].mIndices[j];
+      }
+    }
+  }
+
+  if (mesh->HasTangentsAndBitangents())
+  {
+    tangents = (GLfloat *)malloc(this->numvertices * 4 * sizeof(GLfloat));
+    for (int i = 0; i < this->numvertices; i++)
+    {
+      const aiVector3D *tangent = &(mesh->mTangents[i]);
+      const aiVector3D *bitangent = &(mesh->mBitangents[i]);
+      const aiVector3D *normal = &(mesh->mNormals[i]);
+
+      // put the three vectors into my vec3 struct format for doing maths
+      glm::vec3 t(tangent->x, tangent->y, tangent->z);
+      glm::vec3 n(normal->x, normal->y, normal->z);
+      glm::vec3 b(bitangent->x, bitangent->y, bitangent->z);
+      // orthogonalise and normalise the tangent so we can use it in something
+      // approximating a T,N,B inverse matrix
+      // vec3 t_i = normalise(t - n * dot(n, t));
+      glm::vec3 t_i = glm::normalize(t - n * glm::dot(n, t));
+
+      // get determinant of T,B,N 3x3 matrix by dot*cross method
+      float det = (glm::dot(glm::cross(n, t), b));
+      if (det < 0.0f)
+      {
+        det = -1.0f;
+      }
+      else
+      {
+        det = 1.0f;
+      }
+      // push back 4d vector for inverse tangent with determinant
+      tangents[i * 4 + 0] = t_i[0];
+      tangents[i * 4 + 1] = t_i[1];
+      tangents[i * 4 + 2] = t_i[2];
+      tangents[i * 4 + 3] = det;
+    }
+  }
 
   /* copy mesh data into VBOs */
   if (mesh->HasPositions ()) {
@@ -284,9 +355,16 @@ bool Model::load_mesh (const char* file_name) {
       points,
       GL_STATIC_DRAW
     );
+    if (indices)
+    {
+      glGenBuffers(1, &ebo);
+      glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
+      glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(GLuint) * nfaces * FFACTOR, indices, GL_STATIC_DRAW);
+    }
     glVertexAttribPointer (0, 3, GL_FLOAT, GL_FALSE, 0, NULL);
     glEnableVertexAttribArray (0);
     this->points = points;
+    free(indices);
     // free (points);
   }
   if (mesh->HasNormals ()) {
@@ -317,9 +395,17 @@ bool Model::load_mesh (const char* file_name) {
     glEnableVertexAttribArray (2);
     free (texcoords);
   }
-  if (mesh->HasTangentsAndBitangents ()) {
-    // NB: could store/print tangents here
+  if (tangents)
+  {
+    glGenBuffers(1, &tanbo);
+    glBindBuffer(GL_ARRAY_BUFFER, tanbo);
+    glBufferData(GL_ARRAY_BUFFER, 4 * this->numvertices * sizeof(GLfloat), tangents, GL_STATIC_DRAW);
+    glVertexAttribPointer(3, 4, GL_FLOAT, GL_FALSE, 0, NULL);
+    glEnableVertexAttribArray(3);
+    free(tangents);
   }
+
+  glBindVertexArray(0);
 
   aiReleaseImport (scene);
   printf ("mesh loaded\n");
@@ -327,7 +413,63 @@ bool Model::load_mesh (const char* file_name) {
   return true;
 }
 
-bool Model::load_texture(const char *file_name)
+// bool Model::load_texture(const char *file_name)
+// {
+//   int x, y, n;
+//   int force_channels = 4;
+//   unsigned char *image_data = stbi_load(file_name, &x, &y, &n, force_channels);
+//   //printf("x = %i    y = %i\n", x, y);
+//   if (!image_data)
+//   {
+//     fprintf(stderr, "ERROR: could not load %s\n", file_name);
+//     return false;
+//   }
+//   // NPOT check
+//   if ((x & (x - 1)) != 0 || (y & (y - 1)) != 0)
+//   {
+//     fprintf(
+//         stderr, "WARNING: texture %s is not power-of-2 dimensions\n", file_name);
+//   }
+//   int width_in_bytes = x * 4;
+//   unsigned char *top = NULL;
+//   unsigned char *bottom = NULL;
+//   unsigned char temp = 0;
+//   int half_height = y / 2;
+
+//   for (int row = 0; row < half_height; row++)
+//   {
+//     top = image_data + row * width_in_bytes;
+//     bottom = image_data + (y - row - 1) * width_in_bytes;
+//     for (int col = 0; col < width_in_bytes; col++)
+//     {
+//       temp = *top;
+//       *top = *bottom;
+//       *bottom = temp;
+//       top++;
+//       bottom++;
+//     }
+//   }
+//   tex = 0;
+//   glGenTextures(1, &tex);
+//   glActiveTexture(GL_TEXTURE0);
+//   glBindTexture(GL_TEXTURE_2D, tex);
+//   glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, x, y, 0, GL_RGBA, GL_UNSIGNED_BYTE, image_data);
+//   glGenerateMipmap(GL_TEXTURE_2D);
+//   // probar cambiar GL_CLAMP_TO_EDGE por GL_REPEAT
+//   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+//   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+//   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+//   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+//   GLfloat max_aniso = 16.0f;
+//   glGetFloatv(GL_MAX_TEXTURE_MAX_ANISOTROPY_EXT, &max_aniso);
+//   // set the maximum!
+//   glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAX_ANISOTROPY_EXT, max_aniso);
+
+//   // GLuint tex_location = glGetUniformLocation(shader_programme, "basic_texture");
+//   // glUniform1i(tex_location, 0); 
+//   return true;
+// }
+bool Model::load_texture(const char *file_name, GLuint *tex)
 {
   int x, y, n;
   int force_channels = 4;
@@ -363,10 +505,8 @@ bool Model::load_texture(const char *file_name)
       bottom++;
     }
   }
-  tex = 0;
-  glGenTextures(1, &tex);
-  glActiveTexture(GL_TEXTURE0);
-  glBindTexture(GL_TEXTURE_2D, tex);
+  glGenTextures(1, tex);
+  glBindTexture(GL_TEXTURE_2D, *tex);
   glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, x, y, 0, GL_RGBA, GL_UNSIGNED_BYTE, image_data);
   glGenerateMipmap(GL_TEXTURE_2D);
   // probar cambiar GL_CLAMP_TO_EDGE por GL_REPEAT
@@ -378,8 +518,32 @@ bool Model::load_texture(const char *file_name)
   glGetFloatv(GL_MAX_TEXTURE_MAX_ANISOTROPY_EXT, &max_aniso);
   // set the maximum!
   glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAX_ANISOTROPY_EXT, max_aniso);
-
-  // GLuint tex_location = glGetUniformLocation(shader_programme, "basic_texture");
-  // glUniform1i(tex_location, 0); 
   return true;
+}
+
+bool Model::load_texture_normal(const char *filename, const char *sampler_name)
+{
+  glActiveTexture(GL_TEXTURE1);
+  int code = load_texture(filename, &tex_normal);
+
+  glUseProgram(shader_programme);
+  printf("getuniformlocation(%u, %s)\n", shader_programme, sampler_name);
+  texloc_normal = glGetUniformLocation(shader_programme, sampler_name);
+  printf("texloc_normal = %i\n", texloc_normal);
+  assert(texloc_normal > -1);
+  glUniform1i(texloc_normal, 1);
+}
+
+bool Model::load_texture_rgb(const char *filename, const char *sampler_name)
+{
+  glActiveTexture(GL_TEXTURE0);
+  int code = load_texture(filename, &tex_rgb);
+
+  glUseProgram(shader_programme);
+  printf("getuniformlocation(%u, %s)\n", shader_programme, sampler_name);
+  texloc_rgb = glGetUniformLocation(shader_programme, sampler_name);
+  printf("texloc_rgb = %i\n", texloc_rgb);
+  assert(texloc_rgb > -1);
+  glUniform1i(texloc_rgb, 0);
+  glUseProgram(0);
 }

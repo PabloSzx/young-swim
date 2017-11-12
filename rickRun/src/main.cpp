@@ -105,7 +105,7 @@ int main()
 
   // background[0]->set_gain(0.9f);
   core->genCube();
-  Time *timer = new Time();
+  timer = new Time();
   Time *fpsTimer = new Time();
 
   while (!glfwWindowShouldClose(g_window))
@@ -136,15 +136,15 @@ int main()
 
     core->dynamicProps(rules);
 
-    if (timer->getUpdateNow() < 2.0)
+    if (timer->getUpdateNow() < 5.0)
     {
       platformWorld->setVelocity(2, btVector3(0, 0, 0));
     }
-    else if (timer->checkFirstTime(2.0))
+    else if (timer->checkFirstTime(5.0))
     {
       core->startPlatformVelocity();
     }
-    else if (timer->every(6.0))
+    else if (timer->every(8.0))
     {
       cout << "Mas velocidad" << endl;
       core->morePlatformVelocity();

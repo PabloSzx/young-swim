@@ -10,6 +10,7 @@
 #include <iostream>
 #include "../physics/physics.hpp"
 #include "../../containers/world/world.hpp"
+#include "../time/time.hpp"
 
 extern sound *snd_01;
 extern sound *snd_02;
@@ -29,7 +30,8 @@ extern glm::vec3 cameraUp;
 extern bool firstMouse;
 extern bool mouseIn;
 extern bool debug;
-extern int joystickButton;
+extern int jumpButton;
+extern int resetButton;
 extern float yaw;
 extern float pitch;
 extern float lastX;
@@ -42,6 +44,7 @@ extern double vy;
 extern double vz;
 extern bool allowJump;
 extern bool allowDownJump;
+extern bool restart;
 extern double jumpHorizontalForce;
 extern double jumpVerticalUpForce;
 extern double jumpVerticalDownForce;
@@ -49,6 +52,7 @@ extern double jumpForwardForce;
 extern double jumpBackwardForce;
 extern double fps;
 
+extern Time *timer;
 extern Bullet* platformWorld;
 
 

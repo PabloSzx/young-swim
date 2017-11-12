@@ -5,6 +5,7 @@
 #include <glm/glm.hpp>
 #include "../components/physics/physics.hpp"
 #include "../containers/world/world.hpp"
+#include "../components/time/time.hpp"
 
 int g_gl_width = 1280;       //constants
 int g_gl_height = 720;       //constants
@@ -41,7 +42,9 @@ bool debug = false;
 bool restart;
 bool fullscreen = true;
 
-int joystickButton = -1;
+Time *timer; 
+int jumpButton = -1;
+int resetButton = -1;
 bool firstMouse = true;
 // float yaw = -90.0f; // yaw is initialized to -90.0 degrees since a yaw of 0.0 results in a direction vector pointing to the right so we initially rotate a bit to the left.
 // float pitch = 0.0f;
