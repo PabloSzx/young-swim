@@ -28,11 +28,19 @@
 #include "./util/gltext/gltext.hpp"
 
 #include <btBulletDynamicsCommon.h>
+#include <sstream>
 
 #include "./data/constants.hpp"
 #include "./data/global.hpp"
 
     using namespace std;
+
+    const char* ConvertDoubleToString(double value){ //Hay que modularizar esto :c
+        std::stringstream ss ;
+        ss << value;
+        const char* str = ss.str().c_str();
+        return str;
+    }
 
 int main()
 {
@@ -106,12 +114,17 @@ int main()
   background[4]->set_gain(g);
   background[5]->set_gain(g);
 
-  
-  GLTtext *text = gltCreateText();
-  gltSetText(text, "Hola Mundo!");
-  int size = 3;
-  int x = 10;
-  int y = 10;
+
+  GLTtext *textT = gltCreateText();
+  gltSetText(textT, "Puntaje:");
+  GLTtext *textPuntaje = gltCreateText();
+    GLTtext *textPerdiste = gltCreateText();
+
+  int size = 1;
+  int posT1x = 5;
+  int posT12y = 5;
+  int posPuntajex = 80;
+
 
   // background[0]->set_gain(0.9f);
   core->genCube();
@@ -125,12 +138,18 @@ int main()
     if (fpsTimer->every(1.0))
     {
       cout << "distance score: " << rules->getDistance(distanceScore) << endl;
+      gltSetText(textPuntaje,ConvertDoubleToString(rules->getDistance(distanceScore)) );
+      if(rules->getDistance(distanceScore) > 10){
+          gltSetText(textPerdiste,"");
+      }
       window_update_fps_counter(g_window);
     }
 
     if (restart)
     {
       cout << "restart" << endl;
+      gltSetText(textPerdiste,"Perdiste!! Sigue intentando");
+
       core->reset(rules);
 
       restart = false;
@@ -149,6 +168,7 @@ int main()
     if (timer->getUpdateNow() < 5.0)
     {
       platformWorld->setVelocity(2, btVector3(0, 0, 0));
+
     }
     else if (timer->checkFirstTime(5.0))
     {
@@ -158,6 +178,7 @@ int main()
     {
       cout << "Mas velocidad" << endl;
       core->morePlatformVelocity();
+
     }
 
     rules->checkRickPos(platformWorld);
@@ -181,7 +202,11 @@ int main()
     window_clear();
 
     gltColor(1.0f, 1.0f, 1.0f, 0.0f);
-    gltDrawText2D(text, x, y, size);
+    gltDrawText2D(textT, posT1x, posT12y, size);
+    gltDrawText2D(textPuntaje, posPuntajex, posT12y, size);
+
+    gltColor(1.0f, 1.0f, 1.0f, 0.0f);
+    gltDrawText2D(textPerdiste, 100, 100, 4);
 
     camera_viewProjUpdate();
 
@@ -211,7 +236,9 @@ int main()
     platformWorld->checkCollision(&allowJump);
   }
 
-  gltDeleteText(text);
+  gltDeleteText(textT);
+    gltDeleteText(textPuntaje);
+    gltDeleteText(textPerdiste);
 
   glfwTerminate();
   return 0;
