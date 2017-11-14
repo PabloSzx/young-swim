@@ -133,30 +133,15 @@ int main()
 
   while (!glfwWindowShouldClose(g_window))
   {
-    menu->checkInput();
-
-    fpsTimer->updateNow();
-
-    cout << "globalStatus: " << globalStatus << endl;
-    if (fpsTimer->every(1.0))
-    {
-      window_update_fps_counter(g_window);
-    }
-
     window_clear();
 
     menu->drawText(rules->getDistance(distanceScore));
 
-    window_frameCounter();
-
     switch (globalStatus) {
       case 0:
-      {
-
-        break;
-      }
       case 1:
       {
+        menu->checkInput();
         break;
       }
       case 2:
@@ -173,6 +158,16 @@ int main()
           fpsTimer->restart();
           menu->restartTime();
         }
+
+        fpsTimer->updateNow();
+
+        if (fpsTimer->every(1.0))
+        {
+          window_update_fps_counter(g_window);
+        }
+
+        window_frameCounter();
+
         core->dynamicPlatforms(rules);
 
         core->dynamicHouses(rules);

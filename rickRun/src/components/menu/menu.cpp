@@ -182,7 +182,7 @@ void Menu::drawText(int distance)
     if (globalStatus == 2)
     { //Esta jugando
         gltSetText(this->label, ConvertDoubleToString(distance));
-        gltDrawText2D(label, 5, 5, 1);
+        gltDrawText2D(label, 5, 5, 2);
     }
     else
     {
@@ -200,8 +200,8 @@ void Menu::drawText(int distance)
                 this->setColor(0.5f, 0.0f);
             }
             gltSetText(this->label, (*it).c_str());
-            gltDrawText2D(this->label, x, y, 1);
-            y += 30;
+            gltDrawText2D(this->label, x, y, 4);
+            y += 70;
             if (contador == this->step)
             {
                 this->setColor(1.0f, 0.0f);
