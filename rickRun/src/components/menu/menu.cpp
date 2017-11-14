@@ -259,7 +259,7 @@ void Menu::checkInput()
         }
 
 
-        cout << this->step << endl;
+        // cout << this->step << endl;
     }
 
 }
