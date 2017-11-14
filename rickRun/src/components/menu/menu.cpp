@@ -128,6 +128,7 @@ void Menu::confirm()
         {
         case 1: // Jugar
         {
+            this->status = 2;
             break;
         }
         case 2: // Dificultad novato
@@ -147,6 +148,7 @@ void Menu::confirm()
         }
         case 5: // Salir
         {
+            glfwSetWindowShouldClose(g_window, true);
             break;
         }
         }
@@ -158,14 +160,17 @@ void Menu::confirm()
         {
         case 1: // Jugar denuevo
         {
+            this->status = 2;
             break;
         }
         case 2: // Volver al menu
         {
+            this->status = 0;
             break;
         }
         case 3: // Salir
         {
+            glfwSetWindowShouldClose(g_window, true);
             break;
         }
         }
