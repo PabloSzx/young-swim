@@ -155,6 +155,7 @@ int main()
       restart = false;
       timer->restart();
       fpsTimer->restart();
+      menuss->restartTime();
     } else {
       // gltSetText(textPerdiste, "");
     }

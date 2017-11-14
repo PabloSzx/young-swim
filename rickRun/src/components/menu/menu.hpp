@@ -39,6 +39,7 @@ class Menu {
         void changeDifficulty(int n);
         void setColor(float r, float g, float b, float o);
         void setColor(float rgb, float o);
+        void restartTime();
 };
 
 

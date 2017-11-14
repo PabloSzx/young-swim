@@ -52,7 +52,7 @@ Model::Model(char *filename, char *texname, char *normalname)
   this->setpos(glm::vec3(0.0f, 0.0f, 0.0f));
   this->scale(glm::vec3(1.0f));
   this->load_texture_rgb(texname, "texsamp_rgb");
-  // this->load_texture_normal(normalname, "texsamp_normal");
+  this->load_texture_normal(normalname, "texsamp_normal");
 }
 
 GLuint Model::getvao(){

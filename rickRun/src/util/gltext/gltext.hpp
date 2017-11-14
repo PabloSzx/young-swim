@@ -41,9 +41,6 @@
 extern "C" {
 #endif
 
-#include <GL/glew.h>	// include GLEW and new version of GL on Windows
-#include <GLFW/glfw3.h> // GLFW helper library
-
 #if !defined(__gl_h_) && !defined(__glcorearb_h_)
 #error OpenGL header must be included prior to including glText header
 #endif

@@ -13,7 +13,7 @@ const char *ConvertDoubleToString(double value)
 Menu::Menu()
 {
     this->inputTimer = new Time();
-    this->status = 2;
+    this->status = 0;
     this->difficulty = 0;
     this->step = 1;
 
@@ -186,12 +186,23 @@ void Menu::drawText(int distance)
 
         int x = 80;
         int y = 80;
+
+        int contador = 1;
         while (it != this->text[this->status].end())
         {
+            if (contador == this->step) {
+                this->setColor(0.5f, 0.0f);
+            }
             gltSetText(this->label, (*it).c_str());
             gltDrawText2D(this->label, x, y, 1);
             y += 30;
+            if (contador == this->step)
+            {
+                this->setColor(1.0f, 0.0f);
+            }
+
             ++it;
+            ++contador;
         }
     }
 }
@@ -199,7 +210,7 @@ void Menu::drawText(int distance)
 void Menu::checkInput()
 {
     this->inputTimer->updateNow();
-    if (this->inputTimer->every(1.0) && this->status != 2) {
+    if (this->inputTimer->every(0.5) && this->status != 2) {
         if (glfwJoystickPresent(GLFW_JOYSTICK_1))
         {
         }
@@ -208,17 +219,24 @@ void Menu::checkInput()
             bool modified = false;
             if (glfwGetKey(g_window, GLFW_KEY_UP) == GLFW_PRESS)
             {
-                this->stepPlus();
+                this->stepMinus();
             }
             else if (glfwGetKey(g_window, GLFW_KEY_DOWN) == GLFW_PRESS)
             {
-                this->stepMinus();
+                this->stepPlus();
             }
             else if (glfwGetKey(g_window, GLFW_KEY_ENTER) == GLFW_PRESS)
             {
                 this->confirm();
             }
         }
+
+
+        cout << this->step << endl;
     }
 
+}
+
+void Menu::restartTime() {
+    this->inputTimer->restart();
 }
