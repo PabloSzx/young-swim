@@ -13,7 +13,7 @@ const char *ConvertDoubleToString(double value)
 Menu::Menu()
 {
     this->inputTimer = new Time();
-    this->status = 0;
+    this->status = 2;
     this->difficulty = 0;
     this->step = 1;
 
@@ -189,8 +189,8 @@ void Menu::drawText(int distance)
         while (it != this->text[this->status].end())
         {
             gltSetText(this->label, (*it).c_str());
-            gltDrawText2D(this->label, x, y, 100);
-            y += 10;
+            gltDrawText2D(this->label, x, y, 1);
+            y += 30;
             ++it;
         }
     }
