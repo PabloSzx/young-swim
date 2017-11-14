@@ -25,7 +25,8 @@
 #include "./components/physics/physics.hpp"
 #include "./containers/world/world.hpp"
 #include "./components/time/time.hpp"
-#include "./util/gltext/gltext.hpp"
+// #include "./util/gltext/gltext.hpp"
+// #include "./components/menu/menu.hpp"
 
 #include <btBulletDynamicsCommon.h>
 #include <sstream>
@@ -56,7 +57,7 @@ int main()
 
   input_setCallbacks();
 
-  gltInit();
+  // gltInit();
 
   shader_programme = shader_create_programme_from_files();
   shader_programme_cube = shader_create_programme_from_files(VERTEX_SHADER_FILE_CUBE, FRAGMENT_SHADER_FILE_CUBE);
@@ -89,6 +90,8 @@ int main()
       distanciaEntreHouses, distanciaEntreProps,
       distanciaEntreCapas);
 
+  // Menu *menu = new Menu();
+
   glfwSwapInterval(1);
   glfwSetInputMode(g_window, GLFW_STICKY_KEYS, 1);
 
@@ -115,10 +118,10 @@ int main()
   background[5]->set_gain(g);
 
 
-  GLTtext *textT = gltCreateText();
-  gltSetText(textT, "Puntaje:");
-  GLTtext *textPuntaje = gltCreateText();
-    GLTtext *textPerdiste = gltCreateText();
+  // GLTtext *textT = gltCreateText();
+  // gltSetText(textT, "Puntaje:");
+  // GLTtext *textPuntaje = gltCreateText();
+  //   GLTtext *textPerdiste = gltCreateText();
 
   int size = 1;
   int posT1x = 5;
@@ -138,9 +141,9 @@ int main()
     if (fpsTimer->every(1.0))
     {
       cout << "distance score: " << rules->getDistance(distanceScore) << endl;
-      gltSetText(textPuntaje,ConvertDoubleToString(rules->getDistance(distanceScore)) );
+      // gltSetText(textPuntaje,ConvertDoubleToString(rules->getDistance(distanceScore)) );
       if(rules->getDistance(distanceScore) > 10){
-          gltSetText(textPerdiste,"");
+          // gltSetText(textPerdiste,"");
       }
       window_update_fps_counter(g_window);
     }
@@ -148,13 +151,15 @@ int main()
     if (restart)
     {
       cout << "restart" << endl;
-      gltSetText(textPerdiste,"Perdiste!! Sigue intentando");
+      // gltSetText(textPerdiste,"Perdiste!! Sigue intentando");
 
       core->reset(rules);
 
       restart = false;
       timer->restart();
       fpsTimer->restart();
+    } else {
+      // gltSetText(textPerdiste, "");
     }
 
     float startTicks = glfwGetTime();
@@ -199,14 +204,18 @@ int main()
 
     input_processInput(g_window);
 
+    // menu->checkInput();
+
     window_clear();
 
-    gltColor(1.0f, 1.0f, 1.0f, 0.0f);
-    gltDrawText2D(textT, posT1x, posT12y, size);
-    gltDrawText2D(textPuntaje, posPuntajex, posT12y, size);
+    // menu->drawText();
 
-    gltColor(1.0f, 1.0f, 1.0f, 0.0f);
-    gltDrawText2D(textPerdiste, 100, 100, 4);
+    // gltColor(1.0f, 1.0f, 1.0f, 0.0f);
+    // gltDrawText2D(textT, posT1x, posT12y, size);
+    // gltDrawText2D(textPuntaje, posPuntajex, posT12y, size);
+
+    // gltColor(1.0f, 1.0f, 1.0f, 0.0f);
+    // gltDrawText2D(textPerdiste, 100, 100, 4);
 
     camera_viewProjUpdate();
 
@@ -236,9 +245,9 @@ int main()
     platformWorld->checkCollision(&allowJump);
   }
 
-  gltDeleteText(textT);
-    gltDeleteText(textPuntaje);
-    gltDeleteText(textPerdiste);
+  // gltDeleteText(textT);
+  //   gltDeleteText(textPuntaje);
+  //   gltDeleteText(textPerdiste);
 
   glfwTerminate();
   return 0;
