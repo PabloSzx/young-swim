@@ -132,14 +132,17 @@ void Menu::confirm()
         }
         case 2: // Dificultad novato
         {
+            this->changeDifficulty(0);
             break;
         }
         case 3: // Dificultad media
         {
+            this->changeDifficulty(1);
             break;
         }
         case 4: // Dificultad insane
         {
+            this->changeDifficulty(2);
             break;
         }
         case 5: // Salir
@@ -210,9 +213,33 @@ void Menu::drawText(int distance)
 void Menu::checkInput()
 {
     this->inputTimer->updateNow();
-    if (this->inputTimer->every(0.5) && this->status != 2) {
+    if (this->inputTimer->every(0.2) && this->status != 2) {
         if (glfwJoystickPresent(GLFW_JOYSTICK_1))
         {
+            int count;
+
+            const float *axes = glfwGetJoystickAxes(GLFW_JOYSTICK_1, &count);
+
+            int count2;
+
+            const unsigned char *buttons = glfwGetJoystickButtons(GLFW_JOYSTICK_1, &count2);
+
+            // for (int i = 0; i < 8; i++) {
+            //     cout << "axes " << i << "  " << axes[i] << endl;
+            // }
+            // cout << "COUNT ES " << count << endl;
+            if (axes[7] < -0.5) {
+                this->stepMinus();
+            } else if (axes[7] > 0.5) {
+                this->stepPlus();
+            }
+
+            if (buttons[jumpButton] == GLFW_PRESS) {
+                this->confirm();
+            }
+
+
+
         }
         else
         {
