@@ -3,7 +3,7 @@
 
 #include <vector>
 #include <string>
-#include <GL/glew.h>    // include GLEW and new version of GL on Windows
+#include <GL/glew.h>
 #include <GLFW/glfw3.h> // GLFW helper library
 #include "../../util/gltext/gltext.hpp"
 #include "../sound/sound.hpp"
@@ -17,11 +17,11 @@ extern int resetButton;
 extern GLFWwindow *g_window;
 extern sound** background;
 extern float deltaTime;
+extern int globalStatus;
 //extern Bullet *platformWorld;
 class Menu {
     private:
         Time* inputTimer;
-        int status;
         int difficulty;
         int step;
         int maxStepStatus0;
@@ -40,6 +40,7 @@ class Menu {
         void setColor(float r, float g, float b, float o);
         void setColor(float rgb, float o);
         void restartTime();
+        void setGlobalStatus(int n);
 };
 
 

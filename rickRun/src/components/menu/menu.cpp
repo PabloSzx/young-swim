@@ -13,7 +13,7 @@ const char *ConvertDoubleToString(double value)
 Menu::Menu()
 {
     this->inputTimer = new Time();
-    this->status = 0;
+    this->setGlobalStatus(0);
     this->difficulty = 0;
     this->step = 1;
 
@@ -40,6 +40,10 @@ Menu::Menu()
     this->text.push_back(textStatus1);
 
     this->label = gltCreateText();
+}
+
+void Menu::setGlobalStatus(int n) {
+    globalStatus = n;
 }
 
 void Menu::changeDifficulty(int n)
@@ -73,7 +77,7 @@ void Menu::changeDifficulty(int n)
 
 int Menu::getMaxStep()
 {
-    switch (this->status)
+    switch (globalStatus)
     {
     case 0:
         return this->maxStepStatus0;
@@ -86,11 +90,7 @@ int Menu::getMaxStep()
 
 void Menu::stepPlus()
 {
-    if (this->step == getMaxStep())
-    {
-        this->step = 1;
-    }
-    else
+    if (this->step < getMaxStep())
     {
         this->step += 1;
     }
@@ -98,11 +98,7 @@ void Menu::stepPlus()
 
 void Menu::stepMinus()
 {
-    if (this->step == 1)
-    {
-        this->step = getMaxStep();
-    }
-    else
+    if (this->step > 1)
     {
         this->step -= 1;
     }
@@ -120,7 +116,7 @@ void Menu::setColor(float rgb, float o)
 
 void Menu::confirm()
 {
-    switch (status)
+    switch (globalStatus)
     {
     case 0: // Menu
     {
@@ -128,7 +124,7 @@ void Menu::confirm()
         {
         case 1: // Jugar
         {
-            this->status = 2;
+            this->setGlobalStatus(2);
             break;
         }
         case 2: // Dificultad novato
@@ -160,12 +156,14 @@ void Menu::confirm()
         {
         case 1: // Jugar denuevo
         {
-            this->status = 2;
+            this->setGlobalStatus(2);
+            restart = true;
             break;
         }
         case 2: // Volver al menu
         {
-            this->status = 0;
+            this->setGlobalStatus(0);
+            restart = true;
             break;
         }
         case 3: // Salir
@@ -181,14 +179,14 @@ void Menu::confirm()
 
 void Menu::drawText(int distance)
 {
-    if (this->status == 2)
+    if (globalStatus == 2)
     { //Esta jugando
         gltSetText(this->label, ConvertDoubleToString(distance));
         gltDrawText2D(label, 5, 5, 1);
     }
     else
     {
-        vector<string>::iterator it = this->text[this->status].begin();
+        vector<string>::iterator it = this->text[globalStatus].begin();
 
         this->setColor(1.0f, 0.0f);
 
@@ -196,7 +194,7 @@ void Menu::drawText(int distance)
         int y = 80;
 
         int contador = 1;
-        while (it != this->text[this->status].end())
+        while (it != this->text[globalStatus].end())
         {
             if (contador == this->step) {
                 this->setColor(0.5f, 0.0f);
@@ -218,7 +216,7 @@ void Menu::drawText(int distance)
 void Menu::checkInput()
 {
     this->inputTimer->updateNow();
-    if (this->inputTimer->every(0.2) && this->status != 2) {
+    if (this->inputTimer->every(0.4) && globalStatus != 2) {
         if (glfwJoystickPresent(GLFW_JOYSTICK_1))
         {
             int count;
@@ -272,3 +270,4 @@ void Menu::checkInput()
 void Menu::restartTime() {
     this->inputTimer->restart();
 }
+

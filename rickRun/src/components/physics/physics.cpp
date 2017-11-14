@@ -257,7 +257,9 @@ void Bullet::checkCollision(bool* allowJump) {
                         // cout << "TOQUE SUELOOOOO" << endl;
                         background[8]->stop();
                         background[8]->play();
-                        restart = true;
+                        globalStatus = 1;
+                        // menu->setGlobalStatus(1);
+                        // restart = true;
                     }
                     
                 }

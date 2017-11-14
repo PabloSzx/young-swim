@@ -52,7 +52,7 @@ int main()
 
   input_setCallbacks();
 
-  Menu *menuss = new Menu();
+  menu = new Menu();
 
   // gltInit();
 
@@ -133,119 +133,116 @@ int main()
 
   while (!glfwWindowShouldClose(g_window))
   {
+    menu->checkInput();
 
     fpsTimer->updateNow();
+
+    cout << "globalStatus: " << globalStatus << endl;
     if (fpsTimer->every(1.0))
     {
-      // cout << "distance score: " << rules->getDistance(distanceScore) << endl;
-      // gltSetText(textPuntaje,ConvertDoubleToString(rules->getDistance(distanceScore)) );
-      if(rules->getDistance(distanceScore) > 10){
-          // gltSetText(textPerdiste,"");
-      }
       window_update_fps_counter(g_window);
     }
 
-    if (restart)
-    {
-      cout << "restart" << endl;
-      // gltSetText(textPerdiste,"Perdiste!! Sigue intentando");
+    window_clear();
 
-      core->reset(rules);
-
-      restart = false;
-      timer->restart();
-      fpsTimer->restart();
-      menuss->restartTime();
-    } else {
-      // gltSetText(textPerdiste, "");
-    }
-
-    float startTicks = glfwGetTime();
-
-    core->dynamicPlatforms(rules);
-
-    core->dynamicHouses(rules);
-
-    core->dynamicProps(rules);
-
-    if (timer->getUpdateNow() < 5.0)
-    {
-      platformWorld->setVelocity(2, btVector3(0, 0, 0));
-
-    }
-    else if (timer->checkFirstTime(5.0))
-    {
-      core->startPlatformVelocity();
-    }
-    else if (timer->every(8.0))
-    {
-      cout << "Mas velocidad" << endl;
-      core->morePlatformVelocity();
-
-    }
-
-    rules->checkRickPos(platformWorld);
-    rules->checkRickVel(platformWorld);
-
-    core->getPhysicsPos();
-
-    core->gravityRick();
+    menu->drawText(rules->getDistance(distanceScore));
 
     window_frameCounter();
 
-    platformWorld->stepSimulation(1/_fps);
+    switch (globalStatus) {
+      case 0:
+      {
 
-    parallaxHouses->stepSimulation(1/_fps);
-    parallaxProps->stepSimulation(1/_fps);
+        break;
+      }
+      case 1:
+      {
+        break;
+      }
+      case 2:
+      {
+        if (restart)
+        {
+          cout << "restart" << endl;
+          // gltSetText(textPerdiste,"Perdiste!! Sigue intentando");
 
-    distanceScore->stepSimulation(1/_fps);
+          core->reset(rules);
 
-    input_processInput(g_window);
+          restart = false;
+          timer->restart();
+          fpsTimer->restart();
+          menu->restartTime();
+        }
+        core->dynamicPlatforms(rules);
 
-    menuss->checkInput();
+        core->dynamicHouses(rules);
 
-    window_clear();
+        core->dynamicProps(rules);
 
-    menuss->drawText(rules->getDistance(distanceScore));
+        if (timer->getUpdateNow() < 5.0)
+        {
+          platformWorld->setVelocity(2, btVector3(0, 0, 0));
+        }
+        else if (timer->checkFirstTime(5.0))
+        {
+          core->startPlatformVelocity();
+        }
+        else if (timer->every(8.0))
+        {
+          cout << "Mas velocidad" << endl;
+          core->morePlatformVelocity();
+        }
 
-    // gltColor(1.0f, 1.0f, 1.0f, 0.0f);
-    // gltDrawText2D(textT, posT1x, posT12y, size);
-    // gltDrawText2D(textPuntaje, posPuntajex, posT12y, size);
+        rules->checkRickPos(platformWorld);
+        rules->checkRickVel(platformWorld);
 
-    // gltColor(1.0f, 1.0f, 1.0f, 0.0f);
-    // gltDrawText2D(textPerdiste, 100, 100, 4);
+        core->getPhysicsPos();
 
-    camera_viewProjUpdate();
+        core->gravityRick();
 
+        platformWorld->stepSimulation(1 / _fps);
 
-    if (!debug) {
-      core->drawCube();
-      core->drawRick();
+        parallaxHouses->stepSimulation(1 / _fps);
+        parallaxProps->stepSimulation(1 / _fps);
 
-      core->drawPlatforms();
+        distanceScore->stepSimulation(1 / _fps);
 
-      core->drawPlane();
+        input_processInput(g_window);
 
-      core->drawHouses(rules);
-      core->drawProps();
-    } else {
-    platformWorld->debugDrawWorld();
-    parallaxHouses->debugDrawWorld();
-    parallaxProps->debugDrawWorld();
+        camera_viewProjUpdate();
+
+        if (!debug)
+        {
+          core->drawCube();
+          core->drawRick();
+
+          core->drawPlatforms();
+
+          core->drawPlane();
+
+          core->drawHouses(rules);
+          core->drawProps();
+        }
+        else
+        {
+          platformWorld->debugDrawWorld();
+          parallaxHouses->debugDrawWorld();
+          parallaxProps->debugDrawWorld();
+        }
+
+        platformWorld->checkCollision(&allowJump);
+
+        break;
+      }
     }
-
     window_calculateFps();
 
     core->backgroundMusic();
 
 
-    window_swap();
-    platformWorld->checkCollision(&allowJump);
-  }
 
-  // gltDeleteText(textT);
-  //   gltDeleteText(textPuntaje);
-  //   gltDeleteText(textPerdiste);
+    window_swap();
+  }
 
   glfwTerminate();
   return 0;

@@ -6,6 +6,7 @@
 #include "../components/physics/physics.hpp"
 #include "../containers/world/world.hpp"
 #include "../components/time/time.hpp"
+#include "../components/menu/menu.hpp"
 
 int g_gl_width = 1280;       //constants
 int g_gl_height = 720;       //constants
@@ -38,8 +39,10 @@ double jumpVerticalDownForce;
 double jumpForwardForce;
 double jumpBackwardForce;
 
+Menu *menu;
 bool debug = false;
 bool restart;
+int globalStatus = 0; //0: menu previo, 1: menu play again, 2: playing
 bool fullscreen = true;
 
 Time *timer; 
