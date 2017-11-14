@@ -25,8 +25,8 @@
 #include "./components/physics/physics.hpp"
 #include "./containers/world/world.hpp"
 #include "./components/time/time.hpp"
-// #include "./util/gltext/gltext.hpp"
-// #include "./components/menu/menu.hpp"
+#include "./util/gltext/gltext.hpp"
+#include "./components/menu/menu.hpp"
 
 #include <btBulletDynamicsCommon.h>
 #include <sstream>
@@ -34,14 +34,9 @@
 #include "./data/constants.hpp"
 #include "./data/global.hpp"
 
-    using namespace std;
+using namespace std;
 
-    const char* ConvertDoubleToString(double value){ //Hay que modularizar esto :c
-        std::stringstream ss ;
-        ss << value;
-        const char* str = ss.str().c_str();
-        return str;
-    }
+    
 
 int main()
 {
@@ -56,6 +51,8 @@ int main()
   window_flags();
 
   input_setCallbacks();
+
+  Menu *menuss = new Menu();
 
   // gltInit();
 
@@ -140,7 +137,7 @@ int main()
     fpsTimer->updateNow();
     if (fpsTimer->every(1.0))
     {
-      cout << "distance score: " << rules->getDistance(distanceScore) << endl;
+      // cout << "distance score: " << rules->getDistance(distanceScore) << endl;
       // gltSetText(textPuntaje,ConvertDoubleToString(rules->getDistance(distanceScore)) );
       if(rules->getDistance(distanceScore) > 10){
           // gltSetText(textPerdiste,"");
@@ -204,11 +201,11 @@ int main()
 
     input_processInput(g_window);
 
-    // menu->checkInput();
+    menuss->checkInput();
 
     window_clear();
 
-    // menu->drawText();
+    menuss->drawText(rules->getDistance(distanceScore));
 
     // gltColor(1.0f, 1.0f, 1.0f, 0.0f);
     // gltDrawText2D(textT, posT1x, posT12y, size);
