@@ -244,8 +244,8 @@ void Bullet::checkCollision(bool* allowJump) {
             for (int j = 0; j < numContacts; j++)
             {
                 btManifoldPoint &pt = contactManifold->getContactPoint(j);
-                if (pt.getDistance() < 0.1f)
-                {
+                // if (pt.getDistance() < 0.1f)
+                // {
                     if (b >= 2) {
                         this->setVelocity(1, btVector3(0.0, this->getVelocity(1).getY(), this->getVelocity(1).getZ()));
                         this->applyImpulse(1, btVector3(0.0, deltaTime * -this->getVelocity(1).getY(), deltaTime * -this->getVelocity(1).getZ()));
@@ -262,7 +262,7 @@ void Bullet::checkCollision(bool* allowJump) {
                         // restart = true;
                     }
                     
-                }
+                // }
             }
             if (touched) {
                 *allowJump = true;
