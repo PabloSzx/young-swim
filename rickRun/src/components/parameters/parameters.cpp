@@ -30,11 +30,32 @@ Parameters::Parameters(
     this->setForceVerticalDownJump(forceVerticalDownJump);
     this->setForceForwardJump(forceForwardJump);
     this->setForceBackwardJump(forceBackwardJump);
+
+
+    map<string, double> easy;
+    map<string, double> normal;
+    map<string, double> insane;
+
+    easy.insert(make_pair("frequency", 10.0));
+    easy.insert(make_pair("moreVelocity", 4.0));
+
+    normal.insert(make_pair("frequency", 8.0));
+    normal.insert(make_pair("moreVelocity", 5.0));
+
+    insane.insert(make_pair("frequency", 6.0));
+    insane.insert(make_pair("moreVelocity", 8.0));
+
+    this->difficultyParameters.insert(make_pair("easy", easy));
+    this->difficultyParameters.insert(make_pair("normal", normal));
+    this->difficultyParameters.insert(make_pair("insane", insane));
+
+
 }
 void Parameters::setForceHorizontalJump(double force) {
     jumpHorizontalForce = force;
     this->forceHorizontalJump = force;
 }
+
 void Parameters::setForceVerticalUpJump(double force)
 {
     jumpVerticalUpForce = force;
@@ -151,5 +172,9 @@ double Parameters::getDistanciaEntreCapas() {
 
 double Parameters::getDistance(Bullet* distanceScore) {
     return abs((int)distanceScore->getTransformOrigin(0).getX());
+}
+
+map< string, map<string, double> > Parameters::getDifficultyParameters() {
+    return this->difficultyParameters;
 }
 

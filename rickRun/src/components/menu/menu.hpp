@@ -9,6 +9,7 @@
 #include "../sound/sound.hpp"
 #include "../time/time.hpp"
 #include <sstream>
+#include "../parameters/parameters.hpp"
 //#include "../physics/physics.hpp"
 
 extern bool restart;
@@ -18,11 +19,13 @@ extern GLFWwindow *g_window;
 extern sound** background;
 extern float deltaTime;
 extern int globalStatus;
+extern Parameters* rules;
 //extern Bullet *platformWorld;
 class Menu {
     private:
         Time* inputTimer;
         int difficulty;
+        std::string difficultyName;
         int step;
         int maxStepStatus0;
         int maxStepStatus1;
@@ -41,6 +44,7 @@ class Menu {
         void setColor(float rgb, float o);
         void restartTime();
         void setGlobalStatus(int n, const char* m);
+        std::string getDifficultyName();
 };
 
 

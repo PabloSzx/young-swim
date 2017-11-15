@@ -56,7 +56,7 @@ public:
   void genParallaxHouses(Parameters* rules); //listo
   void genParallaxProps(Parameters* rules);//listo
   void startPlatformVelocity();//listo
-  void morePlatformVelocity();//listo
+  void morePlatformVelocity(double moreVelocity);//listo
   void startHousesVelocity();//listo
   void moreHousesVelocity();//listo
   void startPropsVelocity();//listo

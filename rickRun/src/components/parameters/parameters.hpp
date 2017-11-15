@@ -2,7 +2,8 @@
 #define ParametersS_H
 
 #include <btBulletDynamicsCommon.h>
-
+#include <map>
+#include <string>
 
 #include "../../components/physics/physics.hpp"
 
@@ -34,6 +35,7 @@ private:
   double distanciaEntreHouse;
   double distanciaEntreProp;
   double distanciaEntreCapas;
+  std::map< std::string, std::map<std::string, double> > difficultyParameters;
   
 public:
   Parameters(
@@ -61,6 +63,8 @@ public:
   btVector3 getNextHousePos(double previousXHouse, double y, double z);
   btVector3 getNextPropPos(double previousXProp, double y, double z);
   double getDistanciaEntreCapas();
+
+  std::map<std::string, std::map<std::string, double>> getDifficultyParameters();
 };
 
 #endif

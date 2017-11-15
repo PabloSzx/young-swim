@@ -78,7 +78,7 @@ int main()
 
   double frame_start = 0.0;
 
-  Parameters *rules = new Parameters(
+  rules = new Parameters(
       minXVel, maxXVel, maxYVel, maxZVel,
       minX, maxX, minZ, maxZ,
       forceHorizontalJump, forceVerticalUpJump, forceVerticalDownJump,
@@ -161,6 +161,10 @@ int main()
       {
         fpsTimer->updateNow();
 
+        string difficulty = menu->getDifficultyName();
+        double frequency = rules->getDifficultyParameters()[difficulty]["frequency"];
+        double moreVelocity = rules->getDifficultyParameters()[difficulty]["moreVelocity"];
+        
         if (fpsTimer->every(1.0))
         {
           window_update_fps_counter(g_window);
@@ -182,10 +186,10 @@ int main()
         {
           core->startPlatformVelocity();
         }
-        else if (timer->every(8.0))
+        else if (timer->every(frequency))
         {
           cout << "Mas velocidad" << endl;
-          core->morePlatformVelocity();
+          core->morePlatformVelocity(moreVelocity);
         }
 
         rules->checkRickPos(platformWorld);

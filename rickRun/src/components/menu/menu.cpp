@@ -15,6 +15,7 @@ Menu::Menu()
     this->inputTimer = new Time();
     this->setGlobalStatus(0, "CONSTRUCTOR DE MENU");
     this->difficulty = 0;
+    this->difficultyName = "easy";
     this->step = 1;
 
     this->maxStepStatus0 = 5;
@@ -60,6 +61,7 @@ void Menu::changeDifficulty(int n)
             this->text[0][1] = this->text[0][1].substr(0, 19) + "(ON)";
             this->text[0][2] = this->text[0][2].substr(0, 19) + "(OFF)";
             this->text[0][3] = this->text[0][3].substr(0, 19) + "(OFF)";
+            difficultyName = "easy";
             break;
         }
         case 1:
@@ -67,6 +69,7 @@ void Menu::changeDifficulty(int n)
             this->text[0][1] = this->text[0][1].substr(0, 19) + "(OFF)";
             this->text[0][2] = this->text[0][2].substr(0, 19) + "(ON)";
             this->text[0][3] = this->text[0][3].substr(0, 19) + "(OFF)";
+            difficultyName = "normal";
             break;
         }
         case 2:
@@ -74,9 +77,14 @@ void Menu::changeDifficulty(int n)
             this->text[0][1] = this->text[0][1].substr(0, 19) + "(OFF)";
             this->text[0][2] = this->text[0][2].substr(0, 19) + "(OFF)";
             this->text[0][3] = this->text[0][3].substr(0, 19) + "(ON)";
+            difficultyName = "insane";
             break;
         }
     }
+}
+
+string Menu::getDifficultyName() {
+    return this->difficultyName;
 }
 
 int Menu::getMaxStep()

@@ -183,8 +183,8 @@ void World::startPropsVelocity() {
         parallaxProps->setVelocity(i, btVector3(this->platformVelocity, 0, 0));
     }
 };
-void World::morePlatformVelocity() {
-    this->platformVelocity -= 5.0;
+void World::morePlatformVelocity(double moreVelocity) {
+    this->platformVelocity -= moreVelocity;
     for (int i = 0; i < nPlataformas; i += 1) {
         platformWorld->setVelocity(i + PLATFORMS_START_INDEX, btVector3(platformVelocity, 0, 0));
     }
