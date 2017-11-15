@@ -199,8 +199,17 @@ void Menu::drawText(int distance)
 {
     if (globalStatus >= 1)
     { //Esta jugando
+        float c=0;
         gltSetText(this->label, ConvertDoubleToString(distance));
+        this->setColor(0.51f,0.94f,0.15f, 0.0f);
         gltDrawText2D(label, 5, 5, 2);
+        //Si distancia es multiplo de 100
+        if((distance % (50)) <=5 && distance>5){
+          gltSetText(this->label, "Sigue Asi!");
+          this->setColor(0.51f,0.94f,0.15f, 0.0f); //Ese tiene que ser random
+          gltDrawText2D(label, 300, 600, 4);
+
+        }
     }
     if (globalStatus <= 1)
     {
@@ -214,7 +223,7 @@ void Menu::drawText(int distance)
         while (it != this->text[globalStatus].end())
         {
             if (contador == this->step) {
-                this->setColor(0.5f, 0.0f);
+                this->setColor(0.03f,0.68f,0.78f, 0.0f);
             }
             gltSetText(this->label, (*it).c_str());
             gltDrawText2D(this->label, x, y, 4);
@@ -287,4 +296,3 @@ void Menu::checkInput()
 void Menu::restartTime() {
     this->inputTimer->restart();
 }
-
