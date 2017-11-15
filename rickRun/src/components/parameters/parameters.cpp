@@ -76,7 +76,7 @@ void Parameters::checkRickPos(Bullet* world) {
     if (rickPos.getX() < -10.0) {
         background[8]->stop();
         background[8]->play();
-        restart = true;
+        globalStatus = 1;
     }
 }
 

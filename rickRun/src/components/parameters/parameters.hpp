@@ -11,7 +11,7 @@ extern double jumpVerticalUpForce;
 extern double jumpVerticalDownForce;
 extern double jumpForwardForce;
 extern double jumpBackwardForce;
-
+extern int globalStatus;
 extern bool restart;
 extern sound** background;
 

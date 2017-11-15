@@ -13,7 +13,7 @@ const char *ConvertDoubleToString(double value)
 Menu::Menu()
 {
     this->inputTimer = new Time();
-    this->setGlobalStatus(0);
+    this->setGlobalStatus(0, "CONSTRUCTOR DE MENU");
     this->difficulty = 0;
     this->step = 1;
 
@@ -23,8 +23,9 @@ Menu::Menu()
     gltInit();
 
     vector<string> textStatus0;
-    textStatus0.push_back("Jugar");
 
+    // textStatus0.push_back("<Use your arrows to move>");
+    textStatus0.push_back("Jugar");
     textStatus0.push_back("Dificultad novato  (ON)");
     textStatus0.push_back("Dificultad media   (OFF)");
     textStatus0.push_back("Dificultad insane  (OFF)");
@@ -33,6 +34,7 @@ Menu::Menu()
     this->text.push_back(textStatus0);
 
     vector<string> textStatus1;
+    // textStatus1.push_back("<Use your arrows to move>");
     textStatus1.push_back("Jugar denuevo");
     textStatus1.push_back("Volver al menu");
     textStatus1.push_back("Salir");
@@ -42,8 +44,10 @@ Menu::Menu()
     this->label = gltCreateText();
 }
 
-void Menu::setGlobalStatus(int n) {
+void Menu::setGlobalStatus(int n, const char* m) {
+    // cout << "SET GLOBAL STATUS LLAMADO EN: " << m << "  " << m << "  " << m << endl;
     globalStatus = n;
+    step = 0;
 }
 
 void Menu::changeDifficulty(int n)
@@ -90,17 +94,23 @@ int Menu::getMaxStep()
 
 void Menu::stepPlus()
 {
-    if (this->step < getMaxStep())
-    {
-        this->step += 1;
+    if (this->inputTimer->every(0.3)) {
+        if (this->step < getMaxStep())
+        {
+            this->step += 1;
+        }
     }
 }
 
 void Menu::stepMinus()
 {
-    if (this->step > 1)
+    if (this->inputTimer->every(0.3))
     {
-        this->step -= 1;
+
+        if (this->step > 1)
+        {
+            this->step -= 1;
+        }
     }
 }
 
@@ -124,7 +134,8 @@ void Menu::confirm()
         {
         case 1: // Jugar
         {
-            this->setGlobalStatus(2);
+            restart = true;
+            this->setGlobalStatus(2, "CONFIRM-MENU-JUGAR");
             break;
         }
         case 2: // Dificultad novato
@@ -156,14 +167,13 @@ void Menu::confirm()
         {
         case 1: // Jugar denuevo
         {
-            this->setGlobalStatus(2);
             restart = true;
+            this->setGlobalStatus(2, "PLAYAGAIN-JUGARDENUEVO");
             break;
         }
         case 2: // Volver al menu
         {
-            this->setGlobalStatus(0);
-            restart = true;
+            this->setGlobalStatus(0, "PLAYAGAIN-VOLVERALMENU");
             break;
         }
         case 3: // Salir
@@ -179,17 +189,16 @@ void Menu::confirm()
 
 void Menu::drawText(int distance)
 {
-    if (globalStatus == 2)
+    if (globalStatus >= 1)
     { //Esta jugando
         gltSetText(this->label, ConvertDoubleToString(distance));
         gltDrawText2D(label, 5, 5, 2);
     }
-    else
+    if (globalStatus <= 1)
     {
         vector<string>::iterator it = this->text[globalStatus].begin();
 
         this->setColor(1.0f, 0.0f);
-
         int x = 80;
         int y = 80;
 
@@ -216,7 +225,7 @@ void Menu::drawText(int distance)
 void Menu::checkInput()
 {
     this->inputTimer->updateNow();
-    if (this->inputTimer->every(0.4) && globalStatus != 2) {
+    if (globalStatus != 2) {
         if (glfwJoystickPresent(GLFW_JOYSTICK_1))
         {
             int count;

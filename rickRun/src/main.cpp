@@ -40,7 +40,6 @@ using namespace std;
 
 int main()
 {
-  restart = false;
   fullscreen = false;
   srand(time(NULL));
 
@@ -137,28 +136,29 @@ int main()
 
     menu->drawText(rules->getDistance(distanceScore));
 
+    // cout << "globalStatus: " << globalStatus << endl;
+    // if (glfwGetKey(g_window, GLFW_KEY_SPACE)) {
+    //   cout << endl;
+    // }
     switch (globalStatus) {
       case 0:
       case 1:
       {
         menu->checkInput();
-        break;
-      }
-      case 2:
-      {
-        if (restart)
-        {
-          cout << "restart" << endl;
-          // gltSetText(textPerdiste,"Perdiste!! Sigue intentando");
 
+        if (restart) {
+          restart = false;
           core->reset(rules);
 
-          restart = false;
           timer->restart();
           fpsTimer->restart();
           menu->restartTime();
         }
 
+        break;
+      }
+      case 2:
+      {
         fpsTimer->updateNow();
 
         if (fpsTimer->every(1.0))
