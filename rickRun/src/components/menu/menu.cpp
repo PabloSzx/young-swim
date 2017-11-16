@@ -201,10 +201,10 @@ void Menu::drawText(int distance)
     { //Esta jugando
         float c=0;
         gltSetText(this->label, ConvertDoubleToString(distance));
-        this->setColor(0.51f,0.94f,0.15f, 0.0f);
+        this->setColor(0.03f, 0.68f, 0.78f, 0.0f);
         gltDrawText2D(label, 5, 5, 2);
         //Si distancia es multiplo de 100
-        if((distance % (50)) <=5 && distance>5){
+        if((distance % (100)) <=5 && distance>5){
           gltSetText(this->label, "Sigue Asi!");
           this->setColor(0.51f,0.94f,0.15f, 0.0f); //Ese tiene que ser random
           gltDrawText2D(label, 300, 600, 4);

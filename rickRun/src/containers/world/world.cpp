@@ -86,7 +86,7 @@ void World::reset(Parameters* rules) {
     }
 }
 void World::genRick() {
-    this->rick = new Model(const_cast<char *>("mesh/rick.obj"), const_cast<char *>("assets/littlerick.png"), "assets/littlerick_normal.png");
+    this->rick = new Model(const_cast<char *>("mesh/rick.obj"), const_cast<char *>("assets/littlerick.png"), const_cast<char *>("assets/littlerick_normal.png"));
     this->rick->scale(glm::vec3(0.3f));
     this->rick->setColor(1.0f, 0.894f, 0.882f);
     this->rick->model2shader(shader_programme);
@@ -97,7 +97,7 @@ void World::genRick() {
 };
 void World::genPlatforms(Parameters* rules) {
     this->plataformas = static_cast<Model **>(malloc(sizeof(Model *) * this->nPlataformas));
-    this->plataformas[0] = new Model(const_cast<char *>("mesh/platform.obj"), const_cast<char *>("assets/steel.jpg"), "assets/steel_normal.png");
+    this->plataformas[0] = new Model(const_cast<char *>("mesh/platform.obj"), const_cast<char *>("assets/steel.jpg"), const_cast<char *>("assets/steel_normal.png"));
     this->plataformas[0]->model2shader(shader_programme);
 
     this->platPos = btVector3(0.0, 0.0, 0.0);
@@ -113,7 +113,7 @@ void World::genPlatforms(Parameters* rules) {
 void World::genPhysics() {
     platformWorld = new Bullet(this->nPlataformas + 2, btVector3(0, 0, 0), PLATFORMS_START_INDEX);
     platformWorld->newPlane(btVector3(0, 1, 0), -3.7, 0); //0
-    this->plano = new Model(const_cast<char *>("mesh/prueba.obj"), const_cast<char *>("assets/piso.png"), "assets/piso_normal.png");
+    this->plano = new Model(const_cast<char *>("mesh/prueba.obj"), const_cast<char *>("assets/piso.png"), const_cast<char *>("assets/piso_normal.png"));
     this->plano->setColor(0.8f, 0.0f, 0.0f);
     this->plano->model2shader(shader_programme);
 };
@@ -122,7 +122,7 @@ void World::genParallaxHouses(Parameters* rules) {
 
     this->casas = static_cast<Model **>(malloc(sizeof(Model *) * nHouses));
 
-    this->casas[0] = new Model(const_cast<char *>("mesh/casa.obj"), const_cast<char *>("assets/casa.png"), "assets/casa_normal.png");
+    this->casas[0] = new Model(const_cast<char *>("mesh/casa.obj"), const_cast<char *>("assets/casa.png"), const_cast<char *>("assets/casa_normal.png"));
     this->casas[0]->setColor(0.545f, 0.271f, 0.075f);
     this->casas[0]->scale(glm::vec3(5.0f,5.0f,1.0f));
     this->casas[0]->model2shader(shader_programme);
@@ -383,7 +383,7 @@ void World::backgroundMusic() {
 }
 
 void World::genCube() {
-    cubo = new Model(const_cast<char *>("mesh/cubo.obj"), const_cast<char *>("assets/texture_cube2k.png"), "assets/texture_normal.png");
+    cubo = new Model(const_cast<char *>("mesh/cubo.obj"), const_cast<char *>("assets/texture_cube2k.png"), const_cast<char *>("assets/texture_normal.png"));
     cubo->scale(glm::vec3(3.0f, 2.0f, 1.8f));
     cubo->setmatloc(shader_programme_cube, "matrix");
     cubo->model2shader(shader_programme_cube);
