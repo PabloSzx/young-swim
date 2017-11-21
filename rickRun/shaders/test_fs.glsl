@@ -11,14 +11,17 @@ uniform sampler2D texsamp_normal;
 
 // propiedades luz
 #define SPECULAR_EXP 20
-vec4 la = vec4(0.05, 0.05, 0.05, 1.0);
-vec4 ld = vec4(0.8, 0.8, 0.8, 1.0);
-vec4 ls = vec4(0.5, 0.5, 0.5, 1.0);
+vec4 la = vec4(1.0, 1.0, 1.0, 1.0);
+vec4 ld = vec4(1.0, 1.0, 1.0, 1.0);
+vec4 ls = vec4(1.0, 1.0, 1.0, 1.0);
 
 // material objeto
-vec4 ka = vec4(1.0, 1.0, 1.0, 1.0);
-vec4 kd = vec4(1.0, 1.0, 1.0, 1.0);
-vec4 ks = vec4(0.7, 0.7, 0.7, 1.0);
+uniform vec4 ka;
+uniform vec4 kd;
+uniform vec4 ks;
+// vec4 ka = vec4(1.0, 1.0, 1.0, 1.0);
+// vec4 kd = vec4(1.0, 1.0, 1.0, 1.0);
+// vec4 ks = vec4(0.7, 0.7, 0.7, 1.0);
 
 out vec4 frag_colour;
 void main() {

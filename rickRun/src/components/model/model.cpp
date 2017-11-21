@@ -53,9 +53,39 @@ Model::Model(char *filename, char *texname, char *normalname)
   this->scale(glm::vec3(1.0f));
   this->load_texture_rgb(texname, "texsamp_rgb");
   this->load_texture_normal(normalname, "texsamp_normal");
+
+  GLuint ka = glGetUniformLocation(shader_programme, "ka");
+  GLuint kd = glGetUniformLocation(shader_programme, "kd");
+  GLuint ks = glGetUniformLocation(shader_programme, "ks");
+
+
+  glUniform4f(ka, 0.05, 0.05, 0.05, 1.0);
+  glUniform4f(kd, 0.8, 0.8, 0.8, 1.0);
+  glUniform4f(ks, 0.5, 0.5, 0.5, 1.0);
 }
 
-GLuint Model::getvao(){
+void Model::setAmbientalCoef(GLfloat a, GLfloat b, GLfloat c) {
+  GLuint ka = glGetUniformLocation(shader_programme, "ka");
+
+  glUniform4f(ka, a, b, c, 1.0);
+}
+
+void Model::setDiffuseCoef(GLfloat a, GLfloat b, GLfloat c)
+{
+  GLuint kd = glGetUniformLocation(shader_programme, "kd");
+
+  glUniform4f(kd, a, b, c, 1.0);
+}
+
+void Model::setSpecularCoef(GLfloat a, GLfloat b, GLfloat c)
+{
+  GLuint ks = glGetUniformLocation(shader_programme, "ks");
+
+  glUniform4f(ks, a, b, c, 1.0);
+}
+
+GLuint Model::getvao()
+{
   return this->vao;
 }
 

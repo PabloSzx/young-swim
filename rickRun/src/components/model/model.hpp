@@ -68,6 +68,9 @@ public:
   bool load_texture(const char *file_name, GLuint *tex);
   bool load_texture_rgb(const char *filename, const char *sampler_name);
   bool load_texture_normal(const char *filename, const char *sampler_name);
+  void setAmbientalCoef(GLfloat a, GLfloat b, GLfloat c);
+  void setDiffuseCoef(GLfloat a, GLfloat b, GLfloat c);
+  void setSpecularCoef(GLfloat a, GLfloat b, GLfloat c);
 
   void printMax();
   bool colisiona(Model *compar);
