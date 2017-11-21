@@ -532,7 +532,7 @@ bool Model::load_texture_normal(const char *filename, const char *sampler_name)
   glUseProgram(shader_programme);
   // printf("getuniformlocation(%u, %s)\n", shader_programme, sampler_name);
   texloc_normal = glGetUniformLocation(shader_programme, sampler_name);
-  printf("texloc_normal = %i\n", texloc_normal);
+  // printf("texloc_normal = %i\n", texloc_normal);
   // assert(texloc_normal > -1);
   glUniform1i(texloc_normal, 1);
 }
@@ -545,7 +545,7 @@ bool Model::load_texture_rgb(const char *filename, const char *sampler_name)
   glUseProgram(shader_programme);
   // printf("getuniformlocation(%u, %s)\n", shader_programme, sampler_name);
   texloc_rgb = glGetUniformLocation(shader_programme, sampler_name);
-  printf("texloc_rgb = %i\n", texloc_rgb);
+  // printf("texloc_rgb = %i\n", texloc_rgb);
   // assert(texloc_rgb > -1);
   glUniform1i(texloc_rgb, 0);
   glUseProgram(0);

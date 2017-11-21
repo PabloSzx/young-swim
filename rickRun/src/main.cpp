@@ -42,7 +42,7 @@ using namespace std;
 
 int main()
 {
-  fullscreen = true;
+  fullscreen = false;
   srand(time(NULL));
 
   log_restart_gl_log();
