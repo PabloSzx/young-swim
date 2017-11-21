@@ -11,6 +11,7 @@ out vec4 test_tan;
 out vec2 st;
 out vec3 view_dir_tan;
 out vec3 light_dir_tan;
+out vec3 light_dir_tan2;
  
 float inverse(float m);
 mat2 inverse(mat2 m);
@@ -32,6 +33,7 @@ void main () {
 	using another uniform variable */
 	vec3 cam_pos_wor = (inverse (view) * vec4 (0.0, 0.0, 0.0, 1.0)).xyz;
 	vec3 light_dir_wor = vec3 (0.0, -1.0, 1.0);
+	vec3 light_dir_wor2 = vec3 (0.0, -1.0, -1.0);
 	
 	/* work out bi-tangent as cross product of normal and tangent. also multiply
 		 by the determinant, which we stored in .w to correct handedness
@@ -41,6 +43,8 @@ void main () {
 	/* transform our camera and light uniforms into local space */
 	vec3 cam_pos_loc = vec3 (inverse (matrix) * vec4 (cam_pos_wor, 1.0));
 	vec3 light_dir_loc = vec3 (inverse (matrix) * vec4 (light_dir_wor, 0.0));
+	vec3 light_dir_loc2 = vec3 (inverse (matrix) * vec4 (light_dir_wor2, 0.0));
+
 	// ...and work out view _direction_ in local space
 	vec3 view_dir_loc = normalize (cam_pos_loc - vertex_position);
 	
@@ -58,6 +62,12 @@ void main () {
 		dot (vtangent.xyz, light_dir_loc),
 		dot (bitangent, light_dir_loc),
 		dot (vertex_normal, light_dir_loc)
+	);
+
+	light_dir_tan2 = vec3 (
+		dot (vtangent.xyz, light_dir_loc2),
+		dot (bitangent, light_dir_loc2),
+		dot (vertex_normal, light_dir_loc2)
 	);
  
 }
