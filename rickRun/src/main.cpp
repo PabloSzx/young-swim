@@ -36,11 +36,11 @@
 
 using namespace std;
 
-    
+
 
 int main()
 {
-  fullscreen = false;
+  fullscreen = true;
   srand(time(NULL));
 
   log_restart_gl_log();
@@ -164,7 +164,7 @@ int main()
         string difficulty = menu->getDifficultyName();
         double frequency = rules->getDifficultyParameters()[difficulty]["frequency"];
         double moreVelocity = rules->getDifficultyParameters()[difficulty]["moreVelocity"];
-        
+
         if (fpsTimer->every(1.0))
         {
           window_update_fps_counter(g_window);
@@ -188,7 +188,7 @@ int main()
         }
         else if (timer->every(frequency))
         {
-          cout << "Mas velocidad" << endl;
+          // cout << "Mas velocidad" << endl;
           core->morePlatformVelocity(moreVelocity);
         }
 

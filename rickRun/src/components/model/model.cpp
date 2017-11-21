@@ -163,13 +163,13 @@ void Model::setColor(GLfloat r, GLfloat g, GLfloat b) {
 }
 
 void Model::printMax() {
-  cout << "maxX: " << this->maxX << endl;
-  cout << "maxY: " << this->maxY << endl;
-  cout << "maxZ: " << this->maxZ << endl;
-
-  cout << "minX: " << this->minX << endl;
-  cout << "minY: " << this->minY << endl;
-  cout << "minZ: " << this->minZ << endl;
+  // cout << "maxX: " << this->maxX << endl;
+  // cout << "maxY: " << this->maxY << endl;
+  // cout << "maxZ: " << this->maxZ << endl;
+  //
+  // cout << "minX: " << this->minX << endl;
+  // cout << "minY: " << this->minY << endl;
+  // cout << "minZ: " << this->minZ << endl;
 }
 
 char* Model::getfilename(){
@@ -179,20 +179,20 @@ char* Model::getfilename(){
 bool Model::load_mesh (const char* file_name) {
   const aiScene* scene = aiImportFile(file_name, aiProcess_Triangulate);
   if (!scene) {
-    fprintf (stderr, "ERROR: reading mesh %s\n", file_name);
+  //  fprintf (stderr, "ERROR: reading mesh %s\n", file_name);
     return false;
   }
-  printf ("  %i animations\n", scene->mNumAnimations);
-  printf ("  %i cameras\n", scene->mNumCameras);
-  printf ("  %i lights\n", scene->mNumLights);
-  printf ("  %i materials\n", scene->mNumMaterials);
-  printf ("  %i meshes\n", scene->mNumMeshes);
-  printf ("  %i textures\n", scene->mNumTextures);
+  // printf ("  %i animations\n", scene->mNumAnimations);
+  // printf ("  %i cameras\n", scene->mNumCameras);
+  // printf ("  %i lights\n", scene->mNumLights);
+  // printf ("  %i materials\n", scene->mNumMaterials);
+  // printf ("  %i meshes\n", scene->mNumMeshes);
+  // printf ("  %i textures\n", scene->mNumTextures);
 
   /* get first mesh in file only */
   const aiMesh* mesh = scene->mMeshes[0];
-  printf ("    %i vertices in mesh[0]\n", mesh->mNumVertices);
-  printf("  %i BONES\n", mesh->mNumBones);
+  // printf ("    %i vertices in mesh[0]\n", mesh->mNumVertices);
+  // printf("  %i BONES\n", mesh->mNumBones);
 
   /* pass back number of vertex points in mesh */
   this->numvertices = mesh->mNumVertices;
@@ -408,7 +408,7 @@ bool Model::load_mesh (const char* file_name) {
   glBindVertexArray(0);
 
   aiReleaseImport (scene);
-  printf ("mesh loaded\n");
+  //printf ("mesh loaded\n");
 
   return true;
 }
@@ -466,7 +466,7 @@ bool Model::load_mesh (const char* file_name) {
 //   glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAX_ANISOTROPY_EXT, max_aniso);
 
 //   // GLuint tex_location = glGetUniformLocation(shader_programme, "basic_texture");
-//   // glUniform1i(tex_location, 0); 
+//   // glUniform1i(tex_location, 0);
 //   return true;
 // }
 bool Model::load_texture(const char *file_name, GLuint *tex)
@@ -527,9 +527,9 @@ bool Model::load_texture_normal(const char *filename, const char *sampler_name)
   int code = load_texture(filename, &tex_normal);
 
   glUseProgram(shader_programme);
-  printf("getuniformlocation(%u, %s)\n", shader_programme, sampler_name);
+  // printf("getuniformlocation(%u, %s)\n", shader_programme, sampler_name);
   texloc_normal = glGetUniformLocation(shader_programme, sampler_name);
-  printf("texloc_normal = %i\n", texloc_normal);
+  // printf("texloc_normal = %i\n", texloc_normal);
   assert(texloc_normal > -1);
   glUniform1i(texloc_normal, 1);
 }
@@ -540,9 +540,9 @@ bool Model::load_texture_rgb(const char *filename, const char *sampler_name)
   int code = load_texture(filename, &tex_rgb);
 
   glUseProgram(shader_programme);
-  printf("getuniformlocation(%u, %s)\n", shader_programme, sampler_name);
+  // printf("getuniformlocation(%u, %s)\n", shader_programme, sampler_name);
   texloc_rgb = glGetUniformLocation(shader_programme, sampler_name);
-  printf("texloc_rgb = %i\n", texloc_rgb);
+  // printf("texloc_rgb = %i\n", texloc_rgb);
   assert(texloc_rgb > -1);
   glUniform1i(texloc_rgb, 0);
   glUseProgram(0);

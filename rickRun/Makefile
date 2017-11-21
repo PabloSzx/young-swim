@@ -1,4 +1,4 @@
-CC=g++ -std=c++11 -O1
+CC=g++ -std=c++11 -O2
 SRC=src/main.cpp src/components/menu/menu.cpp src/components/camera/camera.cpp src/components/model/model.cpp src/components/debugDrawer/DebugDrawer.cpp src/components/physics/physics.cpp src/util/stb/stb_image.cpp src/util/shader/shader.cpp src/util/log/log.cpp src/util/window/window.cpp src/components/input/input.cpp src/components/parameters/parameters.cpp src/containers/world/world.cpp src/components/time/time.cpp src/components/sound/sound.cpp
 EXEC=bin/prog
 LIBS=-lGL -lGLEW -lglfw -lassimp -I /usr/include/bullet -lBulletDynamics -lBulletCollision -lLinearMath `pkg-config --libs freealut` -lm

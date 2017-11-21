@@ -9,8 +9,8 @@
 #include "../components/menu/menu.hpp"
 #include "../components/parameters/parameters.hpp"
 
-int g_gl_width = 1280;       //constants
-int g_gl_height = 720;       //constants
+int g_gl_width = 1366;       //constants
+int g_gl_height = 768;       //constants
 GLFWwindow *g_window = NULL; //main
 
 glm::vec3 sun = glm::vec3(0.7f, -12.2f, 2.3f);
@@ -48,7 +48,7 @@ bool restart;
 int globalStatus = 0; //0: menu previo, 1: menu play again, 2: playing
 bool fullscreen = true;
 
-Time *timer; 
+Time *timer;
 int jumpButton = -1;
 int resetButton = -1;
 bool firstMouse = true;
