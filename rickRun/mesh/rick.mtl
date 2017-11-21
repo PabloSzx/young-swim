@@ -1,8 +1,8 @@
-# Blender MTL File: 'littlerickconresqueleto.blend'
+# Blender MTL File: 'None'
 # Material Count: 2
 
 newmtl (null)
-Ns 96.078431
+Ns 94.117647
 Ka 1.000000 1.000000 1.000000
 Kd 0.640000 0.640000 0.640000
 Ks 0.500000 0.500000 0.500000
@@ -13,7 +13,7 @@ illum 2
 map_Kd /home/pablosz/Downloads/littlerickconresqueleto.blend/pielRick2.png
 
 newmtl chaleco.001
-Ns 96.078431
+Ns 94.117647
 Ka 1.000000 1.000000 1.000000
 Kd 0.251191 0.560882 0.555098
 Ks 0.500000 0.500000 0.500000
