@@ -117,10 +117,13 @@ void Model::model2shader(GLuint shaderprog) {
 }
 
 void Model::draw() {
-  // glUseProgram(shader_programme);
-  glActiveTexture(GL_TEXTURE0);
+  glUseProgram(shader_programme);
   glBindVertexArray(this->vao);
+  glActiveTexture(GL_TEXTURE0);
   glBindTexture(GL_TEXTURE_2D, tex_rgb);
+  glActiveTexture(GL_TEXTURE1);
+  glBindTexture(GL_TEXTURE_2D, tex_normal);
+
   glUniformMatrix4fv(this->matloc, 1, GL_FALSE, &this->model[0][0]);
   glDrawElements(this->FTYPE, this->FFACTOR * this->nfaces, GL_UNSIGNED_INT, 0);
   glBindVertexArray(0);
@@ -135,7 +138,7 @@ void Model::draw(GLuint shaderprog)
   // this->model2shader(shaderprog);
   // glBindVertexArray(this->getvao());
   // glDrawArrays(GL_TRIANGLES, 0, this->getnumvertices());
-  // glUseProgram(shaderprog);
+  glUseProgram(shaderprog);
   glActiveTexture(GL_TEXTURE0);
   glBindVertexArray(this->vao);
   glBindTexture(GL_TEXTURE_2D, tex_rgb);
@@ -529,8 +532,8 @@ bool Model::load_texture_normal(const char *filename, const char *sampler_name)
   glUseProgram(shader_programme);
   // printf("getuniformlocation(%u, %s)\n", shader_programme, sampler_name);
   texloc_normal = glGetUniformLocation(shader_programme, sampler_name);
-  // printf("texloc_normal = %i\n", texloc_normal);
-  assert(texloc_normal > -1);
+  printf("texloc_normal = %i\n", texloc_normal);
+  // assert(texloc_normal > -1);
   glUniform1i(texloc_normal, 1);
 }
 
@@ -542,8 +545,8 @@ bool Model::load_texture_rgb(const char *filename, const char *sampler_name)
   glUseProgram(shader_programme);
   // printf("getuniformlocation(%u, %s)\n", shader_programme, sampler_name);
   texloc_rgb = glGetUniformLocation(shader_programme, sampler_name);
-  // printf("texloc_rgb = %i\n", texloc_rgb);
-  assert(texloc_rgb > -1);
+  printf("texloc_rgb = %i\n", texloc_rgb);
+  // assert(texloc_rgb > -1);
   glUniform1i(texloc_rgb, 0);
   glUseProgram(0);
 }

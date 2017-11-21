@@ -13,6 +13,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 #include <iostream>
+#include <omp.h>
 #include "./components/sound/sound.hpp"
 
 #include "./util/shader/shader.hpp"
@@ -27,6 +28,7 @@
 #include "./components/time/time.hpp"
 #include "./util/gltext/gltext.hpp"
 #include "./components/menu/menu.hpp"
+#include "./components/glerror/glerror.hpp"
 
 #include <btBulletDynamicsCommon.h>
 #include <sstream>
@@ -239,6 +241,7 @@ int main()
     core->backgroundMusic();
 
 
+    _check_gl_error("main", 244);
 
     window_swap();
   }

@@ -1,4 +1,4 @@
-# Blender MTL File: 'untitled.blend'
+# Blender MTL File: 'None'
 # Material Count: 1
 
 newmtl None.004
@@ -10,4 +10,4 @@ Ke 0.000000 0.000000 0.000000
 Ni 1.000000
 d 1.000000
 illum 2
-map_Kd /media/jelbo/Archivos/Computacion Grafica/Grafica/Piso/piso.png
+map_Kd Grafica/Grafica/Piso/piso.png
