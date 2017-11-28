@@ -36,7 +36,7 @@ Menu::Menu()
 
     vector<string> textStatus1;
     // textStatus1.push_back("<Use your arrows to move>");
-    textStatus1.push_back("Jugar denuevo");
+    textStatus1.push_back("Jugar de nuevo");
     textStatus1.push_back("Volver al menu");
     textStatus1.push_back("Salir");
 
@@ -200,7 +200,9 @@ void Menu::drawText(int distance)
     if (globalStatus >= 1)
     { //Esta jugando
         float c=0;
-        gltSetText(this->label, ConvertDoubleToString(distance));
+        string puntaje("Puntaje: ");
+        string dist(ConvertDoubleToString(distance));
+        gltSetText(this->label, (puntaje + dist).c_str());
         this->setColor(0.03f, 0.68f, 0.78f, 0.5f);
         gltDrawText2D(label, 5, 5, 2);
         //Si distancia es multiplo de 100
@@ -295,4 +297,19 @@ void Menu::checkInput()
 
 void Menu::restartTime() {
     this->inputTimer->restart();
+}
+
+void Menu::drawArbitrary(int x, int y, double size, int time) {
+    gltSetText(this->label, ConvertDoubleToString(time));
+    // gltSetText(time);
+    this->setColor(1.0f, 1.0f, 1.0f, 1.0f);
+    gltDrawText2D(label, x, y, size);
+}
+
+void Menu::drawArbitrary(int x, int y, double size, char *str)
+{
+    gltSetText(this->label, str);
+    // gltSetText(time);
+    this->setColor(1.0f, 1.0f, 1.0f, 1.0f);
+    gltDrawText2D(label, x, y, size);
 }

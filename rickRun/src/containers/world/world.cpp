@@ -110,7 +110,7 @@ void World::genRick() {
     running.push_back(new Model(const_cast<char *>("mesh/run/rick_run12.obj"), const_cast<char *>("assets/littlerick.png"), const_cast<char *>("assets/littlerick_normal.png"), 0.3f));
     running.push_back(new Model(const_cast<char *>("mesh/run/rick_run13.obj"), const_cast<char *>("assets/littlerick.png"), const_cast<char *>("assets/littlerick_normal.png"), 0.3f));
     running.push_back(new Model(const_cast<char *>("mesh/run/rick_run14.obj"), const_cast<char *>("assets/littlerick.png"), const_cast<char *>("assets/littlerick_normal.png"), 0.3f));
-
+    running.push_back(new Model(const_cast<char *>("mesh/run/rick_run15.obj"), const_cast<char *>("assets/littlerick.png"), const_cast<char *>("assets/littlerick_normal.png"), 0.3f));
     // vector<Model>::iterator it = running.begin();
 
     // while (it != running.end()) {
@@ -310,10 +310,14 @@ void World::getPhysicsPos() {
 
 void World::nextAnimationRun() {
     animationPos += 1;
-    if (animationPos == 14)
+    if (animationPos >= 14)
     {
         animationPos = 0;
     }
+}
+
+void World::setAnimationPos(int n) {
+    animationPos = n;
 }
 void World::drawRick() {
     this->rick["animation_run"][animationPos]->setpos(glm::vec3(this->rickPos.getX(), this->rickPos.getY(), this->rickPos.getZ()));

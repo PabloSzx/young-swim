@@ -45,6 +45,9 @@ class Menu {
         void restartTime();
         void setGlobalStatus(int n, const char* m);
         std::string getDifficultyName();
+
+        void drawArbitrary(int x, int y, double size, int n);
+        void drawArbitrary(int x, int y, double size, char* str);
 };
 
 

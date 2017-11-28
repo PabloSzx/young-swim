@@ -132,6 +132,7 @@ int main()
   timer = new Time();
   Time *fpsTimer = new Time();
   Time *animationTimer = new Time();
+  bool aireAnimation = true;
 
   while (!glfwWindowShouldClose(g_window))
   {
@@ -186,6 +187,14 @@ int main()
 
         if (timer->getUpdateNow() < 5.0)
         {
+          estadoRick = 0;
+          if ((int)(5.0 - timer->getNow()) == 0) {
+            menu->drawArbitrary(g_gl_width / 2 + 100, g_gl_height / 2, 10, const_cast<char *>("RUN!!"));
+          } else if ((int)(5.0 - timer->getNow()) <= 3) {
+            menu->drawArbitrary(g_gl_width / 2 + 100, g_gl_height / 2, 10, 5.0 - timer->getNow());
+          }
+          // gltColor(1.0f, 1.0f, 1.0f, 1.0f);
+          
           platformWorld->setVelocity(2, btVector3(0, 0, 0));
         }
         else if (timer->checkFirstTime(5.0))
@@ -217,7 +226,34 @@ int main()
         camera_viewProjUpdate();
 
         if (animationTimer->every(0.1)) {
-          core->nextAnimationRun();
+
+          //0 = ESPERA, 1 = CORRIENDO (EN PLATAFORMA), 2 = AIRE, 3 = MURIENDO
+          switch (estadoRick) {
+            case 1:
+            {
+              core->nextAnimationRun();
+              break;
+            }
+            case 0:
+            {
+              core->setAnimationPos(14);
+              break;
+            }
+            case 2:
+            {
+              if (aireAnimation) {
+                core->nextAnimationRun();
+                aireAnimation = false;
+              } else {
+                aireAnimation = true;
+              }
+              break;
+            }
+            case 3:
+            {
+              break;
+            }
+          }
         }
 
         if (!debug)

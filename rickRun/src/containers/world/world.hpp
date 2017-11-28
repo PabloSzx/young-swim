@@ -77,7 +77,7 @@ public:
   void drawProps();
   void drawCube();
   void nextAnimationRun();
-
+  void setAnimationPos(int n);
   void initBackgroundMusic();
   void backgroundMusic();
   

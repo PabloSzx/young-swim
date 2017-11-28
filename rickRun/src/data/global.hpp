@@ -64,6 +64,7 @@ float lastY = g_gl_height / 2.0;
 
 float fov = 45.0f;
 
+int estadoRick = 0;
 double vx = 0.0;
 double vy = 0.0;
 double vz = 0.0;

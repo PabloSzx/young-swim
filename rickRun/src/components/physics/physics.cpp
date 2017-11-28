@@ -247,6 +247,7 @@ void Bullet::checkCollision(bool* allowJump) {
                 // if (pt.getDistance() < 0.1f)
                 // {
                     if (b >= 2) {
+                        estadoRick = 1;
                         this->setVelocity(1, btVector3(0.0, this->getVelocity(1).getY(), this->getVelocity(1).getZ()));
                         this->applyImpulse(1, btVector3(0.0, deltaTime * -this->getVelocity(1).getY(), deltaTime * -this->getVelocity(1).getZ()));
                     //    if (pt.getPositionWorldOnB().getY() - pt.getPositionWorldOnA().getY() >= 0) {
@@ -254,6 +255,7 @@ void Bullet::checkCollision(bool* allowJump) {
                       //  }
                         // cout << endl;
                     } else if (b == 0) {
+                        estadoRick = 3;
                         // cout << "TOQUE SUELOOOOO" << endl;
                         background[8]->stop();
                         background[8]->play();
@@ -267,6 +269,7 @@ void Bullet::checkCollision(bool* allowJump) {
             if (touched) {
                 *allowJump = true;
             } else {
+                estadoRick = 2;
                 *allowJump = false;
             }
         }

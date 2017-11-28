@@ -11,6 +11,7 @@ extern bool restart;
 extern int lastPlatformCollision;
 extern sound **background;
 extern int globalStatus;
+extern int estadoRick;
 
 extern float deltaTime;
 
