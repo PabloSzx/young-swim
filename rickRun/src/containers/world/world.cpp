@@ -370,7 +370,7 @@ void World::initBackgroundMusic() {
 
 void World::backgroundMusic() {
     if (background[this->backgroundMusicNow]->timeToEnd() <= 10.0) {
-        cout << "NUEVA MUSICA DE FONDO" << endl;
+        //cout << "NUEVA MUSICA DE FONDO" << endl;
         while (true) {
             int nrand = rand() % this->nBackgroundMusic;
             if (nrand != this->backgroundMusicNow) {
