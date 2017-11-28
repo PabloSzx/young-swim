@@ -27,7 +27,8 @@ private:
   int nBackgroundMusic;
   double platformVelocity;
   
-  map< string, vector<Model> > rick;
+  map< string, vector<Model*> > rick;
+  int animationPos;
   // Model* rick;
   Model **plataformas;
   Model *plano;
@@ -75,7 +76,7 @@ public:
   void drawHouses(Parameters* rules);
   void drawProps();
   void drawCube();
-  
+  void nextAnimationRun();
 
   void initBackgroundMusic();
   void backgroundMusic();

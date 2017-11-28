@@ -42,6 +42,7 @@ public:
   btConvexHullShape *convexShape;
   Model(char *filename);
   Model(char *filename, char *texname, char *normalname);
+  Model(char *filename, char *texname, char *normalname, float nscale);
   GLfloat LX; //LX ES EL LARGO EN EL EJE X DEL OBJETO
   GLfloat LY; //LY ES EL LARGO EN EL EJE Y DEL OBJETO
   GLfloat LZ; //LZ ES EL LARGO EN EL EJE Z DEL OBJETO

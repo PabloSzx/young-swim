@@ -64,6 +64,33 @@ Model::Model(char *filename, char *texname, char *normalname)
   glUniform4f(ks, 0.5, 0.5, 0.5, 1.0);
 }
 
+Model::Model(char *filename, char *texname, char *normalname, float nscale)
+{
+  this->pos = glm::vec3(0, 0, 0);
+  this->model = glm::mat4();
+  this->filename = filename;
+  this->matloc = 0;
+  this->lastScale = glm::vec3(1.0f, 1.0f, 1.0f);
+  assert(this->load_mesh(filename));
+  this->setmatloc(shader_programme, "matrix");
+  this->red = 1.0f;
+  this->green = 1.0f;
+  this->blue = 1.0f;
+
+  this->setpos(glm::vec3(0.0f, 0.0f, 0.0f));
+  this->scale(glm::vec3(nscale));
+  this->load_texture_rgb(texname, "texsamp_rgb");
+  this->load_texture_normal(normalname, "texsamp_normal");
+
+  GLuint ka = glGetUniformLocation(shader_programme, "ka");
+  GLuint kd = glGetUniformLocation(shader_programme, "kd");
+  GLuint ks = glGetUniformLocation(shader_programme, "ks");
+
+  glUniform4f(ka, 0.05, 0.05, 0.05, 1.0);
+  glUniform4f(kd, 0.8, 0.8, 0.8, 1.0);
+  glUniform4f(ks, 0.5, 0.5, 0.5, 1.0);
+}
+
 void Model::setAmbientalCoef(GLfloat a, GLfloat b, GLfloat c) {
   GLuint ka = glGetUniformLocation(shader_programme, "ka");
 

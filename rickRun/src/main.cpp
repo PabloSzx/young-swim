@@ -131,9 +131,13 @@ int main()
   core->genCube();
   timer = new Time();
   Time *fpsTimer = new Time();
+  Time *animationTimer = new Time();
 
   while (!glfwWindowShouldClose(g_window))
   {
+    fpsTimer->updateNow();
+    animationTimer->updateNow();
+
     window_clear();
 
     menu->drawText(rules->getDistance(distanceScore));
@@ -155,13 +159,13 @@ int main()
           timer->restart();
           fpsTimer->restart();
           menu->restartTime();
+          animationTimer->restart();
         }
 
         break;
       }
       case 2:
       {
-        fpsTimer->updateNow();
 
         string difficulty = menu->getDifficultyName();
         double frequency = rules->getDifficultyParameters()[difficulty]["frequency"];
@@ -211,6 +215,10 @@ int main()
         input_processInput(g_window);
 
         camera_viewProjUpdate();
+
+        if (animationTimer->every(0.1)) {
+          core->nextAnimationRun();
+        }
 
         if (!debug)
         {

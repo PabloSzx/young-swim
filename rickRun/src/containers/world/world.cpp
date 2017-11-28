@@ -36,6 +36,7 @@ World::World(int nPlataformas, int nHouses, int nProps, int nBackgroundMusic, do
     this->nBackgroundMusic = nBackgroundMusic;
     this->propTypes.reserve(nProps);
     this->platformVelocity = platformInitialVelocity;
+    this->animationPos = 0;
 }
 void World::reset(Parameters* rules) {
     this->platformVelocity = 0.0;
@@ -43,7 +44,7 @@ void World::reset(Parameters* rules) {
     platformWorld = new Bullet(this->nPlataformas + 2, btVector3(0, 0, 0), PLATFORMS_START_INDEX);
     platformWorld->newPlane(btVector3(0, 1, 0), -3.7, 0); //0
 
-    platformWorld->newFallBody(btVector3(rick->LX / 2, rick->LY / 2, rick->LZ / 2), btVector3(0.0, 5.0, 0.0), 1.0, btVector3(0, 0, 0), 1); //1
+    platformWorld->newFallBody(btVector3(this->rick["animation_run"][animationPos]->LX / 2, this->rick["animation_run"][animationPos]->LY / 2, this->rick["animation_run"][animationPos]->LZ / 2), btVector3(0.0, 5.0, 0.0), 1.0, btVector3(0, 0, 0), 1); //1
 
     distanceScore = new Bullet(1, btVector3(0, 0, 0), 0);
     distanceScore->newFallBody(btVector3(0, 0, 0), btVector3(0, 0, 0), 1.0, btVector3(0, 0, 0), 1);
@@ -86,17 +87,41 @@ void World::reset(Parameters* rules) {
     }
 }
 void World::genRick() {
-    this->rick = new Model(const_cast<char *>("mesh/rick.obj"), const_cast<char *>("assets/littlerick.png"), const_cast<char *>("assets/littlerick_normal.png"));
-    this->rick->scale(glm::vec3(0.3f));
-    this->rick->setColor(1.0f, 0.894f, 0.882f);
-    this->rick->model2shader(shader_programme);
-    platformWorld->newFallBody(btVector3(rick->LX / 2, rick->LY / 2, rick->LZ / 2), btVector3(0.0, 10.0, 0.0), 1.0, btVector3(0, 0, 0), 1); //1
+    // this->rick = new Model(const_cast<char *>("mesh/rick.obj"), const_cast<char *>("assets/littlerick.png"), const_cast<char *>("assets/littlerick_normal.png"));
+    // this->rick->scale(glm::vec3(0.3f));
+    // this->rick->setColor(1.0f, 0.894f, 0.882f);
+    // this->rick->model2shader(shader_programme);
 
     distanceScore = new Bullet(1, btVector3(0.0, 0.0, 0.0), 1);
     distanceScore->newFallBody(btVector3(0, 0, 0), btVector3(0, 0, 0), 1.0, btVector3(0, 0, 0), 0);
 
-    vector<Model> running
-    // this->rick.insert(make_pair)
+    vector<Model*> running;
+    running.push_back(new Model(const_cast<char *>("mesh/run/rick_run01.obj"), const_cast<char *>("assets/littlerick.png"), const_cast<char *>("assets/littlerick_normal.png"), 0.3f));
+    running.push_back(new Model(const_cast<char *>("mesh/run/rick_run02.obj"), const_cast<char *>("assets/littlerick.png"), const_cast<char *>("assets/littlerick_normal.png"), 0.3f));
+    running.push_back(new Model(const_cast<char *>("mesh/run/rick_run03.obj"), const_cast<char *>("assets/littlerick.png"), const_cast<char *>("assets/littlerick_normal.png"), 0.3f));
+    running.push_back(new Model(const_cast<char *>("mesh/run/rick_run04.obj"), const_cast<char *>("assets/littlerick.png"), const_cast<char *>("assets/littlerick_normal.png"), 0.3f));
+    running.push_back(new Model(const_cast<char *>("mesh/run/rick_run05.obj"), const_cast<char *>("assets/littlerick.png"), const_cast<char *>("assets/littlerick_normal.png"), 0.3f));
+    running.push_back(new Model(const_cast<char *>("mesh/run/rick_run06.obj"), const_cast<char *>("assets/littlerick.png"), const_cast<char *>("assets/littlerick_normal.png"), 0.3f));
+    running.push_back(new Model(const_cast<char *>("mesh/run/rick_run07.obj"), const_cast<char *>("assets/littlerick.png"), const_cast<char *>("assets/littlerick_normal.png"), 0.3f));
+    running.push_back(new Model(const_cast<char *>("mesh/run/rick_run08.obj"), const_cast<char *>("assets/littlerick.png"), const_cast<char *>("assets/littlerick_normal.png"), 0.3f));
+    running.push_back(new Model(const_cast<char *>("mesh/run/rick_run09.obj"), const_cast<char *>("assets/littlerick.png"), const_cast<char *>("assets/littlerick_normal.png"), 0.3f));
+    running.push_back(new Model(const_cast<char *>("mesh/run/rick_run10.obj"), const_cast<char *>("assets/littlerick.png"), const_cast<char *>("assets/littlerick_normal.png"), 0.3f));
+    running.push_back(new Model(const_cast<char *>("mesh/run/rick_run11.obj"), const_cast<char *>("assets/littlerick.png"), const_cast<char *>("assets/littlerick_normal.png"), 0.3f));
+    running.push_back(new Model(const_cast<char *>("mesh/run/rick_run12.obj"), const_cast<char *>("assets/littlerick.png"), const_cast<char *>("assets/littlerick_normal.png"), 0.3f));
+    running.push_back(new Model(const_cast<char *>("mesh/run/rick_run13.obj"), const_cast<char *>("assets/littlerick.png"), const_cast<char *>("assets/littlerick_normal.png"), 0.3f));
+    running.push_back(new Model(const_cast<char *>("mesh/run/rick_run14.obj"), const_cast<char *>("assets/littlerick.png"), const_cast<char *>("assets/littlerick_normal.png"), 0.3f));
+
+    // vector<Model>::iterator it = running.begin();
+
+    // while (it != running.end()) {
+    //     (*it)->model2shader(shader_programme);
+    //     ++it;
+    // }
+    this->rick.insert(make_pair("animation_run", running));
+
+    platformWorld->newFallBody(btVector3(this->rick["animation_run"][animationPos]->LX / 2, this->rick["animation_run"][animationPos]->LY / 2, this->rick["animation_run"][animationPos]->LZ / 2), btVector3(0.0, 10.0, 0.0), 1.0, btVector3(0, 0, 0), 1); //1
+
+    // this->rick.insert(make_pair())
 
 
 };
@@ -282,9 +307,20 @@ void World::dynamicProps(Parameters *rules) {
 void World::getPhysicsPos() {
     this->rickPos = platformWorld->getTransformOrigin(1);
 }
+
+void World::nextAnimationRun() {
+    animationPos += 1;
+    if (animationPos == 14)
+    {
+        animationPos = 0;
+    }
+}
 void World::drawRick() {
-    this->rick->setpos(glm::vec3(this->rickPos.getX(), this->rickPos.getY(), this->rickPos.getZ()));
-    this->rick->draw();
+    this->rick["animation_run"][animationPos]->setpos(glm::vec3(this->rickPos.getX(), this->rickPos.getY(), this->rickPos.getZ()));
+    this->rick["animation_run"][animationPos]->draw();
+
+    // this->rick->setpos(glm::vec3(this->rickPos.getX(), this->rickPos.getY(), this->rickPos.getZ()));
+    // this->rick->draw();
 }
 void World::drawPlatforms() {
     btVector3 plataformaPos;
