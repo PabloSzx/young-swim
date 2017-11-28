@@ -94,6 +94,11 @@ void World::genRick() {
 
     distanceScore = new Bullet(1, btVector3(0.0, 0.0, 0.0), 1);
     distanceScore->newFallBody(btVector3(0, 0, 0), btVector3(0, 0, 0), 1.0, btVector3(0, 0, 0), 0);
+
+    vector<Model> running
+    // this->rick.insert(make_pair)
+
+
 };
 void World::genPlatforms(Parameters* rules) {
     this->plataformas = static_cast<Model **>(malloc(sizeof(Model *) * this->nPlataformas));

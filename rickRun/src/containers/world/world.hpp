@@ -7,7 +7,7 @@
 #include "../../components/sound/sound.hpp"
 #include <string>
 #include <vector>
-
+#include <map>
 #include "../../data/constants.hpp"
 
 extern Bullet *platformWorld;
@@ -27,7 +27,8 @@ private:
   int nBackgroundMusic;
   double platformVelocity;
   
-  Model* rick;
+  map< string, vector<Model> > rick;
+  // Model* rick;
   Model **plataformas;
   Model *plano;
   Model **casas;
