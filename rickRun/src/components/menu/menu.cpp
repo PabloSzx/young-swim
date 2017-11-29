@@ -244,6 +244,16 @@ void Menu::drawText(int distance)
 void Menu::checkInput()
 {
     this->inputTimer->updateNow();
+    if (jumpButton == -1) {
+        int count;
+        const unsigned char *buttons = glfwGetJoystickButtons(GLFW_JOYSTICK_1, &count);
+
+        for (int i = 0; i < count; i++) {
+            if (buttons[i] == GLFW_PRESS) {
+                jumpButton = i;
+            }
+        }
+    }
     if (globalStatus != 2) {
         if (glfwJoystickPresent(GLFW_JOYSTICK_1))
         {
@@ -259,9 +269,10 @@ void Menu::checkInput()
             //     cout << "axes " << i << "  " << axes[i] << endl;
             // }
             // cout << "COUNT ES " << count << endl;
-            if (axes[7] < -0.5) {
+            // if (axes)
+            if (axes[7] < -0.5 || axes[1] < -0.5) {
                 this->stepMinus();
-            } else if (axes[7] > 0.5) {
+            } else if (axes[7] > 0.5 || axes[1] > 0.5) {
                 this->stepPlus();
             }
 
@@ -274,7 +285,7 @@ void Menu::checkInput()
         }
         else
         {
-            bool modified = false;
+            // bool modified = false;
             if (glfwGetKey(g_window, GLFW_KEY_UP) == GLFW_PRESS)
             {
                 this->stepMinus();
