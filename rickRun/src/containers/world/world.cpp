@@ -36,7 +36,8 @@ World::World(int nPlataformas, int nHouses, int nProps, int nBackgroundMusic, do
     this->nBackgroundMusic = nBackgroundMusic;
     this->propTypes.reserve(nProps);
     this->platformVelocity = platformInitialVelocity;
-    this->animationPos = 0;
+    this->runAnimationPos = 0;
+    this->deathAnimationPos = 0;
 }
 void World::reset(Parameters* rules) {
     this->platformVelocity = 0.0;
@@ -44,7 +45,7 @@ void World::reset(Parameters* rules) {
     platformWorld = new Bullet(this->nPlataformas + 2, btVector3(0, 0, 0), PLATFORMS_START_INDEX);
     platformWorld->newPlane(btVector3(0, 1, 0), -3.7, 0); //0
 
-    platformWorld->newFallBody(btVector3(this->rick["animation_run"][animationPos]->LX / 2, this->rick["animation_run"][animationPos]->LY / 2, this->rick["animation_run"][animationPos]->LZ / 2), btVector3(0.0, 5.0, 0.0), 1.0, btVector3(0, 0, 0), 1); //1
+    platformWorld->newFallBody(btVector3(this->rick["animation_run"][runAnimationPos]->LX / 2, this->rick["animation_run"][runAnimationPos]->LY / 2, this->rick["animation_run"][runAnimationPos]->LZ / 2), btVector3(0.0, 5.0, 0.0), 1.0, btVector3(0, 0, 0), 1); //1
 
     distanceScore = new Bullet(1, btVector3(0, 0, 0), 0);
     distanceScore->newFallBody(btVector3(0, 0, 0), btVector3(0, 0, 0), 1.0, btVector3(0, 0, 0), 1);
@@ -113,13 +114,22 @@ void World::genRick() {
     running.push_back(new Model(const_cast<char *>("mesh/run/rick_run15.obj"), const_cast<char *>("assets/littlerick.png"), const_cast<char *>("assets/littlerick_normal.png"), 0.3f));
     // vector<Model>::iterator it = running.begin();
 
+    vector<Model *> death;
+    death.push_back(new Model(const_cast<char *>("mesh/death/rick_falling01.obj"), const_cast<char *>("assets/littlerick.png"), const_cast<char *>("assets/littlerick_normal.png"), 0.3f));
+    death.push_back(new Model(const_cast<char *>("mesh/death/rick_falling02.obj"), const_cast<char *>("assets/littlerick.png"), const_cast<char *>("assets/littlerick_normal.png"), 0.3f));
+    death.push_back(new Model(const_cast<char *>("mesh/death/rick_falling03.obj"), const_cast<char *>("assets/littlerick.png"), const_cast<char *>("assets/littlerick_normal.png"), 0.3f));
+    death.push_back(new Model(const_cast<char *>("mesh/death/rick_falling04.obj"), const_cast<char *>("assets/littlerick.png"), const_cast<char *>("assets/littlerick_normal.png"), 0.3f));
+    death.push_back(new Model(const_cast<char *>("mesh/death/rick_falling05.obj"), const_cast<char *>("assets/littlerick.png"), const_cast<char *>("assets/littlerick_normal.png"), 0.3f));
+    death.push_back(new Model(const_cast<char *>("mesh/death/rick_falling06.obj"), const_cast<char *>("assets/littlerick.png"), const_cast<char *>("assets/littlerick_normal.png"), 0.3f));
+
     // while (it != running.end()) {
     //     (*it)->model2shader(shader_programme);
     //     ++it;
     // }
     this->rick.insert(make_pair("animation_run", running));
+    this->rick.insert(make_pair("animation_death", death));
 
-    platformWorld->newFallBody(btVector3(this->rick["animation_run"][animationPos]->LX / 2, this->rick["animation_run"][animationPos]->LY / 2, this->rick["animation_run"][animationPos]->LZ / 2), btVector3(0.0, 10.0, 0.0), 1.0, btVector3(0, 0, 0), 1); //1
+    platformWorld->newFallBody(btVector3(this->rick["animation_run"][runAnimationPos]->LX / 2, this->rick["animation_run"][runAnimationPos]->LY / 2, this->rick["animation_run"][runAnimationPos]->LZ / 2), btVector3(0.0, 10.0, 0.0), 1.0, btVector3(0, 0, 0), 1); //1
 
     // this->rick.insert(make_pair())
 
@@ -309,19 +319,52 @@ void World::getPhysicsPos() {
 }
 
 void World::nextAnimationRun() {
-    animationPos += 1;
-    if (animationPos >= 14)
+    runAnimationPos += 1;
+    if (runAnimationPos >= 14)
     {
-        animationPos = 0;
+        runAnimationPos = 0;
     }
+
+    deathAnimationPos = 0;
 }
 
-void World::setAnimationPos(int n) {
-    animationPos = n;
+bool World::nextAnimationDeath() {
+    // if (deathAnimationPos <= 5) {
+        deathAnimationPos += 1;
+    // }
+    runAnimationPos = 0;
+    if (deathAnimationPos >= 6)
+    {
+        deathAnimationPos = 0;
+        return true;
+    }
+    return false;
+
+    
+}
+
+void World::setRunAnimationPos(int n) {
+    runAnimationPos = n;
 }
 void World::drawRick() {
-    this->rick["animation_run"][animationPos]->setpos(glm::vec3(this->rickPos.getX(), this->rickPos.getY(), this->rickPos.getZ()));
-    this->rick["animation_run"][animationPos]->draw();
+    // cout << "start DrawRick con estadoRick: " << estadoRick << " runPos: " << runAnimationPos << " deathPos" << deathAnimationPos << endl;
+    switch (estadoRick) {
+        case 0:
+        case 1:
+        case 2:
+        {
+            this->rick["animation_run"][runAnimationPos]->setpos(glm::vec3(this->rickPos.getX(), this->rickPos.getY(), this->rickPos.getZ()));
+            this->rick["animation_run"][runAnimationPos]->draw();
+            break;
+        }
+        case 3:
+        {
+            this->rick["animation_death"][deathAnimationPos]->setpos(glm::vec3(this->rickPos.getX(), this->rickPos.getY(), this->rickPos.getZ()));
+            this->rick["animation_death"][deathAnimationPos]->draw();
+            break;
+        }
+    }
+    // cout << "end DrawRick" << endl;
 
     // this->rick->setpos(glm::vec3(this->rickPos.getX(), this->rickPos.getY(), this->rickPos.getZ()));
     // this->rick->draw();

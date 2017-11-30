@@ -18,6 +18,8 @@ extern Bullet *distanceScore;
 extern sound **background;
 extern GLuint shader_programme_cube;
 
+extern int estadoRick;
+
 extern bool debug;
 class World {
 private:
@@ -28,7 +30,8 @@ private:
   double platformVelocity;
   
   map< string, vector<Model*> > rick;
-  int animationPos;
+  int runAnimationPos;
+  int deathAnimationPos;
   // Model* rick;
   Model **plataformas;
   Model *plano;
@@ -77,7 +80,8 @@ public:
   void drawProps();
   void drawCube();
   void nextAnimationRun();
-  void setAnimationPos(int n);
+  bool nextAnimationDeath();
+  void setRunAnimationPos(int n);
   void initBackgroundMusic();
   void backgroundMusic();
   

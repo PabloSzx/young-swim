@@ -161,6 +161,7 @@ int main()
           fpsTimer->restart();
           menu->restartTime();
           animationTimer->restart();
+          estadoRick = 0;
         }
 
         break;
@@ -187,7 +188,9 @@ int main()
 
         if (timer->getUpdateNow() < 5.0)
         {
-          estadoRick = 0;
+          if (estadoRick != 3) {
+            estadoRick = 0;
+          }
           if ((int)(5.0 - timer->getNow()) == 0) {
             menu->drawArbitrary(g_gl_width / 2 + 100, g_gl_height / 2, 10, const_cast<char *>("RUN!!"));
           } else if ((int)(5.0 - timer->getNow()) <= 3) {
@@ -226,7 +229,7 @@ int main()
         camera_viewProjUpdate();
 
         if (animationTimer->every(0.1)) {
-
+          // cout << "estadoRick: " << estadoRick << endl;
           //0 = ESPERA, 1 = CORRIENDO (EN PLATAFORMA), 2 = AIRE, 3 = MURIENDO
           switch (estadoRick) {
             case 1:
@@ -236,7 +239,7 @@ int main()
             }
             case 0:
             {
-              core->setAnimationPos(14);
+              core->setRunAnimationPos(14);
               break;
             }
             case 2:
@@ -251,6 +254,12 @@ int main()
             }
             case 3:
             {
+              bool muerto = core->nextAnimationDeath();
+
+              if (muerto) {
+                // restart = true;
+                menu->setGlobalStatus(1);
+              }
               break;
             }
           }

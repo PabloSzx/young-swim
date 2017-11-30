@@ -43,6 +43,7 @@ class Menu {
         void setColor(float r, float g, float b, float o);
         void setColor(float rgb, float o);
         void restartTime();
+        void setGlobalStatus(int n);
         void setGlobalStatus(int n, const char* m);
         std::string getDifficultyName();
 

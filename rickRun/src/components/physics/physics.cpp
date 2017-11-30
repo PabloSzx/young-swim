@@ -255,11 +255,14 @@ void Bullet::checkCollision(bool* allowJump) {
                       //  }
                         // cout << endl;
                     } else if (b == 0) {
+                        // cout << estadoRick;
                         estadoRick = 3;
+                        // cout << "-" << estadoRick << endl;
+
                         // cout << "TOQUE SUELOOOOO" << endl;
                         background[8]->stop();
                         background[8]->play();
-                        globalStatus = 1;
+                        // globalStatus = 1;
                         // menu->setGlobalStatus(1);
                         // restart = true;
                     }
@@ -269,7 +272,9 @@ void Bullet::checkCollision(bool* allowJump) {
             if (touched) {
                 *allowJump = true;
             } else {
-                estadoRick = 2;
+                if (estadoRick != 3) {
+                    estadoRick = 2;
+                }
                 *allowJump = false;
             }
         }

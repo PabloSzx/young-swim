@@ -45,6 +45,11 @@ Menu::Menu()
     this->label = gltCreateText();
 }
 
+void Menu::setGlobalStatus(int n) {
+    globalStatus = n;
+    step = 0;
+}
+
 void Menu::setGlobalStatus(int n, const char* m) {
     // cout << "SET GLOBAL STATUS LLAMADO EN: " << m << "  " << m << "  " << m << endl;
     globalStatus = n;
