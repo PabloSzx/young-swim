@@ -5,6 +5,8 @@
 #include "../../components/physics/physics.hpp"
 #include "../../components/parameters/parameters.hpp"
 #include "../../components/sound/sound.hpp"
+#include "../../components/time/time.hpp"
+
 #include <string>
 #include <vector>
 #include <map>
@@ -12,11 +14,13 @@
 #include <thread>
 #include "../../data/constants.hpp"
 
+
 extern Bullet *platformWorld;
 extern Bullet *parallaxHouses;
 extern Bullet *parallaxProps;
 extern Bullet *distanceScore;
 
+// extern Menu *menu;
 extern sound **background;
 extern GLuint shader_programme_cube;
 
@@ -25,6 +29,8 @@ extern int estadoRick;
 extern bool debug;
 
 extern omp_lock_t loading;
+
+extern void progressLoading(int a);
 
 class World {
 private:
@@ -94,6 +100,7 @@ public:
   void backgroundMusic();
   void loadRickMeshes();
   btVector3 getRickPos();
+  // void progressLoading(int n);
 };
 
 #endif

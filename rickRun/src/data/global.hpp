@@ -109,4 +109,22 @@ GLuint cube_sp;
 GLuint cube_vao;
 GLuint cube_map_texture;
 
+void progressLoading(int a) {
+    window_clear();
+    int n = a;
+    char barra[] = "[----------]";
+    // char barra[12] = [ "|", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", "|" ];
+    // string barra("|          |");
+
+    for (int i = 1; i < n + 1; i++)
+    {
+        barra[i] = '#';
+    }
+
+    // menu->drawArbitrary(g_gl_width * 0.6, g_gl_height * 0.8, 5, const_cast<char *>("Cargando..."));
+    menu->drawArbitrary(g_gl_width * 0.3, g_gl_height * 0.8, 5, const_cast<char *>(barra));
+
+    window_swap();
+}
+
 #endif

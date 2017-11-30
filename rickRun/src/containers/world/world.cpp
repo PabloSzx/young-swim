@@ -139,6 +139,24 @@ void World::loadRickMeshes() {
 
     omp_unset_lock(&loading);
 }
+
+// void World::progressLoading(int a) {
+//     window_clear();
+//     int n = a;
+
+//     char barra[12] = "|          |";
+//     // string barra("|          |");
+
+//     for (int i = 1; i < n; i++) {
+//         barra[i] = "-";
+//     }
+
+//     // menu->drawArbitrary(g_gl_width * 0.6, g_gl_height * 0.8, 5, const_cast<char *>("Cargando..."));
+//     menu->drawArbitrary(g_gl_width * 0.4, g_gl_height * 0.8, 5, const_cast<char *>(barra));
+
+//     window_swap();
+// }
+
 void World::genRick() {
     // this->rick = new Model(const_cast<char *>("mesh/rick.obj"), const_cast<char *>("assets/littlerick.png"), const_cast<char *>("assets/littlerick_normal.png"));
     // this->rick->scale(glm::vec3(0.3f));
@@ -155,29 +173,53 @@ void World::genRick() {
     // cout << "END LOAD RICK" << endl;
     // thread loadRickMeshes();
     vector<Model*> running;
+    // progressLoading(0);
     running.push_back(new Model(const_cast<char *>("mesh/run/rick_run01.obj"), const_cast<char *>("assets/littlerick.png"), const_cast<char *>("assets/littlerick_normal.png"), 0.3f));
     running.push_back(new Model(const_cast<char *>("mesh/run/rick_run02.obj"), const_cast<char *>("assets/littlerick.png"), const_cast<char *>("assets/littlerick_normal.png"), 0.3f));
+    // progressLoading(1);
     running.push_back(new Model(const_cast<char *>("mesh/run/rick_run03.obj"), const_cast<char *>("assets/littlerick.png"), const_cast<char *>("assets/littlerick_normal.png"), 0.3f));
+    progressLoading(2);
     running.push_back(new Model(const_cast<char *>("mesh/run/rick_run04.obj"), const_cast<char *>("assets/littlerick.png"), const_cast<char *>("assets/littlerick_normal.png"), 0.3f));
+    // progressLoading(2);
+
     running.push_back(new Model(const_cast<char *>("mesh/run/rick_run05.obj"), const_cast<char *>("assets/littlerick.png"), const_cast<char *>("assets/littlerick_normal.png"), 0.3f));
+
+    progressLoading(3);
     running.push_back(new Model(const_cast<char *>("mesh/run/rick_run06.obj"), const_cast<char *>("assets/littlerick.png"), const_cast<char *>("assets/littlerick_normal.png"), 0.3f));
+
     running.push_back(new Model(const_cast<char *>("mesh/run/rick_run07.obj"), const_cast<char *>("assets/littlerick.png"), const_cast<char *>("assets/littlerick_normal.png"), 0.3f));
     running.push_back(new Model(const_cast<char *>("mesh/run/rick_run08.obj"), const_cast<char *>("assets/littlerick.png"), const_cast<char *>("assets/littlerick_normal.png"), 0.3f));
+    // progressLoading(4);
+    progressLoading(4);
     running.push_back(new Model(const_cast<char *>("mesh/run/rick_run09.obj"), const_cast<char *>("assets/littlerick.png"), const_cast<char *>("assets/littlerick_normal.png"), 0.3f));
+
     running.push_back(new Model(const_cast<char *>("mesh/run/rick_run10.obj"), const_cast<char *>("assets/littlerick.png"), const_cast<char *>("assets/littlerick_normal.png"), 0.3f));
+    // progressLoading(5);
+
     running.push_back(new Model(const_cast<char *>("mesh/run/rick_run11.obj"), const_cast<char *>("assets/littlerick.png"), const_cast<char *>("assets/littlerick_normal.png"), 0.3f));
+    progressLoading(5);
+
     running.push_back(new Model(const_cast<char *>("mesh/run/rick_run12.obj"), const_cast<char *>("assets/littlerick.png"), const_cast<char *>("assets/littlerick_normal.png"), 0.3f));
+
     running.push_back(new Model(const_cast<char *>("mesh/run/rick_run13.obj"), const_cast<char *>("assets/littlerick.png"), const_cast<char *>("assets/littlerick_normal.png"), 0.3f));
     running.push_back(new Model(const_cast<char *>("mesh/run/rick_run14.obj"), const_cast<char *>("assets/littlerick.png"), const_cast<char *>("assets/littlerick_normal.png"), 0.3f));
+    // progressLoading(7);
+    progressLoading(6);
     running.push_back(new Model(const_cast<char *>("mesh/run/rick_run15.obj"), const_cast<char *>("assets/littlerick.png"), const_cast<char *>("assets/littlerick_normal.png"), 0.3f));
     // vector<Model>::iterator it = running.begin();
 
     vector<Model *> death;
     death.push_back(new Model(const_cast<char *>("mesh/death/rick_falling01.obj"), const_cast<char *>("assets/littlerick.png"), const_cast<char *>("assets/littlerick_normal.png"), 0.3f));
+    // progressLoading(8);
+    progressLoading(7);
     death.push_back(new Model(const_cast<char *>("mesh/death/rick_falling02.obj"), const_cast<char *>("assets/littlerick.png"), const_cast<char *>("assets/littlerick_normal.png"), 0.3f));
     death.push_back(new Model(const_cast<char *>("mesh/death/rick_falling03.obj"), const_cast<char *>("assets/littlerick.png"), const_cast<char *>("assets/littlerick_normal.png"), 0.3f));
+
     death.push_back(new Model(const_cast<char *>("mesh/death/rick_falling04.obj"), const_cast<char *>("assets/littlerick.png"), const_cast<char *>("assets/littlerick_normal.png"), 0.3f));
+    progressLoading(8);
+
     death.push_back(new Model(const_cast<char *>("mesh/death/rick_falling05.obj"), const_cast<char *>("assets/littlerick.png"), const_cast<char *>("assets/littlerick_normal.png"), 0.3f));
+
     death.push_back(new Model(const_cast<char *>("mesh/death/rick_falling06.obj"), const_cast<char *>("assets/littlerick.png"), const_cast<char *>("assets/littlerick_normal.png"), 0.3f));
 
     // while (it != running.end()) {
@@ -196,6 +238,7 @@ void World::genRick() {
     // btVector3(, );
     platformWorld->newFallBody(btVector3(0.932329, 1.40309, 0.42939), btVector3(0.0, 10.0, 0.0), 1.0, btVector3(0, 0, 0), 1); //1
     omp_unset_lock(&loading);
+    progressLoading(9);
 
     // this->rick.insert(make_pair())
 

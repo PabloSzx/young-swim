@@ -5,6 +5,7 @@
 #include <string>
 #include <GL/glew.h>
 #include <GLFW/glfw3.h> // GLFW helper library
+
 #include <omp.h>
 #include <thread>
 #include "../../util/gltext/gltext.hpp"

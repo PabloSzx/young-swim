@@ -56,6 +56,8 @@ int main()
 
   menu = new Menu();
 
+  progressLoading(0);
+
   omp_init_lock(&loading);
   omp_set_lock(&loading);
 
@@ -97,14 +99,14 @@ int main()
   glfwSwapInterval(1);
   glfwSetInputMode(g_window, GLFW_STICKY_KEYS, 1);
 
-  window_clear();
-  menu->drawArbitrary(g_gl_width * 0.6, g_gl_height * 0.8, 5, const_cast<char *>("Cargando..."));
-  window_swap();
+  // window_clear();
+  // menu->drawArbitrary(g_gl_width * 0.6, g_gl_height * 0.8, 5, const_cast<char *>("Cargando..."));
+  // window_swap();
 
   core = new World(40, 20, 20, 6, 0.0);
 
   core->genPhysics();
-
+  progressLoading(1);
   core->genRick();
 
   core->genPlatforms(rules);
@@ -134,6 +136,7 @@ int main()
   int posT12y = 5;
   int posPuntajex = 80;
 
+  progressLoading(10);
 
   // background[0]->set_gain(0.9f);
   core->genCube();
@@ -141,7 +144,8 @@ int main()
   Time *fpsTimer = new Time();
   Time *animationTimer = new Time();
   bool aireAnimation = true;
-
+  
+  
   while (!glfwWindowShouldClose(g_window))
   {
     fpsTimer->updateNow();
