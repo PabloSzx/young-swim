@@ -66,6 +66,7 @@ Model::Model(char *filename, char *texname, char *normalname)
 
 Model::Model(char *filename, char *texname, char *normalname, float nscale)
 {
+  // cout << "69" << endl;
   this->pos = glm::vec3(0, 0, 0);
   this->model = glm::mat4();
   this->filename = filename;
@@ -76,7 +77,7 @@ Model::Model(char *filename, char *texname, char *normalname, float nscale)
   this->red = 1.0f;
   this->green = 1.0f;
   this->blue = 1.0f;
-
+  // cout << "80" << endl;
   this->setpos(glm::vec3(0.0f, 0.0f, 0.0f));
   this->scale(glm::vec3(nscale));
   this->load_texture_rgb(texname, "texsamp_rgb");
@@ -89,6 +90,8 @@ Model::Model(char *filename, char *texname, char *normalname, float nscale)
   glUniform4f(ka, 0.05, 0.05, 0.05, 1.0);
   glUniform4f(kd, 0.8, 0.8, 0.8, 1.0);
   glUniform4f(ks, 0.5, 0.5, 0.5, 1.0);
+
+  // cout << "94" << endl;
 }
 
 void Model::setAmbientalCoef(GLfloat a, GLfloat b, GLfloat c) {

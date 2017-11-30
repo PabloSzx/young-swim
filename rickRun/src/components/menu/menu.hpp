@@ -5,6 +5,8 @@
 #include <string>
 #include <GL/glew.h>
 #include <GLFW/glfw3.h> // GLFW helper library
+#include <omp.h>
+#include <thread>
 #include "../../util/gltext/gltext.hpp"
 #include "../sound/sound.hpp"
 #include "../time/time.hpp"
@@ -20,6 +22,7 @@ extern sound** background;
 extern float deltaTime;
 extern int globalStatus;
 extern Parameters* rules;
+extern omp_lock_t loading;
 //extern Bullet *platformWorld;
 class Menu {
     private:
@@ -46,7 +49,7 @@ class Menu {
         void setGlobalStatus(int n);
         void setGlobalStatus(int n, const char* m);
         std::string getDifficultyName();
-
+        void loadRickMeshes(); 
         void drawArbitrary(int x, int y, double size, int n);
         void drawArbitrary(int x, int y, double size, char* str);
 };

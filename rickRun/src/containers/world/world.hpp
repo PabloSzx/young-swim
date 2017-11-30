@@ -8,6 +8,8 @@
 #include <string>
 #include <vector>
 #include <map>
+#include <omp.h>
+#include <thread>
 #include "../../data/constants.hpp"
 
 extern Bullet *platformWorld;
@@ -21,6 +23,9 @@ extern GLuint shader_programme_cube;
 extern int estadoRick;
 
 extern bool debug;
+
+extern omp_lock_t loading;
+
 class World {
 private:
   int nPlataformas;
@@ -43,6 +48,7 @@ private:
   btVector3 platPos;
   btVector3 casaPos;
   btVector3 propPos;
+
   
 
   int backgroundMusicNow;
@@ -52,7 +58,8 @@ private:
   std::vector<std::string> getRandomProp(int i);
   
 public:
-  
+  thread cargando;
+
   World(int nPlataformas, int nHouses, int nProps, int nBackgroundMusic, double platformInitialVelocity);//listo
   void reset(Parameters* rules);
   void genRick();//listo
@@ -82,10 +89,10 @@ public:
   void nextAnimationRun();
   bool nextAnimationDeath();
   void setRunAnimationPos(int n);
+  void setDeathAnimationPos(int n); 
   void initBackgroundMusic();
   void backgroundMusic();
-  
-  
+  void loadRickMeshes();
   btVector3 getRickPos();
 };
 

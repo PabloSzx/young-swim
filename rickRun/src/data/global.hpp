@@ -3,6 +3,9 @@
 
 #include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
+#include <omp.h>
+#include <thread>
+
 #include "../components/physics/physics.hpp"
 #include "../containers/world/world.hpp"
 #include "../components/time/time.hpp"
@@ -12,6 +15,8 @@
 int g_gl_width = 1366;       //constants
 int g_gl_height = 768;       //constants
 GLFWwindow *g_window = NULL; //main
+
+omp_lock_t loading;
 
 glm::vec3 sun = glm::vec3(0.7f, -12.2f, 2.3f);
 // Sounds

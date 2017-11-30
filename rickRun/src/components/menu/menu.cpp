@@ -139,6 +139,8 @@ void Menu::setColor(float rgb, float o)
 
 void Menu::confirm()
 {
+    // omp_get
+    omp_set_lock(&loading);
     switch (globalStatus)
     {
     case 0: // Menu
@@ -198,6 +200,7 @@ void Menu::confirm()
         break;
     }
     }
+    omp_unset_lock(&loading);
 }
 
 void Menu::drawText(int distance)

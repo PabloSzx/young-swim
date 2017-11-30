@@ -14,6 +14,7 @@
 #include <glm/gtc/type_ptr.hpp>
 #include <iostream>
 #include <omp.h>
+#include <thread>
 #include "./components/sound/sound.hpp"
 
 #include "./util/shader/shader.hpp"
@@ -38,7 +39,7 @@
 
 using namespace std;
 
-
+void loadMeshes();
 
 int main()
 {
@@ -54,6 +55,9 @@ int main()
   input_setCallbacks();
 
   menu = new Menu();
+
+  omp_init_lock(&loading);
+  omp_set_lock(&loading);
 
   // gltInit();
 
@@ -92,6 +96,10 @@ int main()
 
   glfwSwapInterval(1);
   glfwSetInputMode(g_window, GLFW_STICKY_KEYS, 1);
+
+  window_clear();
+  menu->drawArbitrary(g_gl_width * 0.6, g_gl_height * 0.8, 5, const_cast<char *>("Cargando..."));
+  window_swap();
 
   core = new World(40, 20, 20, 6, 0.0);
 
@@ -190,6 +198,7 @@ int main()
         {
           if (estadoRick != 3) {
             estadoRick = 0;
+            core->setDeathAnimationPos(0);
           }
           if ((int)(5.0 - timer->getNow()) == 0) {
             menu->drawArbitrary(g_gl_width / 2 + 100, g_gl_height / 2, 10, const_cast<char *>("RUN!!"));
@@ -301,4 +310,10 @@ int main()
 
   glfwTerminate();
   return 0;
+}
+
+
+void loadMeshes() {
+
+  omp_unset_lock(&loading);
 }
