@@ -84,7 +84,7 @@ void Parameters::checkRickPos(Bullet* world) {
     }
     else if (rickPos.getZ() > this->maxZ)
     {
-        world->applyImpulse(1, btVector3(0, 0, deltaTime*-100));
+        world->applyImpulse(1, btVector3(0, 0, deltaTime*-10000));
     }
     if (rickPos.getX() > this->maxX)
     {

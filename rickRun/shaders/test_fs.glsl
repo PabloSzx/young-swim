@@ -28,9 +28,9 @@ void main() {
 	vec3 Ia = la.rgb * ka.rgb;
 
 	// sample the normal map and covert from 0:1 range to -1:1 range
-	vec3 normal_tan = texture (texsamp_normal, st).rgb * 0.8;
+	vec3 normal_tan = texture (texsamp_normal, st).rgb * 1.0;
 	vec3 texel      = texture (texsamp_rgb, st).rgb;
-	normal_tan = normalize (normal_tan * 2.0 - 1.0);
+	normal_tan = normalize (normal_tan * 2.5 - 1.0);
 
 	// diffuse light equation done in tangent space
 	vec3 direction_to_light_tan = normalize (-light_dir_tan);
