@@ -5,6 +5,7 @@
 
 
 #include "../sound/sound.hpp"
+#include "../camera/camera.hpp"
 #include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
 #include <iostream>
@@ -19,8 +20,10 @@ extern glm::vec3 sun;
 
 extern sound **background;
 
-extern World *core;
+extern bool cameraFree;
 
+extern World *core;
+extern bool joystickPresent;
 extern int g_gl_width;
 extern int g_gl_height;
 extern GLFWwindow *g_window;

@@ -37,6 +37,8 @@ glm::vec3 cameraFront = glm::vec3(1.0f, 0.0f, 0.0f);
 glm::vec3 cameraFrontInit = glm::vec3(1.0f, 0.0f, 0.0f);
 glm::vec3 cameraUp = glm::vec3(0.0f, 1.0f, 0.0f);
 
+bool joystickPresent = false;
+
 bool mouseIn = false;
 
 bool allowJump = true;
@@ -78,6 +80,10 @@ double fps = 1500.0;
 float _fps;
 float _maxFps = 15.0f;
 float _frameTime;
+
+bool plus50 = false;
+
+bool cameraFree = false;
 
 // timing
 float deltaTime = 0.0f; // time between current frame and last frame
@@ -125,6 +131,10 @@ void progressLoading(int a) {
     menu->drawArbitrary(g_gl_width * 0.3, g_gl_height * 0.8, 5, const_cast<char *>(barra));
 
     window_swap();
+}
+
+void drawArbitrary(int x, int y, double size, char* str) {
+    menu->drawArbitrary(x, y, size, str);
 }
 
 #endif

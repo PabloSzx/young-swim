@@ -97,6 +97,7 @@ void input_scroll_callback(GLFWwindow *window, double xoffset, double yoffset)
 void input_processInput(GLFWwindow *window)
 {
     if (glfwJoystickPresent(GLFW_JOYSTICK_1)) {
+        joystickPresent = true;
         int count;
         int count2;
         const float *axes = glfwGetJoystickAxes(GLFW_JOYSTICK_1, &count);
@@ -108,6 +109,10 @@ void input_processInput(GLFWwindow *window)
         // cout << "name: " << name << endl;
         // cout << "x: " << axes[0] << endl;
         // cout << "y: " << axes[1] << endl;
+        // for (int i = 0 ; i < count ; i ++) {
+        //     cout << "i: " << i << " = " << axes[i] << endl;
+        // }
+
         if (jumpButton == -1)
         {
             for (int i = 0; i < count2; i++)
@@ -157,6 +162,10 @@ void input_processInput(GLFWwindow *window)
         {
             platformWorld->applyImpulse(1, btVector3(0.0, 0.0, jumpHorizontalForce * deltaTime));
         }
+        // ca
+        cameraFront = glm::vec3(1.0f, -(axes[4] * 0.5) - 0.2f, axes[3] * 0.5);
+
+        // if (axes[])
         if (jumpButton != -1) {
             if (buttons[jumpButton] == GLFW_PRESS)
             {
@@ -167,6 +176,11 @@ void input_processInput(GLFWwindow *window)
                     background[6]->stop();
                     background[6]->play();
                     platformWorld->applyImpulse(1, btVector3(0.0, jumpVerticalUpForce, 0.0f));
+                }
+            }
+            else if (resetButton != -1) {
+                if (buttons[resetButton] == GLFW_PRESS) {
+                    camera_reset();
                 }
             }
             // else if (resetButton != -1 && restart == false && timer->getNow() >= 3.0)
@@ -220,6 +234,9 @@ void input_processInput(GLFWwindow *window)
     if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
         glfwSetWindowShouldClose(window, true);
 
+    if (glfwGetKey(window, GLFW_KEY_O) == GLFW_PRESS) {
+        cameraFree = true;
+    }
     // if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS) {
     //     debug = !debug;
     //     platformWorld->m_pDebugDrawer->ToggleDebugFlag(btIDebugDraw::DBG_DrawWireframe);
@@ -230,37 +247,52 @@ void input_processInput(GLFWwindow *window)
     //     debug = !debug;
     //     platformWorld->m_pDebugDrawer->ToggleDebugFlag(btIDebugDraw::DBG_DrawAabb);
     // }
-    // float cameraSpeed = 2.5 * deltaTime;
-    // if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
-    // {
-    //     // sun.x = sun.x + 0.1f;
-    //     cameraPos += cameraSpeed * cameraFront;
-    // }
-    // if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
-    // {
-    //     cameraPos -= cameraSpeed * cameraFront;
-    //     // sun.x = sun.x - 0.1f;
-    // }
-    // if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
-    // {
-    //     // sun.z = sun.z + 0.1f;
-    //     cameraPos -= glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed;
-    // }
-    // if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
-    // {
-    //     // sun.z = sun.z - 0.1f;
-    //     cameraPos += glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed;
-    // }
-    // if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS)
-    // {
-    //     // sun.y = sun.y + 0.1f;
-    //     cameraPos -= glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed;
-    // }
-    // if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS)
-    // {
-    //     // sun.y = sun.y - 0.1f;
-    //     cameraPos += glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed;
-    // }
+    float cameraSpeed = 2.5 * deltaTime;
+    if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
+    {
+        // sun.x = sun.x + 0.1f;
+        cameraPos += cameraSpeed * cameraFront;
+    }
+    if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
+    {
+        cameraPos -= cameraSpeed * cameraFront;
+        // sun.x = sun.x - 0.1f;
+    }
+    if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
+    {
+        // sun.z = sun.z + 0.1f;
+        cameraPos -= glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed;
+    }
+    if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
+    {
+        // sun.z = sun.z - 0.1f;
+        cameraPos += glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed;
+    }
+    if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS)
+    {
+        // sun.y = sun.y + 0.1f;
+        cameraPos = glm::vec3(cameraPos[0], cameraPos[1] + (10.0 * deltaTime), cameraPos[2]);
+        // cameraPos -= glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed;
+    }
+    if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS)
+    {
+        // sun.y = sun.y - 0.1f;
+        cameraPos = glm::vec3(cameraPos[0], cameraPos[1] - (10.0 * deltaTime), cameraPos[2]);
+
+        // cameraPos += glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed;
+    }
+    if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS)
+    {
+        cameraPos = glm::vec3(cameraPos[0], cameraPos[1], cameraPos[2] - (10.0 * deltaTime));
+        // cameraPos -= glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed;
+    }
+    if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS)
+    {
+        // sun.y = sun.y - 0.1f;
+        cameraPos = glm::vec3(cameraPos[0], cameraPos[1], cameraPos[2] + (10.0 * deltaTime));
+
+        // cameraPos += glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed;
+    }
 
     // if (glfwGetKey(window, GLFW_KEY_1) == GLFW_PRESS)
     // {

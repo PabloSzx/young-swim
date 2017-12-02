@@ -55,10 +55,16 @@ void World::reset(Parameters* rules) {
     platformWorld->newFallBody(this->plataformas[0]->convexShape, this->platPos, 10000, btVector3(0, 0, 0), PLATFORMS_START_INDEX);
 
     for (int i = 1; i < this->nPlataformas; i += 1) {
+        // cout << "reset" << endl;
         this->platPos = rules->getNextPlatformPos(this->platPos.getZ(), this->platPos.getY(), i * this->plataformas[0]->LX);
 
+        if ((int)rand()%5 == 1) {
+            platformWorld->newFallBody(this->plataformas[0]->convexShape, this->platPos, 10000, btVector3(0, 0, 0), -(i + PLATFORMS_START_INDEX));
+        } else
+        {
+            platformWorld->newFallBody(this->plataformas[0]->convexShape, this->platPos, 10000, btVector3(0, 0, 0), i + PLATFORMS_START_INDEX);
+        }
         // platformWorld->newFallBody(btVector3(this->plataformas[0]->LX / 2, this->plataformas[0]->LY * 4, this->plataformas[0]->LZ / 2), this->platPos, 10000, btVector3(0, 0, 0), i + PLATFORMS_START_INDEX);
-        platformWorld->newFallBody(this->plataformas[0]->convexShape, this->platPos, 10000, btVector3(0, 0, 0), i + PLATFORMS_START_INDEX);
     }
 
 
@@ -248,6 +254,8 @@ void World::genPlatforms(Parameters* rules) {
     this->plataformas = static_cast<Model **>(malloc(sizeof(Model *) * this->nPlataformas));
     this->plataformas[0] = new Model(const_cast<char *>("mesh/platform.obj"), const_cast<char *>("assets/steel.jpg"), const_cast<char *>("assets/steel_normal.png"));
     this->plataformas[0]->model2shader(shader_programme);
+    this->plataformas[1] = new Model(const_cast<char *>("mesh/platform.obj"), const_cast<char *>("assets/gold.jpeg"), const_cast<char *>("assets/steel_normal.png"));
+    this->plataformas[1]->model2shader(shader_programme);
 
     this->platPos = btVector3(0.0, 0.0, 0.0);
 
@@ -256,7 +264,13 @@ void World::genPlatforms(Parameters* rules) {
 
     for (int i = 1; i < this->nPlataformas; i+=1) {
         this->platPos = rules->getNextPlatformPos(this->platPos.getZ(), this->platPos.getY(), i * this->plataformas[0]->LX);
-        platformWorld->newFallBody(this->plataformas[0]->convexShape, this->platPos, 10000, btVector3(0, 0, 0), i + PLATFORMS_START_INDEX);
+        if ((int)rand()%5 == 1) {
+            // cout << "ORO" << endl;
+            // cout << -(i + PLATFORMS_START_INDEX) << endl;
+            platformWorld->newFallBody(this->plataformas[1]->convexShape, this->platPos, 10000, btVector3(0, 0, 0), -(i + PLATFORMS_START_INDEX));
+        } else {
+            platformWorld->newFallBody(this->plataformas[0]->convexShape, this->platPos, 10000, btVector3(0, 0, 0), i + PLATFORMS_START_INDEX);
+        }
     }
 };
 void World::genPhysics() {
@@ -377,7 +391,12 @@ void World::dynamicPlatforms(Parameters* rules) {
         double k = this->plataformas[0]->LX;
         double distancia = 0.04 * k * abs(platformVelocity) + 1 * k;
         this->platPos = rules->getNextPlatformPos(this->platPos.getZ(), this->platPos.getY(), platformWorld->getTransformOrigin(previousPlatform).getX() + distancia);
-        platformWorld->editLastPlatform(this->platPos, 10000, btVector3(this->platformVelocity, 0, 0), platformWorld->getLastPlatform());
+        
+        if ((int)rand()%5 == 1) {
+            platformWorld->editLastPlatform(this->platPos, 10000, btVector3(this->platformVelocity, 0, 0), -platformWorld->getLastPlatform());
+        } else {
+            platformWorld->editLastPlatform(this->platPos, 10000, btVector3(this->platformVelocity, 0, 0), platformWorld->getLastPlatform());
+        }
     }
 
 };
@@ -486,11 +505,21 @@ void World::drawRick() {
 void World::drawPlatforms() {
     btVector3 plataformaPos;
 
-    for (int i = 0; i < nPlataformas; i += 1)
+    for (int i = PLATFORMS_START_INDEX; i < nPlataformas; i += 1)
     {
-        plataformaPos = platformWorld->getTransformOrigin(i + PLATFORMS_START_INDEX);
-        this->plataformas[0]->setpos(glm::vec3(plataformaPos.getX(), plataformaPos.getY(), plataformaPos.getZ()));
-        this->plataformas[0]->draw();
+        plataformaPos = platformWorld->getTransformOrigin(i);
+        // cout << platformWorld->getUserIndex(i) << endl;
+        if (platformWorld->getUserIndex(i) <= -2)
+        {
+            // cout << "YES" << endl;
+            this->plataformas[1]->setpos(glm::vec3(plataformaPos.getX(), plataformaPos.getY(), plataformaPos.getZ()));
+            this->plataformas[1]->draw();
+        }
+        else
+        {
+            this->plataformas[0]->setpos(glm::vec3(plataformaPos.getX(), plataformaPos.getY(), plataformaPos.getZ()));
+            this->plataformas[0]->draw();
+        }
     }
 
 };

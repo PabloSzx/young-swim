@@ -188,6 +188,20 @@ int main()
         if (fpsTimer->every(1.0))
         {
           window_update_fps_counter(g_window);
+          if (plus50) {
+            plus50 = false;
+          }
+        } else {
+          if (plus50)
+          {
+            drawArbitrary(235, 5, 2, const_cast<char *>("+50"));
+          } 
+          // else {
+          //   // drawArbitrary(235, 5, 2, "+50");
+
+          //   // cout << "ASD" << endl;
+          //   // drawArbitrary(15, 5, 20, "+50");
+          // }
         }
 
         window_frameCounter();

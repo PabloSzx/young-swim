@@ -116,7 +116,8 @@ void Bullet::newFallBody(btConvexHullShape *convexShape, btVector3 pos, btScalar
 
     // this->rigidBodys[this->n]->setFriction(0.5);
     this->rigidBodys[this->n]->setLinearVelocity(velocity);
-
+    // cout << "index es: " << index << endl;
+    // cout << "newFall" << endl;
     this->rigidBodys[this->n]->setUserIndex(index);
     this->rigidBodys[this->n]->setAngularFactor(btVector3(0, 0, 0));
 
@@ -126,6 +127,15 @@ void Bullet::newFallBody(btConvexHullShape *convexShape, btVector3 pos, btScalar
     {
         this->n += 1;
     }
+}
+int Bullet::getIndiceAsociado(int i) {
+    for (int j = 0; j < nmax; j++) {
+        if (this->rigidBodys[j]->getUserIndex() == i) {
+            return j;
+        }
+    }
+
+    return -1;
 }
 
 void Bullet::editLastPlatform(btVector3 pos, btScalar mass, btVector3 velocity, int index) {
@@ -246,14 +256,17 @@ void Bullet::checkCollision(bool* allowJump) {
                 btManifoldPoint &pt = contactManifold->getContactPoint(j);
                 // if (pt.getDistance() < 0.1f)
                 // {
-                    if (b >= 2) {
+                    if (abs(b) >= (2)) {
                         estadoRick = 1;
                         this->setVelocity(1, btVector3(0.0, this->getVelocity(1).getY(), this->getVelocity(1).getZ()));
                         this->applyImpulse(1, btVector3(0.0, deltaTime * -this->getVelocity(1).getY(), deltaTime * -this->getVelocity(1).getZ()));
-                    //    if (pt.getPositionWorldOnB().getY() - pt.getPositionWorldOnA().getY() >= 0) {
-                            touched = true;
-                      //  }
-                        // cout << endl;
+                        touched = true;
+                        if (b <= -2) {
+                            this->setUserIndex(this->getIndiceAsociado(b), -b);
+                            distanceScore->applyTranslate(0, btVector3(-50, 0, 0));
+                            plus50 = true;
+                            // drawArbitrary(15, 5, 100, "+50");
+                        }
                     } else if (b == 0) {
                         // cout << estadoRick;
                         estadoRick = 3;
@@ -304,6 +317,11 @@ int Bullet::getUserIndex(int i) {
     return this->rigidBodys[i]->getUserIndex();
 }
 
-void Bullet::debugDrawWorld() {
+void Bullet::setUserIndex(int pos, int i) {
+    this->rigidBodys[pos]->setUserIndex(i);
+}
+
+void Bullet::debugDrawWorld()
+{
     this->dynamicsWorld->debugDrawWorld();
 };

@@ -34,7 +34,11 @@ void camera_projMatrixLocation(GLuint shaderprog)
 
 void camera_viewMatrixPerspective(glm::vec3 charPos)
 {
-    view = glm::lookAt(cameraPos + charPos, cameraPos + charPos + cameraFront, cameraUp);
+    if (!cameraFree) {
+        view = glm::lookAt(cameraPos + charPos, cameraPos + charPos + cameraFront, cameraUp);
+    } else {
+        view = glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
+    }
     glUniformMatrix4fv(view_mat_location, 1, GL_FALSE, &view[0][0]);
 }
 
@@ -44,33 +48,71 @@ void camera_projectionMatrixPerspective()
     glUniformMatrix4fv(proj_mat_location, 1, GL_FALSE, &projection[0][0]);
 }
 
+void camera_reset() {
+    cameraPos = glm::vec3(-14.4f, 2.52f, -4.3f);
+    cameraFront = glm::vec3(1.0f, 0.0f, 0.0f);
+    // cameraFrontInit = glm::vec3(1.0f, 0.0f, 0.0f);
+    cameraUp = glm::vec3(0.0f, 1.0f, 0.0f);
+}
+
 void camera_viewProjUpdate() {
     double xpos, ypos;
     glfwGetCursorPos(g_window, &xpos, &ypos);
+    if (joystickPresent) {
+        if (cameraFree) {
+            glm::vec3 front;
 
-    glfwSetCursorPos(g_window, xpos + deltaTime * 0.5 * ((g_gl_width / 2.0) - xpos), ypos + deltaTime * 0.5 * ((g_gl_height / 2.0 + 1800.0) - ypos));
+            front.z = (glm::radians(xpos));
+            front.y = (glm::radians(-ypos));
+            front.x = 100;
+            cameraFront = glm::normalize(front);
+        }
+    } else {
+        glfwSetCursorPos(g_window, xpos + deltaTime * 0.5 * ((g_gl_width / 2.0) - xpos), ypos + deltaTime * 0.5 * ((g_gl_height / 2.0 + 1800.0) - ypos));
 
-    glfwGetCursorPos(g_window, &xpos, &ypos);
+        glfwGetCursorPos(g_window, &xpos, &ypos);
 
-    int xmid = g_gl_width / 2;
-    int ymid = g_gl_height / 2;
+        int xmid = g_gl_width / 2;
+        int ymid = g_gl_height / 2;
 
-    glm::vec3 front;
+        glm::vec3 front;
 
-    front.z = (glm::radians(xpos - xmid));
-    front.y = (glm::radians(-ypos + ymid));
-    front.x = 100;
-    cameraFront = glm::normalize(front);
+        front.z = (glm::radians(xpos - xmid));
+        front.y = (glm::radians(-ypos + ymid));
+        front.x = 100;
+        cameraFront = glm::normalize(front);
+    }
+    // if (joystickPresent && !cameraFree) {
+    //     glfwSetCursorPos(g_window, xpos + deltaTime * 0.5 * ((g_gl_width / 2.0) - xpos), ypos + deltaTime * 0.5 * ((g_gl_height / 2.0 + 1800.0) - ypos));
 
-    camera_viewMatrixLocation();
-    camera_projMatrixLocation();
-    camera_projectionMatrixPerspective();
-    camera_viewMatrixPerspective(glm::vec3(core->getRickPos().getX(), core->getRickPos().getY() + 2.0, core->getRickPos().getZ() + 4.5));
+    //     glfwGetCursorPos(g_window, &xpos, &ypos);
 
-    camera_viewMatrixLocation(shader_programme_cube);
-    camera_projMatrixLocation(shader_programme_cube);
-    camera_projectionMatrixPerspective();
-    camera_viewMatrixPerspective(glm::vec3(core->getRickPos().getX(), core->getRickPos().getY() + 2.0, core->getRickPos().getZ() + 4.5));
+    //     int xmid = g_gl_width / 2;
+    //     int ymid = g_gl_height / 2;
+
+    //     glm::vec3 front;
+
+    //     front.z = (glm::radians(xpos - xmid));
+    //     front.y = (glm::radians(-ypos + ymid));
+    //     front.x = 100;
+    //     cameraFront = glm::normalize(front);
+    // } else if (!joystickPresent && cameraFree) {
+    //     glm::vec3 front;
+
+    //     front.z = (glm::radians(xpos));
+    //     front.y = (glm::radians(-ypos));
+    //     front.x = 100;
+    //     cameraFront = glm::normalize(front);
+    // }
+        camera_viewMatrixLocation();
+        camera_projMatrixLocation();
+        camera_projectionMatrixPerspective();
+        camera_viewMatrixPerspective(glm::vec3(core->getRickPos().getX(), core->getRickPos().getY() + 2.0, core->getRickPos().getZ() + 4.5));
+
+        camera_viewMatrixLocation(shader_programme_cube);
+        camera_projMatrixLocation(shader_programme_cube);
+        camera_projectionMatrixPerspective();
+        camera_viewMatrixPerspective(glm::vec3(core->getRickPos().getX(), core->getRickPos().getY() + 2.0, core->getRickPos().getZ() + 4.5));
 };
 
 // void camera_resetPerspective() {

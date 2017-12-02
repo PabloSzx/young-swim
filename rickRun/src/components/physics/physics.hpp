@@ -15,6 +15,8 @@ extern int estadoRick;
 
 extern float deltaTime;
 
+extern bool plus50;
+
 class Bullet {
 private:
   btBroadphaseInterface *broadphase;
@@ -53,12 +55,14 @@ public:
   void wakeUp(int i);
   void checkCollision(bool* allowJump);
   int getUserIndex(int i);
+  void setUserIndex(int pos, int i);
+  int getIndiceAsociado(int i);
   int getLastPlatform();
   int getNMax();
   void debugDrawWorld();
 };
 
 extern Bullet* platformWorld;
-
-
+extern Bullet *distanceScore;
+extern void drawArbitrary(int x, int y, double size, char *str);
 #endif

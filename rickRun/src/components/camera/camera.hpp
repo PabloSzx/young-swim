@@ -15,6 +15,7 @@ extern glm::vec3 cameraPos;
 extern glm::vec3 cameraFront;
 extern glm::vec3 cameraUp;
 extern bool firstMouse;
+extern bool joystickPresent;
 extern float yaw;
 extern float pitch;
 extern float lastX;
@@ -23,7 +24,7 @@ extern float fov;
 extern float deltaTime;
 extern float lastFrame;
 extern World* core;
-
+extern bool cameraFree;
 extern GLuint shader_programme_cube;
 extern GLuint shader_programme;
 
@@ -41,6 +42,7 @@ void camera_viewMatrixPerspective(glm::vec3 charPos);
 void camera_projectionMatrixPerspective();
 
 void camera_viewProjUpdate();
+void camera_reset();
 // void camera_resetPerspective();
 
 #endif
