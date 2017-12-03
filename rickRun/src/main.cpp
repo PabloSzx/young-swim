@@ -16,7 +16,8 @@
 #include <omp.h>
 #include <thread>
 #include "./components/sound/sound.hpp"
-
+#include <iostream>
+#include <fstream>
 #include "./util/shader/shader.hpp"
 #include "./util/window/window.hpp"
 #include "./components/model/model.hpp"

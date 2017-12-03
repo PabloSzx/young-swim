@@ -13,7 +13,7 @@
 #include "../components/parameters/parameters.hpp"
 #include "../components/model/model.hpp"
 
-// #define fullhd //comentar esta linea si se desea 768p
+#define fullhd //comentar esta linea si se desea 768p
 
 #ifdef fullhd
 int g_gl_width = 1920;
@@ -32,7 +32,7 @@ glm::vec3 sun = glm::vec3(0.7f, -12.2f, 2.3f);
 // sound *snd_01 = new sound((const char*)"audio/RICK_RUN2.wav");
 // sound *snd_02 = new sound((const char*)"audio/RICK_RUN1.wav");
 
-sound **background = static_cast<sound **>(malloc(sizeof(sound *) * 9));;;
+sound **background = static_cast<sound **>(malloc(sizeof(sound *) * 12));;;
 
 World *core;
 
@@ -49,7 +49,8 @@ glm::vec3 cameraUp = glm::vec3(0.0f, 1.0f, 0.0f);
 bool joystickPresent = false;
 
 bool mouseIn = false;
-
+bool highscore = true;
+int highscorePuntaje = 0;
 bool allowJump = true;
 bool allowDownJump = true;
 double jumpHorizontalForce;

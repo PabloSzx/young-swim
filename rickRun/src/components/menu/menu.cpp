@@ -210,6 +210,12 @@ void Menu::drawText(int distance)
         // if (!played) {
         //     played = true;
         // }
+        if (globalStatus > 1) {
+            if (!highscore)
+            {
+                highscore = true;
+            }
+        }
         float c=0;
         string puntaje("Puntaje: ");
         string dist(ConvertDoubleToString(distance));
@@ -226,12 +232,51 @@ void Menu::drawText(int distance)
     }
     if (globalStatus <= 1)
     {
-        // if (!played) {
-            logo->scale(glm::vec3(2.0f));
-            logo->setpos(glm::vec3(-3.0f, 5.0f, 0.5f));
+        if (highscore) {
 
-            young_swim->scale(glm::vec3(3.0f));
-            young_swim->setpos(glm::vec3(-3.0f, 1.0f, -7.0f));
+            string puntaje;
+            ifstream myfile("highscore.txt");
+            if (myfile.is_open())
+            {
+                getline(myfile, puntaje);
+                // while (getline(myfile, line))
+                // {
+                //     cout << line << '\n';
+                // }
+                myfile.close();
+            }
+
+            highscorePuntaje = atoi(puntaje.c_str());
+
+            if (highscorePuntaje < distance) {
+                highscorePuntaje = distance;
+                ofstream myfile1("highscore.txt");
+                if (myfile1.is_open())
+                {
+                    myfile1 << highscorePuntaje << endl;
+                    // myfile1 << "This is a line.\n";
+                    // myfile1 << "This is another line.\n";
+                    myfile1.close();
+                }
+            }
+
+            highscore = false;
+        }
+        string puntaje("Highscore: ");
+        string dist(ConvertDoubleToString(highscorePuntaje));
+        gltSetText(this->label, (puntaje + dist).c_str());
+        this->setColor(0.03f, 0.68f, 0.78f, 0.5f);
+        // gltDrawT
+        gltDrawText2D(label, g_gl_width / 5, g_gl_height * 3 / 4, g_gl_height / 270);
+        // gltDrawText2DAligned(label, 500, 500, 2, GLT_LEFT, GLT_TOP);
+
+        // if (distance >)
+        // if (!played) {
+        logo->scale(glm::vec3(2.0f));
+        logo->setpos(glm::vec3(-3.0f, 4.5f, 0.5f));
+
+        young_swim->scale(glm::vec3(2.0f));
+        young_swim->setpos(glm::vec3(-3.0f, 1.0f, 0.5f));
         // } else {
         //     logo->scale(glm::vec3(3.0f));
         //     logo->setpos(glm::vec3(0.0f, 0.0f, 10.5f));
@@ -255,7 +300,7 @@ void Menu::drawText(int distance)
                 this->setColor(0.03f,0.68f,0.78f, 0.0f);
             }
             gltSetText(this->label, (*it).c_str());
-            gltDrawText2D(this->label, x, y, 4);
+            gltDrawText2D(this->label, x, y, g_gl_height / 270);
             y += 70;
             if (contador == this->step)
             {

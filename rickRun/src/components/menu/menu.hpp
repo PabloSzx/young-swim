@@ -12,10 +12,16 @@
 #include "../sound/sound.hpp"
 #include "../time/time.hpp"
 #include <sstream>
+#include <fstream>
+#include <iostream>
 #include "../parameters/parameters.hpp"
 #include "../model/model.hpp"
 //#include "../physics/physics.hpp"
 
+extern bool highscore;
+extern int highscorePuntaje;
+extern int g_gl_width;
+extern int g_gl_height;
 extern bool restart;
 extern bool played;
 extern int jumpButton;
