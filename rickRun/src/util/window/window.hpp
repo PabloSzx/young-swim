@@ -21,6 +21,7 @@ void window_glfw_error_callback(int error, const char *description);
 void window_glfw_window_size_callback(GLFWwindow *window, int width, int height);
 void window_frameCounter();
 void window_clear();
+void window_clear(float f); 
 void window_swap();
 void window_calculateFps();
 #endif

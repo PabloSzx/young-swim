@@ -106,6 +106,11 @@ void window_clear() {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
+void window_clear(float f) {
+    glClearColor(f, f, f, 1.0f);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+}
+
 void window_swap() {
     glfwSwapBuffers(g_window);
     glfwPollEvents();

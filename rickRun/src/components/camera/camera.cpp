@@ -42,6 +42,12 @@ void camera_viewMatrixPerspective(glm::vec3 charPos)
     glUniformMatrix4fv(view_mat_location, 1, GL_FALSE, &view[0][0]);
 }
 
+void camera_viewMatrixPerspective()
+{
+    view = glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
+    glUniformMatrix4fv(view_mat_location, 1, GL_FALSE, &view[0][0]);
+}
+
 void camera_projectionMatrixPerspective()
 {
     projection = glm::perspective(glm::radians(fov), (float)g_gl_width / (float)g_gl_height, 0.1f, 100.0f);

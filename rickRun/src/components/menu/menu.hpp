@@ -13,9 +13,11 @@
 #include "../time/time.hpp"
 #include <sstream>
 #include "../parameters/parameters.hpp"
+#include "../model/model.hpp"
 //#include "../physics/physics.hpp"
 
 extern bool restart;
+extern bool played;
 extern int jumpButton;
 extern int resetButton;
 extern GLFWwindow *g_window;
@@ -24,6 +26,8 @@ extern float deltaTime;
 extern int globalStatus;
 extern Parameters* rules;
 extern omp_lock_t loading;
+extern Model *young_swim;
+extern Model *logo;
 //extern Bullet *platformWorld;
 class Menu {
     private:

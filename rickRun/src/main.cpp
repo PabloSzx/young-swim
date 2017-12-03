@@ -43,7 +43,7 @@ void loadMeshes();
 
 int main()
 {
-  fullscreen = false;
+  fullscreen = true;
   srand(time(NULL));
 
   log_restart_gl_log();
@@ -56,6 +56,22 @@ int main()
 
   menu = new Menu();
 
+  shader_programme = shader_create_programme_from_files();
+  shader_programme_cube = shader_create_programme_from_files(VERTEX_SHADER_FILE_CUBE, FRAGMENT_SHADER_FILE_CUBE);
+
+  young_swim = new Model(const_cast<char *>("mesh/image.obj"), const_cast<char *>("assets/young_swim.png"), const_cast<char *>("assets/young_swim_normal.png"), 1.5f);
+  ys = new Model(const_cast<char *>("mesh/image.obj"), const_cast<char *>("assets/ys.png"), const_cast<char *>("assets/ys_normal.png"), 1.5f);
+  ys1 = new Model(const_cast<char *>("mesh/image.obj"), const_cast<char *>("assets/ys1.png"), const_cast<char *>("assets/ys1_normal.png"), 1.5f);
+  ys2 = new Model(const_cast<char *>("mesh/image.obj"), const_cast<char *>("assets/ys2.png"), const_cast<char *>("assets/ys2_normal.png"), 1.5f);
+  ys3 = new Model(const_cast<char *>("mesh/image.obj"), const_cast<char *>("assets/ys3.png"), const_cast<char *>("assets/ys3_normal.png"), 1.5f);
+
+  logo = new Model(const_cast<char *>("mesh/image.obj"), const_cast<char *>("assets/logo.png"), const_cast<char *>("assets/logo_normal.png"), 1.5f);
+
+  camera_viewMatrixLocation();
+  camera_projMatrixLocation();
+  camera_projectionMatrixPerspective();
+  camera_viewMatrixPerspective();
+  // camera_viewProjUpdate();
   progressLoading(0);
 
   omp_init_lock(&loading);
@@ -63,8 +79,6 @@ int main()
 
   // gltInit();
 
-  shader_programme = shader_create_programme_from_files();
-  shader_programme_cube = shader_create_programme_from_files(VERTEX_SHADER_FILE_CUBE, FRAGMENT_SHADER_FILE_CUBE);
 
   int distanciaEntreProps = 20;
   int distanciaEntreHouses = 50;
@@ -106,7 +120,7 @@ int main()
   core = new World(40, 20, 20, 6, 0.0);
 
   core->genPhysics();
-  progressLoading(1);
+  // progressLoading(1);
   core->genRick();
 
   core->genPlatforms(rules);
@@ -125,18 +139,17 @@ int main()
   background[4]->set_gain(g);
   background[5]->set_gain(g);
 
-
   // GLTtext *textT = gltCreateText();
   // gltSetText(textT, "Puntaje:");
   // GLTtext *textPuntaje = gltCreateText();
   //   GLTtext *textPerdiste = gltCreateText();
+  // progressLoading(4);
 
   int size = 1;
   int posT1x = 5;
   int posT12y = 5;
   int posPuntajex = 80;
 
-  progressLoading(10);
 
   // background[0]->set_gain(0.9f);
   core->genCube();
@@ -144,182 +157,200 @@ int main()
   Time *fpsTimer = new Time();
   Time *animationTimer = new Time();
   bool aireAnimation = true;
-  
-  
+
   while (!glfwWindowShouldClose(g_window))
   {
     fpsTimer->updateNow();
     animationTimer->updateNow();
 
-    window_clear();
 
-    menu->drawText(rules->getDistance(distanceScore));
 
     // cout << "globalStatus: " << globalStatus << endl;
     // if (glfwGetKey(g_window, GLFW_KEY_SPACE)) {
     //   cout << endl;
     // }
-    switch (globalStatus) {
-      case 0:
-      case 1:
+    switch (globalStatus)
+    {
+    case 0:
+    case 1:
+    {
+      window_clear(0.05f);
+
+      camera_reset();
+      menu->checkInput();
+
+      if (restart)
       {
-        menu->checkInput();
+        
+        restart = false;
+        core->reset(rules);
 
-        if (restart) {
-          restart = false;
-          core->reset(rules);
+        timer->restart();
+        fpsTimer->restart();
+        menu->restartTime();
+        animationTimer->restart();
+        estadoRick = 0;
+      }
+      menu->drawText(rules->getDistance(distanceScore));
 
-          timer->restart();
-          fpsTimer->restart();
-          menu->restartTime();
-          animationTimer->restart();
+      break;
+    }
+    case 2:
+    {
+      window_clear();
+      menu->drawText(rules->getDistance(distanceScore));
+
+      string difficulty = menu->getDifficultyName();
+      double frequency = rules->getDifficultyParameters()[difficulty]["frequency"];
+      double moreVelocity = rules->getDifficultyParameters()[difficulty]["moreVelocity"];
+
+      if (fpsTimer->every(1.0))
+      {
+        window_update_fps_counter(g_window);
+        if (plus50)
+        {
+          plus50 = false;
+        }
+      }
+      else
+      {
+        if (plus50)
+        {
+          drawArbitrary(235, 5, 2, const_cast<char *>("+50"));
+        }
+        // else {
+        //   // drawArbitrary(235, 5, 2, "+50");
+
+        //   // cout << "ASD" << endl;
+        //   // drawArbitrary(15, 5, 20, "+50");
+        // }
+      }
+
+      window_frameCounter();
+
+      core->dynamicPlatforms(rules);
+
+      core->dynamicHouses(rules);
+
+      core->dynamicProps(rules);
+
+      if (timer->getUpdateNow() < 5.0)
+      {
+        if (estadoRick != 3)
+        {
           estadoRick = 0;
+          core->setDeathAnimationPos(0);
         }
+        if ((int)(5.0 - timer->getNow()) == 0)
+        {
+          menu->drawArbitrary(g_gl_width / 2 + 100, g_gl_height / 2, 10, const_cast<char *>("RUN!!"));
+        }
+        else if ((int)(5.0 - timer->getNow()) <= 3)
+        {
+          menu->drawArbitrary(g_gl_width / 2 + 100, g_gl_height / 2, 10, 5.0 - timer->getNow());
+        }
+        // gltColor(1.0f, 1.0f, 1.0f, 1.0f);
 
-        break;
+        platformWorld->setVelocity(2, btVector3(0, 0, 0));
       }
-      case 2:
+      else if (timer->checkFirstTime(5.0))
       {
-
-        string difficulty = menu->getDifficultyName();
-        double frequency = rules->getDifficultyParameters()[difficulty]["frequency"];
-        double moreVelocity = rules->getDifficultyParameters()[difficulty]["moreVelocity"];
-
-        if (fpsTimer->every(1.0))
-        {
-          window_update_fps_counter(g_window);
-          if (plus50) {
-            plus50 = false;
-          }
-        } else {
-          if (plus50)
-          {
-            drawArbitrary(235, 5, 2, const_cast<char *>("+50"));
-          } 
-          // else {
-          //   // drawArbitrary(235, 5, 2, "+50");
-
-          //   // cout << "ASD" << endl;
-          //   // drawArbitrary(15, 5, 20, "+50");
-          // }
-        }
-
-        window_frameCounter();
-
-        core->dynamicPlatforms(rules);
-
-        core->dynamicHouses(rules);
-
-        core->dynamicProps(rules);
-
-        if (timer->getUpdateNow() < 5.0)
-        {
-          if (estadoRick != 3) {
-            estadoRick = 0;
-            core->setDeathAnimationPos(0);
-          }
-          if ((int)(5.0 - timer->getNow()) == 0) {
-            menu->drawArbitrary(g_gl_width / 2 + 100, g_gl_height / 2, 10, const_cast<char *>("RUN!!"));
-          } else if ((int)(5.0 - timer->getNow()) <= 3) {
-            menu->drawArbitrary(g_gl_width / 2 + 100, g_gl_height / 2, 10, 5.0 - timer->getNow());
-          }
-          // gltColor(1.0f, 1.0f, 1.0f, 1.0f);
-          
-          platformWorld->setVelocity(2, btVector3(0, 0, 0));
-        }
-        else if (timer->checkFirstTime(5.0))
-        {
-          core->startPlatformVelocity();
-        }
-        else if (timer->every(frequency))
-        {
-          // cout << "Mas velocidad" << endl;
-          core->morePlatformVelocity(moreVelocity);
-        }
-
-        rules->checkRickPos(platformWorld);
-        rules->checkRickVel(platformWorld);
-
-        core->getPhysicsPos();
-
-        core->gravityRick();
-
-        platformWorld->stepSimulation(1 / _fps);
-
-        parallaxHouses->stepSimulation(1 / _fps);
-        parallaxProps->stepSimulation(1 / _fps);
-
-        distanceScore->stepSimulation(1 / _fps);
-
-        input_processInput(g_window);
-
-        camera_viewProjUpdate();
-
-        if (animationTimer->every(0.1)) {
-          // cout << "estadoRick: " << estadoRick << endl;
-          //0 = ESPERA, 1 = CORRIENDO (EN PLATAFORMA), 2 = AIRE, 3 = MURIENDO
-          switch (estadoRick) {
-            case 1:
-            {
-              core->nextAnimationRun();
-              break;
-            }
-            case 0:
-            {
-              core->setRunAnimationPos(14);
-              break;
-            }
-            case 2:
-            {
-              if (aireAnimation) {
-                core->nextAnimationRun();
-                aireAnimation = false;
-              } else {
-                aireAnimation = true;
-              }
-              break;
-            }
-            case 3:
-            {
-              bool muerto = core->nextAnimationDeath();
-
-              if (muerto) {
-                // restart = true;
-                menu->setGlobalStatus(1);
-              }
-              break;
-            }
-          }
-        }
-
-        if (!debug)
-        {
-          core->drawCube();
-          core->drawRick();
-
-          core->drawPlatforms();
-
-          core->drawPlane();
-
-          core->drawHouses(rules);
-          core->drawProps();
-        }
-        else
-        {
-          platformWorld->debugDrawWorld();
-          parallaxHouses->debugDrawWorld();
-          parallaxProps->debugDrawWorld();
-        }
-
-        platformWorld->checkCollision(&allowJump);
-
-        break;
+        core->startPlatformVelocity();
       }
+      else if (timer->every(frequency))
+      {
+        // cout << "Mas velocidad" << endl;
+        core->morePlatformVelocity(moreVelocity);
+      }
+
+      rules->checkRickPos(platformWorld);
+      rules->checkRickVel(platformWorld);
+
+      core->getPhysicsPos();
+
+      core->gravityRick();
+
+      platformWorld->stepSimulation(1 / _fps);
+
+      parallaxHouses->stepSimulation(1 / _fps);
+      parallaxProps->stepSimulation(1 / _fps);
+
+      distanceScore->stepSimulation(1 / _fps);
+
+      input_processInput(g_window);
+
+      camera_viewProjUpdate();
+
+      if (animationTimer->every(0.1))
+      {
+        // cout << "estadoRick: " << estadoRick << endl;
+        //0 = ESPERA, 1 = CORRIENDO (EN PLATAFORMA), 2 = AIRE, 3 = MURIENDO
+        switch (estadoRick)
+        {
+        case 1:
+        {
+          core->nextAnimationRun();
+          break;
+        }
+        case 0:
+        {
+          core->setRunAnimationPos(14);
+          break;
+        }
+        case 2:
+        {
+          if (aireAnimation)
+          {
+            core->nextAnimationRun();
+            aireAnimation = false;
+          }
+          else
+          {
+            aireAnimation = true;
+          }
+          break;
+        }
+        case 3:
+        {
+          bool muerto = core->nextAnimationDeath();
+
+          if (muerto)
+          {
+            // restart = true;
+            menu->setGlobalStatus(1);
+          }
+          break;
+        }
+        }
+      }
+
+      if (!debug)
+      {
+        core->drawCube();
+        core->drawRick();
+
+        core->drawPlatforms();
+
+        core->drawPlane();
+
+        core->drawHouses(rules);
+        core->drawProps();
+      }
+      else
+      {
+        platformWorld->debugDrawWorld();
+        parallaxHouses->debugDrawWorld();
+        parallaxProps->debugDrawWorld();
+      }
+
+      platformWorld->checkCollision(&allowJump);
+
+      break;
+    }
     }
     window_calculateFps();
 
     core->backgroundMusic();
-
 
     _check_gl_error("main", 244);
 
@@ -330,8 +361,8 @@ int main()
   return 0;
 }
 
-
-void loadMeshes() {
+void loadMeshes()
+{
 
   omp_unset_lock(&loading);
 }

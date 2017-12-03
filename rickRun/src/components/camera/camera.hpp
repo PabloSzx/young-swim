@@ -39,6 +39,7 @@ void camera_viewMatrixLocation(GLuint shaderprog);
 void camera_projMatrixLocation(GLuint shaderprog);
 
 void camera_viewMatrixPerspective(glm::vec3 charPos);
+void camera_viewMatrixPerspective();
 void camera_projectionMatrixPerspective();
 
 void camera_viewProjUpdate();

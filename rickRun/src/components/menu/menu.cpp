@@ -207,6 +207,9 @@ void Menu::drawText(int distance)
 {
     if (globalStatus >= 1)
     { //Esta jugando
+        if (!played) {
+            played = true;
+        }
         float c=0;
         string puntaje("Puntaje: ");
         string dist(ConvertDoubleToString(distance));
@@ -223,6 +226,22 @@ void Menu::drawText(int distance)
     }
     if (globalStatus <= 1)
     {
+        if (!played) {
+            logo->scale(glm::vec3(2.0f));
+            logo->setpos(glm::vec3(-3.0f, 5.0f, 0.5f));
+
+            young_swim->scale(glm::vec3(3.0f));
+            young_swim->setpos(glm::vec3(-3.0f, 1.0f, -7.0f));
+        } else {
+            logo->scale(glm::vec3(3.0f));
+            logo->setpos(glm::vec3(0.0f, 0.0f, 10.5f));
+
+            young_swim->scale(glm::vec3(3.5f));
+            young_swim->setpos(glm::vec3(0.0f, -6.0f, 0.0f));
+        }
+        logo->draw();
+        young_swim->draw();
+
         vector<string>::iterator it = this->text[globalStatus].begin();
 
         this->setColor(1.0f, 0.0f);

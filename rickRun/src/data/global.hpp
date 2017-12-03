@@ -11,9 +11,18 @@
 #include "../components/time/time.hpp"
 #include "../components/menu/menu.hpp"
 #include "../components/parameters/parameters.hpp"
+#include "../components/model/model.hpp"
 
-int g_gl_width = 1366;       //constants
-int g_gl_height = 768;       //constants
+#define fullhd //comentar esta linea si se desea 768p
+
+#ifdef fullhd
+int g_gl_width = 1920;
+int g_gl_height = 1080;
+#else
+int g_gl_width = 1366;
+int g_gl_height = 768;
+#endif
+
 GLFWwindow *g_window = NULL; //main
 
 omp_lock_t loading;
@@ -48,6 +57,14 @@ double jumpVerticalUpForce;
 double jumpVerticalDownForce;
 double jumpForwardForce;
 double jumpBackwardForce;
+
+Model *ys;
+Model *ys1;
+Model *ys2;
+Model *ys3;
+
+Model *young_swim;
+Model *logo;
 
 Menu *menu;
 bool debug = false;
@@ -85,6 +102,7 @@ bool plus50 = false;
 
 bool cameraFree = false;
 
+bool played = false;
 // timing
 float deltaTime = 0.0f; // time between current frame and last frame
 float lastFrame = 0.0f;
@@ -116,19 +134,68 @@ GLuint cube_vao;
 GLuint cube_map_texture;
 
 void progressLoading(int a) {
-    window_clear();
-    int n = a;
-    char barra[] = "[----------]";
+    window_clear(0.05f);
+    // int n = a;
+    // char barra[] = "[----------]";
     // char barra[12] = [ "|", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", "|" ];
     // string barra("|          |");
 
-    for (int i = 1; i < n + 1; i++)
-    {
-        barra[i] = '#';
+    // for (int i = 1; i < n + 1; i++)
+    // {
+    //     barra[i] = '#';
+    // }
+    switch (a) {
+        case 0:
+        {
+            ys->setpos(glm::vec3(-3.0f, 1.0f, -4.3f));
+            ys->draw();
+
+            break;
+        }
+        case 1:
+        {
+            ys1->setpos(glm::vec3(-3.0f, 1.0f, -4.3f));
+            ys1->draw();
+
+            break;
+        }
+        case 2:
+        {
+            ys2->setpos(glm::vec3(-3.0f, 1.0f, -4.3f));
+            ys2->draw();
+
+            break;
+        }
+        case 3:
+        {
+            ys3->setpos(glm::vec3(-3.0f, 1.0f, -4.3f));
+            ys3->draw();
+
+            break;
+        }
+        case 4:
+        {
+            young_swim->setpos(glm::vec3(-3.0f, 1.0f, -4.3f));
+            young_swim->draw();
+
+            break;
+        }
+        // case 5:
+        // {
+        //     ys->setpos(glm::vec3(-3.0f, 1.0f, -4.3f));
+        //     ys->draw();
+
+        //     break;
+        // }
     }
 
     // menu->drawArbitrary(g_gl_width * 0.6, g_gl_height * 0.8, 5, const_cast<char *>("Cargando..."));
-    menu->drawArbitrary(g_gl_width * 0.3, g_gl_height * 0.8, 5, const_cast<char *>(barra));
+    // menu->drawArbitrary(g_gl_width * 0.3, g_gl_height * 0.8, 5, const_cast<char *>(barra));
+
+    logo->setpos(glm::vec3(-3.0f, 5.0f, -4.3f));
+
+    logo->draw();
+
 
     window_swap();
 }
