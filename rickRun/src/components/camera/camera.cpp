@@ -59,6 +59,10 @@ void camera_reset() {
     cameraFront = glm::vec3(1.0f, 0.0f, 0.0f);
     // cameraFrontInit = glm::vec3(1.0f, 0.0f, 0.0f);
     cameraUp = glm::vec3(0.0f, 1.0f, 0.0f);
+    camera_viewMatrixLocation();
+    camera_projMatrixLocation();
+    camera_projectionMatrixPerspective();
+    camera_viewMatrixPerspective();
 }
 
 void camera_viewProjUpdate() {

@@ -13,7 +13,7 @@
 #include "../components/parameters/parameters.hpp"
 #include "../components/model/model.hpp"
 
-#define fullhd //comentar esta linea si se desea 768p
+// #define fullhd //comentar esta linea si se desea 768p
 
 #ifdef fullhd
 int g_gl_width = 1920;
