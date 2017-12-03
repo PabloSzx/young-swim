@@ -297,7 +297,7 @@ void Menu::drawText(int distance)
         while (it != this->text[globalStatus].end())
         {
             if (contador == this->step) {
-                this->setColor(0.03f,0.68f,0.78f, 0.0f);
+                this->setColor(0.53f,0.68f,0.78f, 0.0f);
             }
             gltSetText(this->label, (*it).c_str());
             gltDrawText2D(this->label, x, y, g_gl_height / 270);

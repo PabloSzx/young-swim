@@ -265,6 +265,8 @@ void Bullet::checkCollision(bool* allowJump) {
                             this->setUserIndex(this->getIndiceAsociado(b), -b);
                             distanceScore->applyTranslate(0, btVector3(-50, 0, 0));
                             plus50 = true;
+                            background[9]->stop();
+                            background[9]->play();
                             // drawArbitrary(15, 5, 100, "+50");
                         }
                     } else if (b == 0) {
