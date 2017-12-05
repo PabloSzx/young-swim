@@ -19,9 +19,7 @@ vec4 ls = vec4(1.0, 1.0, 1.0, 1.0);
 uniform vec4 ka;
 uniform vec4 kd;
 uniform vec4 ks;
-// vec4 ka = vec4(1.0, 1.0, 1.0, 1.0);
-// vec4 kd = vec4(1.0, 1.0, 1.0, 1.0);
-// vec4 ks = vec4(0.7, 0.7, 0.7, 1.0);
+
 
 out vec4 frag_colour;
 void main() {
@@ -42,7 +40,6 @@ void main() {
 	float dot_prod2 = dot (direction_to_light_tan2, normal_tan);
 	dot_prod2 = max (dot_prod2, 0.0);
 
-	//vec3 Id = vec3 (0.7, 0.7, 0.7) * vec3 (1.0, 0.5, 0.0) * dot_prod;
 	vec3 Id = ld.rgb * kd.rgb * texel * ((dot_prod + dot_prod2) / 2);
 
 	// specular light equation done in tangent space
@@ -56,7 +53,6 @@ void main() {
 
 
 	float specular_factor = pow ((dot_prod_specular + dot_prod_specular2) / 2, SPECULAR_EXP);
-	//vec3 Is = vec3 (1.0, 1.0, 1.0) * vec3 (0.5, 0.5, 0.5) * specular_factor;
 	vec3 Is = ls.rgb * ks.rgb * specular_factor;
 
 	// phong light output

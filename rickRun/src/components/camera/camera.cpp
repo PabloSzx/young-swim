@@ -57,7 +57,6 @@ void camera_projectionMatrixPerspective()
 void camera_reset() {
     cameraPos = glm::vec3(-14.4f, 2.52f, -4.3f);
     cameraFront = glm::vec3(1.0f, 0.0f, 0.0f);
-    // cameraFrontInit = glm::vec3(1.0f, 0.0f, 0.0f);
     cameraUp = glm::vec3(0.0f, 1.0f, 0.0f);
     camera_viewMatrixLocation();
     camera_projMatrixLocation();
@@ -92,28 +91,6 @@ void camera_viewProjUpdate() {
         front.x = 100;
         cameraFront = glm::normalize(front);
     }
-    // if (joystickPresent && !cameraFree) {
-    //     glfwSetCursorPos(g_window, xpos + deltaTime * 0.5 * ((g_gl_width / 2.0) - xpos), ypos + deltaTime * 0.5 * ((g_gl_height / 2.0 + 1800.0) - ypos));
-
-    //     glfwGetCursorPos(g_window, &xpos, &ypos);
-
-    //     int xmid = g_gl_width / 2;
-    //     int ymid = g_gl_height / 2;
-
-    //     glm::vec3 front;
-
-    //     front.z = (glm::radians(xpos - xmid));
-    //     front.y = (glm::radians(-ypos + ymid));
-    //     front.x = 100;
-    //     cameraFront = glm::normalize(front);
-    // } else if (!joystickPresent && cameraFree) {
-    //     glm::vec3 front;
-
-    //     front.z = (glm::radians(xpos));
-    //     front.y = (glm::radians(-ypos));
-    //     front.x = 100;
-    //     cameraFront = glm::normalize(front);
-    // }
         camera_viewMatrixLocation();
         camera_projMatrixLocation();
         camera_projectionMatrixPerspective();
@@ -124,12 +101,3 @@ void camera_viewProjUpdate() {
         camera_projectionMatrixPerspective();
         camera_viewMatrixPerspective(glm::vec3(core->getRickPos().getX(), core->getRickPos().getY() + 2.0, core->getRickPos().getZ() + 4.5));
 };
-
-// void camera_resetPerspective() {
-//     cameraFront = glm::vec3(0.94f, -0.33f, -0.09f);
-//     cameraUp = glm::vec3(0.0f, 1.0f, 0.0f);
-
-//     yaw = 0; // yaw is initialized to -90.0 degrees since a yaw of 0.0 results in a direction vector pointing to the right so we initially rotate a bit to the left.
-
-//     pitch = -20.0f;
-// }

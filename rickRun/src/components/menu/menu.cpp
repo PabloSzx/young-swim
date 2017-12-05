@@ -25,7 +25,6 @@ Menu::Menu()
 
     vector<string> textStatus0;
 
-    // textStatus0.push_back("<Use your arrows to move>");
     textStatus0.push_back("Jugar");
     textStatus0.push_back("Dificultad novato  (ON)");
     textStatus0.push_back("Dificultad media   (OFF)");
@@ -35,7 +34,6 @@ Menu::Menu()
     this->text.push_back(textStatus0);
 
     vector<string> textStatus1;
-    // textStatus1.push_back("<Use your arrows to move>");
     textStatus1.push_back("Jugar de nuevo");
     textStatus1.push_back("Volver al menu");
     textStatus1.push_back("Salir");
@@ -51,7 +49,6 @@ void Menu::setGlobalStatus(int n) {
 }
 
 void Menu::setGlobalStatus(int n, const char* m) {
-    // cout << "SET GLOBAL STATUS LLAMADO EN: " << m << "  " << m << "  " << m << endl;
     globalStatus = n;
     step = 0;
 }
@@ -139,7 +136,6 @@ void Menu::setColor(float rgb, float o)
 
 void Menu::confirm()
 {
-    // omp_get
     omp_set_lock(&loading);
     switch (globalStatus)
     {
@@ -207,9 +203,6 @@ void Menu::drawText(int distance)
 {
     if (globalStatus >= 1)
     { //Esta jugando
-        // if (!played) {
-        //     played = true;
-        // }
         if (globalStatus > 1) {
             if (!highscore)
             {
@@ -239,10 +232,6 @@ void Menu::drawText(int distance)
             if (myfile.is_open())
             {
                 getline(myfile, puntaje);
-                // while (getline(myfile, line))
-                // {
-                //     cout << line << '\n';
-                // }
                 myfile.close();
             }
 
@@ -254,8 +243,6 @@ void Menu::drawText(int distance)
                 if (myfile1.is_open())
                 {
                     myfile1 << highscorePuntaje << endl;
-                    // myfile1 << "This is a line.\n";
-                    // myfile1 << "This is another line.\n";
                     myfile1.close();
                 }
             }
@@ -266,24 +253,12 @@ void Menu::drawText(int distance)
         string dist(ConvertDoubleToString(highscorePuntaje));
         gltSetText(this->label, (puntaje + dist).c_str());
         this->setColor(0.03f, 0.68f, 0.78f, 0.5f);
-        // gltDrawT
         gltDrawText2D(label, g_gl_width / 5, g_gl_height * 3 / 4, g_gl_height / 270);
-        // gltDrawText2DAligned(label, 500, 500, 2, GLT_LEFT, GLT_TOP);
-
-        // if (distance >)
-        // if (!played) {
         logo->scale(glm::vec3(2.0f));
         logo->setpos(glm::vec3(-3.0f, 4.5f, 0.5f));
 
         young_swim->scale(glm::vec3(2.0f));
         young_swim->setpos(glm::vec3(-3.0f, 1.0f, 0.5f));
-        // } else {
-        //     logo->scale(glm::vec3(3.0f));
-        //     logo->setpos(glm::vec3(0.0f, 0.0f, 10.5f));
-
-        //     young_swim->scale(glm::vec3(3.5f));
-        //     young_swim->setpos(glm::vec3(0.0f, -6.0f, 0.0f));
-        // }
         logo->draw();
         young_swim->draw();
 
@@ -337,11 +312,6 @@ void Menu::checkInput()
 
             const unsigned char *buttons = glfwGetJoystickButtons(GLFW_JOYSTICK_1, &count2);
 
-            // for (int i = 0; i < 8; i++) {
-            //     cout << "axes " << i << "  " << axes[i] << endl;
-            // }
-            // cout << "COUNT ES " << count << endl;
-            // if (axes)
             if (axes[7] < -0.5 || axes[1] < -0.5) {
                 this->stepMinus();
             } else if (axes[7] > 0.5 || axes[1] > 0.5) {
@@ -351,13 +321,9 @@ void Menu::checkInput()
             if (buttons[jumpButton] == GLFW_PRESS) {
                 this->confirm();
             }
-
-
-
         }
         else
         {
-            // bool modified = false;
             if (glfwGetKey(g_window, GLFW_KEY_UP) == GLFW_PRESS)
             {
                 this->stepMinus();
@@ -372,8 +338,6 @@ void Menu::checkInput()
             }
         }
 
-
-        // cout << this->step << endl;
     }
 
 }
@@ -384,7 +348,6 @@ void Menu::restartTime() {
 
 void Menu::drawArbitrary(int x, int y, double size, int time) {
     gltSetText(this->label, ConvertDoubleToString(time));
-    // gltSetText(time);
     this->setColor(1.0f, 1.0f, 1.0f, 1.0f);
     gltDrawText2D(label, x, y, size);
 }
@@ -392,7 +355,6 @@ void Menu::drawArbitrary(int x, int y, double size, int time) {
 void Menu::drawArbitrary(int x, int y, double size, char *str)
 {
     gltSetText(this->label, str);
-    // gltSetText(time);
     this->setColor(1.0f, 1.0f, 1.0f, 1.0f);
     gltDrawText2D(label, x, y, size);
 }

@@ -72,13 +72,10 @@ int main()
   camera_projMatrixLocation();
   camera_projectionMatrixPerspective();
   camera_viewMatrixPerspective();
-  // camera_viewProjUpdate();
   progressLoading(0);
 
   omp_init_lock(&loading);
   omp_set_lock(&loading);
-
-  // gltInit();
 
 
   int distanciaEntreProps = 20;
@@ -109,19 +106,14 @@ int main()
       distanciaEntreHouses, distanciaEntreProps,
       distanciaEntreCapas);
 
-  // Menu *menu = new Menu();
 
   glfwSwapInterval(1);
   glfwSetInputMode(g_window, GLFW_STICKY_KEYS, 1);
 
-  // window_clear();
-  // menu->drawArbitrary(g_gl_width * 0.6, g_gl_height * 0.8, 5, const_cast<char *>("Cargando..."));
-  // window_swap();
-
   core = new World(40, 20, 20, 6, 0.0);
 
   core->genPhysics();
-  // progressLoading(1);
+
   core->genRick();
 
   core->genPlatforms(rules);
@@ -140,19 +132,11 @@ int main()
   background[4]->set_gain(g);
   background[5]->set_gain(g);
 
-  // GLTtext *textT = gltCreateText();
-  // gltSetText(textT, "Puntaje:");
-  // GLTtext *textPuntaje = gltCreateText();
-  //   GLTtext *textPerdiste = gltCreateText();
-  // progressLoading(4);
-
   int size = 1;
   int posT1x = 5;
   int posT12y = 5;
   int posPuntajex = 80;
 
-
-  // background[0]->set_gain(0.9f);
   core->genCube();
   timer = new Time();
   Time *fpsTimer = new Time();
@@ -164,12 +148,6 @@ int main()
     fpsTimer->updateNow();
     animationTimer->updateNow();
 
-
-
-    // cout << "globalStatus: " << globalStatus << endl;
-    // if (glfwGetKey(g_window, GLFW_KEY_SPACE)) {
-    //   cout << endl;
-    // }
     switch (globalStatus)
     {
     case 0:
@@ -182,7 +160,7 @@ int main()
 
       if (restart)
       {
-        
+
         restart = false;
         core->reset(rules);
 
@@ -219,12 +197,6 @@ int main()
         {
           drawArbitrary(235, 5, 2, const_cast<char *>("+50"));
         }
-        // else {
-        //   // drawArbitrary(235, 5, 2, "+50");
-
-        //   // cout << "ASD" << endl;
-        //   // drawArbitrary(15, 5, 20, "+50");
-        // }
       }
 
       window_frameCounter();
@@ -250,7 +222,6 @@ int main()
         {
           menu->drawArbitrary(g_gl_width / 2 + 100, g_gl_height / 2, 10, 5.0 - timer->getNow());
         }
-        // gltColor(1.0f, 1.0f, 1.0f, 1.0f);
 
         platformWorld->setVelocity(2, btVector3(0, 0, 0));
       }
@@ -260,7 +231,6 @@ int main()
       }
       else if (timer->every(frequency))
       {
-        // cout << "Mas velocidad" << endl;
         core->morePlatformVelocity(moreVelocity);
       }
 
@@ -284,8 +254,6 @@ int main()
 
       if (animationTimer->every(0.1))
       {
-        // cout << "estadoRick: " << estadoRick << endl;
-        //0 = ESPERA, 1 = CORRIENDO (EN PLATAFORMA), 2 = AIRE, 3 = MURIENDO
         switch (estadoRick)
         {
         case 1:
@@ -317,7 +285,6 @@ int main()
 
           if (muerto)
           {
-            // restart = true;
             menu->setGlobalStatus(1);
           }
           break;

@@ -28,19 +28,13 @@ GLFWwindow *g_window = NULL; //main
 omp_lock_t loading;
 
 glm::vec3 sun = glm::vec3(0.7f, -12.2f, 2.3f);
-// Sounds
-// sound *snd_01 = new sound((const char*)"audio/RICK_RUN2.wav");
-// sound *snd_02 = new sound((const char*)"audio/RICK_RUN1.wav");
 
 sound **background = static_cast<sound **>(malloc(sizeof(sound *) * 12));;;
 
 World *core;
 
 Parameters *rules;
-// camera
-// glm::vec3 cameraPos = glm::vec3(0.0f, 0.0f, 0.0f);
-// glm::vec3 cameraFront = glm::vec3(0.0f, 0.0f, -1.0f);
-// glm::vec3 cameraUp = glm::vec3(0.0f, 1.0f, 0.0f);
+
 glm::vec3 cameraPos = glm::vec3(-14.4f, 2.52f, -4.3f);
 glm::vec3 cameraFront = glm::vec3(1.0f, 0.0f, 0.0f);
 glm::vec3 cameraFrontInit = glm::vec3(1.0f, 0.0f, 0.0f);
@@ -77,15 +71,11 @@ Time *timer;
 int jumpButton = -1;
 int resetButton = -1;
 bool firstMouse = true;
-// float yaw = -90.0f; // yaw is initialized to -90.0 degrees since a yaw of 0.0 results in a direction vector pointing to the right so we initially rotate a bit to the left.
-// float pitch = 0.0f;
-float yaw = 0; // yaw is initialized to -90.0 degrees since a yaw of 0.0 results in a direction vector pointing to the right so we initially rotate a bit to the left.
+float yaw = 0;
 float pitch = -20.0f;
 
 float lastX = g_gl_width / 2.0;
 float lastY = g_gl_height / 2.0;
-// float lastX = 1373.54;
-// float lastY = 607.734;
 
 float fov = 45.0f;
 
@@ -104,7 +94,6 @@ bool plus50 = false;
 bool cameraFree = false;
 
 bool played = false;
-// timing
 float deltaTime = 0.0f; // time between current frame and last frame
 float lastFrame = 0.0f;
 
@@ -136,15 +125,6 @@ GLuint cube_map_texture;
 
 void progressLoading(int a) {
     window_clear(0.05f);
-    // int n = a;
-    // char barra[] = "[----------]";
-    // char barra[12] = [ "|", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", "|" ];
-    // string barra("|          |");
-
-    // for (int i = 1; i < n + 1; i++)
-    // {
-    //     barra[i] = '#';
-    // }
     switch (a) {
         case 0:
         {
@@ -181,17 +161,7 @@ void progressLoading(int a) {
 
             break;
         }
-        // case 5:
-        // {
-        //     ys->setpos(glm::vec3(-3.0f, 1.0f, -4.3f));
-        //     ys->draw();
-
-        //     break;
-        // }
     }
-
-    // menu->drawArbitrary(g_gl_width * 0.6, g_gl_height * 0.8, 5, const_cast<char *>("Cargando..."));
-    // menu->drawArbitrary(g_gl_width * 0.3, g_gl_height * 0.8, 5, const_cast<char *>(barra));
 
     logo->setpos(glm::vec3(-3.0f, 5.0f, -4.3f));
 

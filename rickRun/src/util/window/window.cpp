@@ -14,24 +14,24 @@ using namespace std;
 
 bool window_start_gl() {
     log_gl_log("starting GLFW %s", glfwGetVersionString());
-    
+
     glfwSetErrorCallback(window_glfw_error_callback);
     if (!glfwInit())
     {
         fprintf(stderr, "ERROR: could not start GLFW3\n");
         return false;
     }
-    
+
     if (fullscreen) {
         g_window = glfwCreateWindow(
             g_gl_width, g_gl_height, "Extended Init.", glfwGetPrimaryMonitor(), NULL
-            
+
         );
     } else {
         g_window = glfwCreateWindow(
             g_gl_width, g_gl_height, "Extended Init.", NULL, NULL
-            
-        ); 
+
+        );
     }
     if (!g_window)
     {
@@ -39,35 +39,34 @@ bool window_start_gl() {
         glfwTerminate();
         return false;
     }
-    
+
     glfwSetWindowSizeCallback(g_window, window_glfw_window_size_callback);
     glfwMakeContextCurrent(g_window);
-    
+
     glfwWindowHint(GLFW_SAMPLES, 4);
-    
+
     // start GLEW extension handler
     glewExperimental = GL_TRUE;
     glewInit();
-    
+
     // get version info
     const GLubyte *renderer = glGetString(GL_RENDERER); // get renderer string
     const GLubyte *version = glGetString(GL_VERSION);   // version as a string
     printf("Renderer: %s\n", renderer);
     printf("OpenGL version supported %s\n", version);
     log_gl_log("renderer: %s\nversion: %s\n", renderer, version);
-    
+
     return true;
 }
 
 void window_flags() {
     glEnable(GL_DEPTH_TEST); // enable depth-testing
     glDepthFunc(GL_LESS);    // depth-testing interprets a smaller value as "closer"
-    // glEnable (GL_CULL_FACE); // cull face
     glCullFace(GL_BACK);                  // cull back face
     glFrontFace(GL_CCW);                  // set counter-clock-wise vertex order to mean the front
     glClearColor(0.8f, 0.5f, 0.5f, 1.0f); // grey background to help spot mistakes
     glViewport (0, 0, g_gl_width, g_gl_height);
-    
+
     glfwSetInputMode(g_window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 }
 
@@ -84,18 +83,15 @@ void window_glfw_error_callback(int error, const char *description)
     fputs(description, stderr);
     log_gl_log_err("%s\n", description);
 }
-// a call-back function
 void window_glfw_window_size_callback(GLFWwindow *window, int width, int height)
 {
     g_gl_width = width;
     g_gl_height = height;
     printf("width %i height %i\n", width, height);
-    /* update any perspective matrices used here */
 }
 
 void window_frameCounter()
 {
-    // cout << "frameCounter" << endl;
     float currentFrame = glfwGetTime();
     deltaTime = currentFrame - lastFrame;
     lastFrame = currentFrame;
@@ -123,10 +119,7 @@ void window_calculateFps() {
 
     static float prevTicks = glfwGetTime();
     float currentTicks = glfwGetTime();
-    // cout << "prev: " << prevTicks;
-    // cout << "  current: " << currentTicks << endl;
 
-    
     _frameTime = currentTicks - prevTicks;
     frameTimes[currentFrame % NUM_SAMPLES] = _frameTime;
 

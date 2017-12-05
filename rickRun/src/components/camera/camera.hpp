@@ -44,6 +44,5 @@ void camera_projectionMatrixPerspective();
 
 void camera_viewProjUpdate();
 void camera_reset();
-// void camera_resetPerspective();
 
 #endif

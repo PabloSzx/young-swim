@@ -1,6 +1,5 @@
 #include "input.hpp"
 #include "../sound/sound.hpp"
-// #include "../camera/camera.h"
 
 using namespace std;
 void input_setCallbacks()
@@ -31,57 +30,24 @@ void input_mouse_callback(GLFWwindow *window, double xpos, double ypos)
     float xoffset = xpos - lastX;
     float yoffset = lastY - ypos;
 
-    // cout << "xoffset: " << xoffset << "   -   " << "yoffset: " << yoffset << endl;
-    // cout << "xpos: " << xpos << "   -   " << "ypos: " << ypos << endl;
-
     int jumpSensitivity = 5;
     if (xoffset > jumpSensitivity && yoffset > jumpSensitivity)
     {
-
-        // platformWorld->applyImpulse(1, btVector3(0,1.0,1.0));
-        // camera_resetPerspective();
     }
     else if (xoffset > jumpSensitivity && yoffset < -jumpSensitivity)
     {
-        // platformWorld->applyImpulse(1, btVector3(0, -1.0, 1.0));
-        // camera_resetPerspective();
     }
     else if (xoffset < -jumpSensitivity && yoffset > jumpSensitivity)
     {
-        // platformWorld->applyImpulse(1, btVector3(0, 1.0, -1.0));
-        // camera_resetPerspective();
     }
     else if (xoffset < -jumpSensitivity && yoffset < -jumpSensitivity)
     {
-        // platformWorld->applyImpulse(1, btVector3(0, -1.0, -1.0));
-        // camera_resetPerspective();
     }
 
     float sensitivity = 0.01f;
     xoffset *= sensitivity;
     yoffset *= sensitivity;
 
-    // yaw += xoffset;
-    // pitch += yoffset;
-
-    // if (pitch > 89.0f)
-    // pitch = 89.0f;
-    // if (pitch < -89.0f)
-    // pitch = -89.0f;
-
-    // int xmid = g_gl_width / 2;
-    // int ymid = g_gl_height / 2;
-
-    // glm::vec3 front;
-
-    // front.z = (glm::radians(xpos - xmid));
-    // front.y = (glm::radians(-ypos + ymid));
-    // front.x = 100;
-    // cameraFront = glm::normalize(front);
-
-    // lastX = g_gl_width / 2.0;
-    // lastY = g_gl_height / 2.0;
-    // glfwSetCursorPos(g_window, lastX, lastY);
 }
 
 void input_scroll_callback(GLFWwindow *window, double xoffset, double yoffset)
@@ -103,15 +69,7 @@ void input_processInput(GLFWwindow *window)
         const float *axes = glfwGetJoystickAxes(GLFW_JOYSTICK_1, &count);
 
         const unsigned char *buttons = glfwGetJoystickButtons(GLFW_JOYSTICK_1, &count2);
-        // cout << "count: " << count << endl;
-        // cout << "axes: " << axes << endl;
         const char *name = glfwGetJoystickName(GLFW_JOYSTICK_1);
-        // cout << "name: " << name << endl;
-        // cout << "x: " << axes[0] << endl;
-        // cout << "y: " << axes[1] << endl;
-        // for (int i = 0 ; i < count ; i ++) {
-        //     cout << "i: " << i << " = " << axes[i] << endl;
-        // }
 
         if (jumpButton == -1)
         {
@@ -123,7 +81,6 @@ void input_processInput(GLFWwindow *window)
                     cout << "button " << i << " is jump" << endl;
                     break;
                 }
-                // cout << "button " << i << ": " << buttons[i] << endl;
             }
         } else if (resetButton == -1) {
             for (int i = 0; i < count2; i++)
@@ -134,7 +91,6 @@ void input_processInput(GLFWwindow *window)
                     cout << "button " << i << " is reset" << endl;
                     break;
                 }
-                // cout << "button " << i << ": " << buttons[i] << endl;
             }
         }
 
@@ -162,10 +118,8 @@ void input_processInput(GLFWwindow *window)
         {
             platformWorld->applyImpulse(1, btVector3(0.0, 0.0, jumpHorizontalForce * deltaTime));
         }
-        // ca
         cameraFront = glm::vec3(1.0f, -(axes[4] * 0.5) - 0.2f, axes[3] * 0.5);
 
-        // if (axes[])
         if (jumpButton != -1) {
             if (buttons[jumpButton] == GLFW_PRESS)
             {
@@ -183,17 +137,8 @@ void input_processInput(GLFWwindow *window)
                     camera_reset();
                 }
             }
-            // else if (resetButton != -1 && restart == false && timer->getNow() >= 3.0)
-            // {
-            //     if (buttons[resetButton] == GLFW_PRESS)
-            //     {
-            //         restart = true;
-            //         background[8]->stop();
-            //         background[8]->play();
-            //     }
-            // }
         }
-    } 
+    }
     else {
         if (glfwGetKey(window, GLFW_KEY_I) == GLFW_PRESS)
         {
@@ -237,71 +182,39 @@ void input_processInput(GLFWwindow *window)
     if (glfwGetKey(window, GLFW_KEY_O) == GLFW_PRESS) {
         cameraFree = true;
     }
-    // if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS) {
-    //     debug = !debug;
-    //     platformWorld->m_pDebugDrawer->ToggleDebugFlag(btIDebugDraw::DBG_DrawWireframe);
-    // }
-
-    // if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS)
-    // {
-    //     debug = !debug;
-    //     platformWorld->m_pDebugDrawer->ToggleDebugFlag(btIDebugDraw::DBG_DrawAabb);
-    // }
     float cameraSpeed = 2.5 * deltaTime;
     if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
     {
-        // sun.x = sun.x + 0.1f;
         cameraPos += cameraSpeed * cameraFront;
     }
     if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
     {
         cameraPos -= cameraSpeed * cameraFront;
-        // sun.x = sun.x - 0.1f;
     }
     if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
     {
-        // sun.z = sun.z + 0.1f;
         cameraPos -= glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed;
     }
     if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
     {
-        // sun.z = sun.z - 0.1f;
         cameraPos += glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed;
     }
     if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS)
     {
-        // sun.y = sun.y + 0.1f;
         cameraPos = glm::vec3(cameraPos[0], cameraPos[1] + (10.0 * deltaTime), cameraPos[2]);
-        // cameraPos -= glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed;
     }
     if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS)
     {
-        // sun.y = sun.y - 0.1f;
         cameraPos = glm::vec3(cameraPos[0], cameraPos[1] - (10.0 * deltaTime), cameraPos[2]);
-
-        // cameraPos += glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed;
     }
     if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS)
     {
         cameraPos = glm::vec3(cameraPos[0], cameraPos[1], cameraPos[2] - (10.0 * deltaTime));
-        // cameraPos -= glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed;
     }
     if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS)
     {
-        // sun.y = sun.y - 0.1f;
         cameraPos = glm::vec3(cameraPos[0], cameraPos[1], cameraPos[2] + (10.0 * deltaTime));
-
-        // cameraPos += glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed;
     }
-
-    // if (glfwGetKey(window, GLFW_KEY_1) == GLFW_PRESS)
-    // {
-    //     cout << "SUN.X: " << sun.x << endl;
-    //     cout << "SUN.Y: " << sun.y << endl;
-    //     cout << "SUN.Z: " << sun.z << endl;
-    //     // cameraPos += glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed;
-    // }
-
 }
 
 void input_framebuffer_size_callback(GLFWwindow *window, int width, int height)

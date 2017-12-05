@@ -1,6 +1,4 @@
 #version 130
-//layout (location = 0) in vec3 vertex_position;
-//layout (location = 1) in vec3 vertex_normal;
 in vec3 vertex_position;
 in vec3 vertex_normal;
 in vec2 texture_coord;
@@ -12,34 +10,24 @@ out vec2 st;
 out vec3 view_dir_tan;
 out vec3 light_dir_tan;
 out vec3 light_dir_tan2;
- 
+
 float inverse(float m);
 mat2 inverse(mat2 m);
 mat3 inverse(mat3 m);
 mat4 inverse(mat4 m);
- 
- 
+
+
 void main () {
-  // position_eye = vec3 (view* matrix* vec4 (vertex_position, 1.0));
-  // normal_eye = vec3 (view* matrix* vec4 (vertex_normal, 0.0));
-  // st = texture_coord;
-  // gl_Position = proj * vec4 (position_eye, 1.0);
- 
 	gl_Position = proj * view * matrix * vec4 (vertex_position, 1.0);
 	st = texture_coord;
 	test_tan = vtangent;
-	
-	/* a hacky way to get the camera position out of the view matrix instead of
-	using another uniform variable */
+
 	vec3 cam_pos_wor = (inverse (view) * vec4 (0.0, 0.0, 0.0, 1.0)).xyz;
 	vec3 light_dir_wor = vec3 (0.0, -1.0, 1.0);
 	vec3 light_dir_wor2 = vec3 (0.0, -1.0, -1.0);
-	
-	/* work out bi-tangent as cross product of normal and tangent. also multiply
-		 by the determinant, which we stored in .w to correct handedness
-	*/ 
+
 	vec3 bitangent = cross (vertex_normal, vtangent.xyz) * vtangent.w;
-	
+
 	/* transform our camera and light uniforms into local space */
 	vec3 cam_pos_loc = vec3 (inverse (matrix) * vec4 (cam_pos_wor, 1.0));
 	vec3 light_dir_loc = vec3 (inverse (matrix) * vec4 (light_dir_wor, 0.0));
@@ -48,10 +36,6 @@ void main () {
 	// ...and work out view _direction_ in local space
 	vec3 view_dir_loc = normalize (cam_pos_loc - vertex_position);
 	
-	/* this [dot,dot,dot] is the same as making a 3x3 inverse tangent matrix, and
-		 doing a matrix*vector multiplication.
-	*/
-	// work out view direction in _tangent space_
 	view_dir_tan = vec3 (
 		dot (vtangent.xyz, view_dir_loc),
 		dot (bitangent, view_dir_loc),
@@ -69,15 +53,15 @@ void main () {
 		dot (bitangent, light_dir_loc2),
 		dot (vertex_normal, light_dir_loc2)
 	);
- 
+
 }
- 
- 
- 
+
+
+
 float inverse(float m) {
     return 1.0 / m;
 }
- 
+
 mat2 inverse(mat2 m) {
     return mat2(m[1][1],-m[0][1], -m[1][0], m[0][0]) / (m[0][0]*m[1][1] - m[0][1]*m[1][0]);
 }
@@ -86,18 +70,18 @@ mat3 inverse(mat3 m) {
     float a00 = m[0][0], a01 = m[0][1], a02 = m[0][2];
     float a10 = m[1][0], a11 = m[1][1], a12 = m[1][2];
     float a20 = m[2][0], a21 = m[2][1], a22 = m[2][2];
- 
+
     float b01 = a22 * a11 - a12 * a21;
     float b11 = -a22 * a10 + a12 * a20;
     float b21 = a21 * a10 - a11 * a20;
- 
+
     float det = a00 * b01 + a01 * b11 + a02 * b21;
- 
+
     return mat3(b01, (-a22 * a01 + a02 * a21), (a12 * a01 - a02 * a11),
                 b11, (a22 * a00 - a02 * a20), (-a12 * a00 + a02 * a10),
                 b21, (-a21 * a00 + a01 * a20), (a11 * a00 - a01 * a10)) / det;
 }
- 
+
 mat4 inverse(mat4 m) {
   float a00 = m[0][0], a01 = m[0][1], a02 = m[0][2], a03 = m[0][3],
         a10 = m[1][0], a11 = m[1][1], a12 = m[1][2], a13 = m[1][3],
@@ -115,9 +99,9 @@ mat4 inverse(mat4 m) {
       b09 = a21 * a32 - a22 * a31,
       b10 = a21 * a33 - a23 * a31,
       b11 = a22 * a33 - a23 * a32,
- 
+
       det = b00 * b11 - b01 * b10 + b02 * b09 + b03 * b08 - b04 * b07 + b05 * b06;
- 
+
   return mat4(
       a11 * b11 - a12 * b10 + a13 * b09,
       a02 * b10 - a01 * b11 - a03 * b09,
