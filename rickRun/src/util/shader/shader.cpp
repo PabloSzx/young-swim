@@ -92,7 +92,7 @@ bool shader_create_programme(GLuint vert, GLuint frag, GLuint *programme)
 		frag);
 	glAttachShader (*programme, vert);
 	glAttachShader (*programme, frag);
-	// link the shader programme. if binding input attributes do that before link
+
 	glLinkProgram (*programme);
 	GLint params = -1;
 	glGetProgramiv (*programme, GL_LINK_STATUS, &params);
@@ -104,8 +104,6 @@ bool shader_create_programme(GLuint vert, GLuint frag, GLuint *programme)
 		shader_print_programme_info_log (*programme);
 		return false;
 	}
-	// assert (is_programme_valid (*programme));
-	// delete shaders here to free memory
 	glDeleteShader (vert);
 	glDeleteShader (frag);
 	return true;

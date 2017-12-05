@@ -6,9 +6,6 @@
 #include <inttypes.h>
 #include <unistd.h>
 #include <stdbool.h>
-
-//#include "gl_utils.h"
-
 #include <AL/al.h>
 #include <AL/alc.h>
 #include "sound.hpp"
@@ -73,11 +70,11 @@ void sound::check() {
     alGetSourcei(this->source, AL_BUFFER, &bufferID);
     alGetBufferi(bufferID, AL_SIZE, &bufferSize);
     alGetBufferi(bufferID, AL_FREQUENCY, &frequency);
-    alGetBufferi(bufferID, AL_CHANNELS, &channels);    
-    alGetBufferi(bufferID, AL_BITS, &bitsPerSample);    
+    alGetBufferi(bufferID, AL_CHANNELS, &channels);
+    alGetBufferi(bufferID, AL_BITS, &bitsPerSample);
 
 	ALfloat durationInSeconds = ((ALfloat)bufferSize)/(frequency*channels*(bitsPerSample/8));
-	
+
     ALfloat s;
     alGetSourcef(this->source, AL_SEC_OFFSET, &s);
     cout << "sound01 va en el segundo " << s << " de " << durationInSeconds << endl;
@@ -88,17 +85,17 @@ ALfloat sound::timeToEnd() {
     alGetSourcei(this->source, AL_BUFFER, &bufferID);
     alGetBufferi(bufferID, AL_SIZE, &bufferSize);
     alGetBufferi(bufferID, AL_FREQUENCY, &frequency);
-    alGetBufferi(bufferID, AL_CHANNELS, &channels);    
-    alGetBufferi(bufferID, AL_BITS, &bitsPerSample);    
+    alGetBufferi(bufferID, AL_CHANNELS, &channels);
+    alGetBufferi(bufferID, AL_BITS, &bitsPerSample);
 
 	if (channels == 0) {
 		channels = 1;
 	}
 	ALfloat durationInSeconds = ((ALfloat)bufferSize)/(frequency*channels*(bitsPerSample/8));
-	
+
     ALfloat s;
 	alGetSourcef(this->source, AL_SEC_OFFSET, &s);
-	
+
 	return durationInSeconds - s;
     cout << "background va en el segundo " << s << " de " << durationInSeconds << endl;
 }

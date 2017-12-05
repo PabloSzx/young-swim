@@ -1,38 +1,3 @@
-// Author: Christian Vallentin <mail@vallentinsource.com>
-// Website: http://vallentinsource.com
-// Repository: https://github.com/MrVallentin/glText
-// License: https://github.com/MrVallentin/glText/blob/master/LICENSE
-//
-// Date Created: September 24, 2013
-// Last Modified: July 17, 2016
-
-// Copyright (c) 2013-2016 Christian Vallentin <mail@vallentinsource.com>
-//
-// This software is provided 'as-is', without any express or implied
-// warranty. In no event will the authors be held liable for any damages
-// arising from the use of this software.
-//
-// Permission is granted to anyone to use this software for any purpose,
-// including commercial applications, and to alter it and redistribute it
-// freely, subject to the following restrictions:
-//
-// 1. The origin of this software must not be misrepresented; you must not
-//    claim that you wrote the original software. If you use this software
-//    in a product, an acknowledgment in the product documentation would be
-//    appreciated but is not required.
-//
-// 2. Altered source versions must be plainly marked as such, and must not
-//    be misrepresented as being the original software.
-//
-// 3. This notice may not be removed or altered from any source
-//    distribution.
-
-// Refrain from using any exposed macros, functions
-// or structs prefixed with an underscore. As these
-// are only intended for internal purposes. Which
-// additionally means they can be removed, renamed
-// or changed between minor updates without notice.
-
 #ifndef GL_TEXT_H
 #define GL_TEXT_H
 
@@ -45,9 +10,9 @@ extern "C" {
 #endif
 
 
-#include <stdlib.h> /* malloc(), calloc(), free() */
-#include <string.h> /* memset(), memcpy(), strlen() */
-#include <stdint.h> /* uint8_t, uint16_t, uint32_t, uint64_t */
+#include <stdlib.h> 
+#include <string.h> 
+#include <stdint.h> 
 
 
 #if (defined(_DEBUG) || defined(DEBUG)) && !defined(GLT_DEBUG)

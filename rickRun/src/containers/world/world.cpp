@@ -2,7 +2,6 @@
 
 std::vector<std::string> World::getRandomProp(int i) {
     std::vector<std::string> arr(3);
-    // int n = rand() % 4;
     switch (i) {
         case 0:
         arr[0] = "mesh/arbol.obj";
@@ -51,11 +50,9 @@ void World::reset(Parameters* rules) {
     distanceScore->newFallBody(btVector3(0, 0, 0), btVector3(0, 0, 0), 1.0, btVector3(0, 0, 0), 1);
 
     this->platPos = btVector3(1.0, 0.0, 0.0);
-    // platformWorld->newFallBody(btVector3(this->plataformas[0]->LX / 2, this->plataformas[0]->LY * 4, this->plataformas[0]->LZ / 2), this->platPos, 10000, btVector3(0, 0, 0), PLATFORMS_START_INDEX);
     platformWorld->newFallBody(this->plataformas[0]->convexShape, this->platPos, 10000, btVector3(0, 0, 0), PLATFORMS_START_INDEX);
 
     for (int i = 1; i < this->nPlataformas; i += 1) {
-        // cout << "reset" << endl;
         this->platPos = rules->getNextPlatformPos(this->platPos.getZ(), this->platPos.getY(), i * this->plataformas[0]->LX);
 
         if ((int)rand()%5 == 1) {
@@ -64,7 +61,6 @@ void World::reset(Parameters* rules) {
         {
             platformWorld->newFallBody(this->plataformas[0]->convexShape, this->platPos, 10000, btVector3(0, 0, 0), i + PLATFORMS_START_INDEX);
         }
-        // platformWorld->newFallBody(btVector3(this->plataformas[0]->LX / 2, this->plataformas[0]->LY * 4, this->plataformas[0]->LZ / 2), this->platPos, 10000, btVector3(0, 0, 0), i + PLATFORMS_START_INDEX);
     }
 
 
@@ -107,7 +103,6 @@ void World::loadRickMeshes() {
     cout << "90" << endl;
     vector<Model *> running;
     cout << "92" << endl;
-    // auto modelo = new Model(const_cast<char *>("mesh/run/rick_run01.obj"), const_cast<char *>("assets/littlerick.png"), const_cast<char *>("assets/littlerick_normal.png"), 0.3f);
     cout << "92.5" << endl;
     running.push_back(new Model(const_cast<char *>("mesh/run/rick_run01.obj"), const_cast<char *>("assets/littlerick.png"), const_cast<char *>("assets/littlerick_normal.png"), 0.3f));
     running.push_back(new Model(const_cast<char *>("mesh/run/rick_run02.obj"), const_cast<char *>("assets/littlerick.png"), const_cast<char *>("assets/littlerick_normal.png"), 0.3f));
@@ -124,7 +119,6 @@ void World::loadRickMeshes() {
     running.push_back(new Model(const_cast<char *>("mesh/run/rick_run13.obj"), const_cast<char *>("assets/littlerick.png"), const_cast<char *>("assets/littlerick_normal.png"), 0.3f));
     running.push_back(new Model(const_cast<char *>("mesh/run/rick_run14.obj"), const_cast<char *>("assets/littlerick.png"), const_cast<char *>("assets/littlerick_normal.png"), 0.3f));
     running.push_back(new Model(const_cast<char *>("mesh/run/rick_run15.obj"), const_cast<char *>("assets/littlerick.png"), const_cast<char *>("assets/littlerick_normal.png"), 0.3f));
-    // vector<Model>::iterator it = running.begin();
     cout << "108" << endl;
 
     vector<Model *> death;
@@ -136,117 +130,61 @@ void World::loadRickMeshes() {
     death.push_back(new Model(const_cast<char *>("mesh/death/rick_falling06.obj"), const_cast<char *>("assets/littlerick.png"), const_cast<char *>("assets/littlerick_normal.png"), 0.3f));
 
     cout << "120" << endl;
-    // while (it != running.end()) {
-    //     (*it)->model2shader(shader_programme);
-    //     ++it;
-    // }
     this->rick.insert(make_pair("animation_run", running));
     this->rick.insert(make_pair("animation_death", death));
 
     omp_unset_lock(&loading);
 }
 
-// void World::progressLoading(int a) {
-//     window_clear();
-//     int n = a;
-
-//     char barra[12] = "|          |";
-//     // string barra("|          |");
-
-//     for (int i = 1; i < n; i++) {
-//         barra[i] = "-";
-//     }
-
-//     // menu->drawArbitrary(g_gl_width * 0.6, g_gl_height * 0.8, 5, const_cast<char *>("Cargando..."));
-//     menu->drawArbitrary(g_gl_width * 0.4, g_gl_height * 0.8, 5, const_cast<char *>(barra));
-
-//     window_swap();
-// }
-
 void World::genRick() {
-    // this->rick = new Model(const_cast<char *>("mesh/rick.obj"), const_cast<char *>("assets/littlerick.png"), const_cast<char *>("assets/littlerick_normal.png"));
-    // this->rick->scale(glm::vec3(0.3f));
-    // this->rick->setColor(1.0f, 0.894f, 0.882f);
-    // this->rick->model2shader(shader_programme);
-
     distanceScore = new Bullet(1, btVector3(0.0, 0.0, 0.0), 1);
     distanceScore->newFallBody(btVector3(0, 0, 0), btVector3(0, 0, 0), 1.0, btVector3(0, 0, 0), 0);
 
-    // cout << "LOAD RICK" << endl;
-    // cargando = thread (&World::loadRickMeshes, this);
-    // cargando.join();
-
-    // cout << "END LOAD RICK" << endl;
-    // thread loadRickMeshes();
     vector<Model*> running;
-    // progressLoading(0);
+
     running.push_back(new Model(const_cast<char *>("mesh/run/rick_run01.obj"), const_cast<char *>("assets/littlerick.png"), const_cast<char *>("assets/littlerick_normal.png"), 0.3f));
     running.push_back(new Model(const_cast<char *>("mesh/run/rick_run02.obj"), const_cast<char *>("assets/littlerick.png"), const_cast<char *>("assets/littlerick_normal.png"), 0.3f));
     progressLoading(1);
     running.push_back(new Model(const_cast<char *>("mesh/run/rick_run03.obj"), const_cast<char *>("assets/littlerick.png"), const_cast<char *>("assets/littlerick_normal.png"), 0.3f));
-    // progressLoading(2);
+
     running.push_back(new Model(const_cast<char *>("mesh/run/rick_run04.obj"), const_cast<char *>("assets/littlerick.png"), const_cast<char *>("assets/littlerick_normal.png"), 0.3f));
-    // progressLoading(2);
 
     running.push_back(new Model(const_cast<char *>("mesh/run/rick_run05.obj"), const_cast<char *>("assets/littlerick.png"), const_cast<char *>("assets/littlerick_normal.png"), 0.3f));
 
-    // progressLoading(3);
     running.push_back(new Model(const_cast<char *>("mesh/run/rick_run06.obj"), const_cast<char *>("assets/littlerick.png"), const_cast<char *>("assets/littlerick_normal.png"), 0.3f));
 
     running.push_back(new Model(const_cast<char *>("mesh/run/rick_run07.obj"), const_cast<char *>("assets/littlerick.png"), const_cast<char *>("assets/littlerick_normal.png"), 0.3f));
     running.push_back(new Model(const_cast<char *>("mesh/run/rick_run08.obj"), const_cast<char *>("assets/littlerick.png"), const_cast<char *>("assets/littlerick_normal.png"), 0.3f));
-    // progressLoading(4);
-    // progressLoading(4);
+
     running.push_back(new Model(const_cast<char *>("mesh/run/rick_run09.obj"), const_cast<char *>("assets/littlerick.png"), const_cast<char *>("assets/littlerick_normal.png"), 0.3f));
     progressLoading(2);
     running.push_back(new Model(const_cast<char *>("mesh/run/rick_run10.obj"), const_cast<char *>("assets/littlerick.png"), const_cast<char *>("assets/littlerick_normal.png"), 0.3f));
-    // progressLoading(5);
 
     running.push_back(new Model(const_cast<char *>("mesh/run/rick_run11.obj"), const_cast<char *>("assets/littlerick.png"), const_cast<char *>("assets/littlerick_normal.png"), 0.3f));
-    // progressLoading(5);
 
     running.push_back(new Model(const_cast<char *>("mesh/run/rick_run12.obj"), const_cast<char *>("assets/littlerick.png"), const_cast<char *>("assets/littlerick_normal.png"), 0.3f));
     running.push_back(new Model(const_cast<char *>("mesh/run/rick_run13.obj"), const_cast<char *>("assets/littlerick.png"), const_cast<char *>("assets/littlerick_normal.png"), 0.3f));
     running.push_back(new Model(const_cast<char *>("mesh/run/rick_run14.obj"), const_cast<char *>("assets/littlerick.png"), const_cast<char *>("assets/littlerick_normal.png"), 0.3f));
     running.push_back(new Model(const_cast<char *>("mesh/run/rick_run15.obj"), const_cast<char *>("assets/littlerick.png"), const_cast<char *>("assets/littlerick_normal.png"), 0.3f));
-    // vector<Model>::iterator it = running.begin();
     progressLoading(3);
     vector<Model *> death;
     death.push_back(new Model(const_cast<char *>("mesh/death/rick_falling01.obj"), const_cast<char *>("assets/littlerick.png"), const_cast<char *>("assets/littlerick_normal.png"), 0.3f));
-    // progressLoading(3);
-    // progressLoading(7);
+
     death.push_back(new Model(const_cast<char *>("mesh/death/rick_falling02.obj"), const_cast<char *>("assets/littlerick.png"), const_cast<char *>("assets/littlerick_normal.png"), 0.3f));
     death.push_back(new Model(const_cast<char *>("mesh/death/rick_falling03.obj"), const_cast<char *>("assets/littlerick.png"), const_cast<char *>("assets/littlerick_normal.png"), 0.3f));
 
     death.push_back(new Model(const_cast<char *>("mesh/death/rick_falling04.obj"), const_cast<char *>("assets/littlerick.png"), const_cast<char *>("assets/littlerick_normal.png"), 0.3f));
-    // progressLoading(8);
 
     death.push_back(new Model(const_cast<char *>("mesh/death/rick_falling05.obj"), const_cast<char *>("assets/littlerick.png"), const_cast<char *>("assets/littlerick_normal.png"), 0.3f));
     progressLoading(4);
 
     death.push_back(new Model(const_cast<char *>("mesh/death/rick_falling06.obj"), const_cast<char *>("assets/littlerick.png"), const_cast<char *>("assets/littlerick_normal.png"), 0.3f));
 
-    // while (it != running.end()) {
-    //     (*it)->model2shader(shader_programme);
-    //     ++it;
-    // }
     this->rick.insert(make_pair("animation_run", running));
     this->rick.insert(make_pair("animation_death", death));
 
-    // cout << "LX: " << this->rick["animation_run"][runAnimationPos]->LX / 2 << endl;
-
-    // cout << "LY: " << this->rick["animation_run"][runAnimationPos]->LY / 2 << endl;
-
-    // cout << "LZ: " << this->rick["animation_run"][runAnimationPos]->LZ / 2 << endl; 
-    
-    // btVector3(, );
     platformWorld->newFallBody(btVector3(0.932329, 1.40309, 0.42939), btVector3(0.0, 10.0, 0.0), 1.0, btVector3(0, 0, 0), 1); //1
     omp_unset_lock(&loading);
-    // progressLoading(9);
-
-    // this->rick.insert(make_pair())
-
-
 };
 void World::genPlatforms(Parameters* rules) {
     this->plataformas = static_cast<Model **>(malloc(sizeof(Model *) * this->nPlataformas));
@@ -257,14 +195,11 @@ void World::genPlatforms(Parameters* rules) {
 
     this->platPos = btVector3(0.0, 0.0, 0.0);
 
-    // platformWorld->newFallBody(btVector3(this->plataformas[0]->LX, this->plataformas[0]->LY * 4, this->plataformas[0]->LZ / 2), this->platPos, 10000, btVector3(0, 0, 0), PLATFORMS_START_INDEX);
     platformWorld->newFallBody(this->plataformas[0]->convexShape, this->platPos, 10000, btVector3(0, 0, 0), PLATFORMS_START_INDEX);
 
     for (int i = 1; i < this->nPlataformas; i+=1) {
         this->platPos = rules->getNextPlatformPos(this->platPos.getZ(), this->platPos.getY(), i * this->plataformas[0]->LX);
         if ((int)rand()%5 == 1) {
-            // cout << "ORO" << endl;
-            // cout << -(i + PLATFORMS_START_INDEX) << endl;
             platformWorld->newFallBody(this->plataformas[1]->convexShape, this->platPos, 10000, btVector3(0, 0, 0), -(i + PLATFORMS_START_INDEX));
         } else {
             platformWorld->newFallBody(this->plataformas[0]->convexShape, this->platPos, 10000, btVector3(0, 0, 0), i + PLATFORMS_START_INDEX);
@@ -301,7 +236,6 @@ void World::genParallaxHouses(Parameters* rules) {
 void World::genParallaxProps(Parameters* rules) {
     parallaxProps = new Bullet(nProps, btVector3(0, 0, 0), 0);
     this->props = static_cast<Model **>(malloc(sizeof(Model *) * nProps));
-    // const char** ran = this->getRandomProp();
     std::vector<std::string> ran;
     for (int i = 0; i < 4; i += 1)
     {
@@ -370,26 +304,22 @@ void World::morePropsVelocity() {
 
 };
 void World::gravityRick() {
-    // double force = 0.016*pow(platformVelocity, 2) + 0.36*abs(platformVelocity) + 9.8;
     platformWorld->applyForce(1, btVector3(0, -9.8, 0));
 };
 void World::dynamicPlatforms(Parameters* rules) {
     int previousPlatform;
-    // cout << "lastPlatform " << platformWorld->getLastPlatform();
     if (abs(platformWorld->getTransformOrigin(platformWorld->getLastPlatform()).getX() - platformWorld->getTransformOrigin(1).getX()) > (20 * this->plataformas[0]->LX))
     {
-        // cout << "dynamic" << endl;
         if (platformWorld->getLastPlatform() == PLATFORMS_START_INDEX) {
             previousPlatform = platformWorld->getNMax() - 1;
         } else {
             previousPlatform = platformWorld->getLastPlatform() - 1;
         }
-        // cout << "previousPlatform " << platformWorld->getLastPlatform();
 
         double k = this->plataformas[0]->LX;
         double distancia = 0.04 * k * abs(platformVelocity) + 1 * k;
         this->platPos = rules->getNextPlatformPos(this->platPos.getZ(), this->platPos.getY(), platformWorld->getTransformOrigin(previousPlatform).getX() + distancia);
-        
+
         if ((int)rand()%5 == 1) {
             platformWorld->editLastPlatform(this->platPos, 10000, btVector3(this->platformVelocity, 0, 0), -platformWorld->getLastPlatform());
         } else {
@@ -404,7 +334,6 @@ void World::dynamicHouses(Parameters* rules) {
 
     if (abs(parallaxHouses->getTransformOrigin(parallaxHouses->getLastPlatform()).getX() - platformWorld->getTransformOrigin(1).getX()) > (10 * this->casas[0]->LX))
     {
-        // cout << "last house modified " << parallaxHouses->getLastPlatform() << endl;
         if (parallaxHouses->getLastPlatform() == PARALLAX_START_INDEX) {
             previousParallaxObj = parallaxHouses->getNMax() - 1;
         } else {
@@ -423,8 +352,6 @@ void World::dynamicProps(Parameters *rules) {
 
     if (abs(parallaxProps->getTransformOrigin(parallaxProps->getLastPlatform()).getX() - platformWorld->getTransformOrigin(1).getX()) > (10 * this->props[0]->LX))
     {
-        // cout << "last props modified " << parallaxProps->getLastPlatform() << endl;
-
         if (parallaxProps->getLastPlatform() == PARALLAX_START_INDEX)
         {
             previousParallaxObj = parallaxProps->getNMax() - 1;
@@ -463,7 +390,7 @@ bool World::nextAnimationDeath() {
     }
     return false;
 
-    
+
 }
 
 void World::setRunAnimationPos(int n) {
@@ -475,8 +402,6 @@ void World::setDeathAnimationPos(int n) {
 }
 
 void World::drawRick() {
-    // cout << "start DrawRick con estadoRick: " << estadoRick << " runPos: " << runAnimationPos << " deathPos" << deathAnimationPos << endl;
-    omp_set_lock(&loading);
     int deathPos = deathAnimationPos > 5 ? 5 : deathAnimationPos;
     switch (estadoRick) {
         case 0:
@@ -495,10 +420,6 @@ void World::drawRick() {
         }
     }
     omp_unset_lock(&loading);
-    // cout << "end DrawRick" << endl;
-
-    // this->rick->setpos(glm::vec3(this->rickPos.getX(), this->rickPos.getY(), this->rickPos.getZ()));
-    // this->rick->draw();
 }
 void World::drawPlatforms() {
     btVector3 plataformaPos;
@@ -506,10 +427,9 @@ void World::drawPlatforms() {
     for (int i = PLATFORMS_START_INDEX; i < nPlataformas; i += 1)
     {
         plataformaPos = platformWorld->getTransformOrigin(i);
-        // cout << platformWorld->getUserIndex(i) << endl;
+
         if (platformWorld->getUserIndex(i) <= -2)
         {
-            // cout << "YES" << endl;
             this->plataformas[1]->setpos(glm::vec3(plataformaPos.getX(), plataformaPos.getY(), plataformaPos.getZ()));
             this->plataformas[1]->draw();
         }
@@ -524,12 +444,6 @@ void World::drawPlatforms() {
 void World::drawPlane() {
     this->plano->setpos(glm::vec3(this->rickPos.getX() + 25.0, -5.0, 2.6));
     this->plano->draw();
-    //for (float i = -20; i <= 100; i += 23.7) {
-    //    {
-    //        this->plano->setpos(glm::vec3(this->rickPos.getX() + i, -5, this->rickPos.getZ() ));
-    //        this->plano->draw();
-    //    }
-    //}
 };
 void World::drawHouses(Parameters* rules) {
     for (int i = 0; i < this->nHouses; i += 1)
@@ -549,7 +463,6 @@ void World::drawHouses(Parameters* rules) {
 
 };
 void World::drawProps() {
-    // std::vector<int> propTypes(this->nProps);
     for (int i = 0; i < this->nProps; i += 1)
     {
         this->propPos = parallaxProps->getTransformOrigin(i);
@@ -582,7 +495,6 @@ void World::initBackgroundMusic() {
     background[8] = new sound(const_cast<char *>("audio/muerte.wav"));
     background[9] = new sound(const_cast<char *>("audio/coin.wav"));
 
-    // int nrand = rand() % this->nBackgroundMusic;
     this->backgroundMusicNow = 1;
     background[1]->play();
     background[0]->play();
@@ -603,13 +515,10 @@ void World::initBackgroundMusic() {
     background[8]->stop();
     background[9]->play();
     background[9]->stop();
-
-    // background[1]->play();
 }
 
 void World::backgroundMusic() {
     if (background[this->backgroundMusicNow]->timeToEnd() <= 10.0) {
-        //cout << "NUEVA MUSICA DE FONDO" << endl;
         while (true) {
             int nrand = rand() % this->nBackgroundMusic;
             if (nrand != this->backgroundMusicNow) {

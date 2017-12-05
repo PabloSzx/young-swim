@@ -33,7 +33,6 @@ Model::Model(char *filename)
   this->setpos(glm::vec3(0.0f, 0.0f, 0.0f));
   this->scale(glm::vec3(1.0f));
   this->load_texture_rgb("assets/black.png", "texasmp_rgb");
-  //this->load_texture(const_cast<char *>("assets/black.png"));
 }
 
 Model::Model(char *filename, char *texname, char *normalname)
@@ -431,7 +430,6 @@ bool Model::load_mesh (const char* file_name) {
   glBindVertexArray(0);
 
   aiReleaseImport (scene);
-  //printf ("mesh loaded\n");
 
   return true;
 }

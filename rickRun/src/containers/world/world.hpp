@@ -20,7 +20,6 @@ extern Bullet *parallaxHouses;
 extern Bullet *parallaxProps;
 extern Bullet *distanceScore;
 
-// extern Menu *menu;
 extern sound **background;
 extern GLuint shader_programme_cube;
 
@@ -39,11 +38,10 @@ private:
   int nProps;
   int nBackgroundMusic;
   double platformVelocity;
-  
+
   map< string, vector<Model*> > rick;
   int runAnimationPos;
   int deathAnimationPos;
-  // Model* rick;
   Model **plataformas;
   Model *plano;
   Model **casas;
@@ -55,52 +53,51 @@ private:
   btVector3 casaPos;
   btVector3 propPos;
 
-  
+
 
   int backgroundMusicNow;
 
   std::vector<int> propTypes;
-  
+
   std::vector<std::string> getRandomProp(int i);
-  
+
 public:
   thread cargando;
 
   World(int nPlataformas, int nHouses, int nProps, int nBackgroundMusic, double platformInitialVelocity);//listo
   void reset(Parameters* rules);
-  void genRick();//listo
-  void genPlatforms(Parameters* rules);//listo
-  void genPhysics();//listo
-  void genParallaxHouses(Parameters* rules); //listo
-  void genParallaxProps(Parameters* rules);//listo
-  void startPlatformVelocity();//listo
-  void morePlatformVelocity(double moreVelocity);//listo
-  void startHousesVelocity();//listo
-  void moreHousesVelocity();//listo
-  void startPropsVelocity();//listo
-  void morePropsVelocity();//listo
-  void getPhysicsPos();//listo
-  void gravityRick();//listo
-  void dynamicPlatforms(Parameters* rules);//listo
-  void dynamicHouses(Parameters* rules);//listo
-  void dynamicProps(Parameters* rules);//listo
+  void genRick();
+  void genPlatforms(Parameters* rules);
+  void genPhysics();
+  void genParallaxHouses(Parameters* rules);
+  void genParallaxProps(Parameters* rules);
+  void startPlatformVelocity();
+  void morePlatformVelocity(double moreVelocity);
+  void startHousesVelocity();
+  void moreHousesVelocity();
+  void startPropsVelocity();
+  void morePropsVelocity();
+  void getPhysicsPos();
+  void gravityRick();
+  void dynamicPlatforms(Parameters* rules);
+  void dynamicHouses(Parameters* rules);
+  void dynamicProps(Parameters* rules);
   void genCube();
 
-  void drawRick();//listo
-  void drawPlatforms();//listo
-  void drawPlane();//listo
+  void drawRick();
+  void drawPlatforms();
+  void drawPlane();
   void drawHouses(Parameters* rules);
   void drawProps();
   void drawCube();
   void nextAnimationRun();
   bool nextAnimationDeath();
   void setRunAnimationPos(int n);
-  void setDeathAnimationPos(int n); 
+  void setDeathAnimationPos(int n);
   void initBackgroundMusic();
   void backgroundMusic();
   void loadRickMeshes();
   btVector3 getRickPos();
-  // void progressLoading(int n);
 };
 
 #endif
