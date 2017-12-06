@@ -40,8 +40,6 @@
 
 using namespace std;
 
-void loadMeshes();
-
 int main()
 {
   fullscreen = true;
@@ -327,10 +325,4 @@ int main()
 
   glfwTerminate();
   return 0;
-}
-
-void loadMeshes()
-{
-
-  omp_unset_lock(&loading);
 }

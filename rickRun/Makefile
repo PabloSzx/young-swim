@@ -6,22 +6,15 @@ LIBS=-fopenmp -lGL -lGLEW -lglfw -lassimp -I /usr/include/bullet -lBulletDynamic
 all:
 	${CC} ${FLAGS} ${SRC} ${LIBS} -o ${EXEC}
 	#
-	#
+	#	  TYPE "make" TO COMPILE
 	#     TYPE "make run" TO PLAY
-	#     TYPE "make makeandrun" TO COMPILE AND PLAY
+	#     TYPE "make make" TO COMPILE AND PLAY
 	#     TYPE "make clear" TO CLEAR TEMP FILES
 	#
 	#
 	#		PLAY WITH "I, J, K, L" TO MOVE
 	#		AND PRESS "SPACE" TO JUMP
-	#
-	#
-	#
-	#
-	#		EL JUEGO ESTA PROBADO Y FUNCIONANDO CON LA LIBRERIA BULLET
-	#		Y CON 60 FPS
-	#
-	#
+	#		USE ARROWS AND "ENTER" TO USE MENU
 	#
 	#
 	#
